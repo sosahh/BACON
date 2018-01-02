@@ -100,7 +100,7 @@
 	<!-- 切面 -->
 	<aop:config>
 		<aop:advisor advice-ref="txAdvice"
-			pointcut="execution(* com.jyss.yqy.service.*.*(..))" />
+			pointcut="execution(* com.jyss.bacon.service.*.*(..))" />
 	</aop:config>
 
 </beans> 

@@ -12,7 +12,10 @@ import com.jyss.bacon.service.AccountUserService;
 import com.jyss.bacon.utils.CommTool;
 import com.jyss.bacon.utils.PasswordUtil;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class AccountUserServiceImpl implements AccountUserService {
 	@Autowired
 	private AccountUserMapper auMapper;
