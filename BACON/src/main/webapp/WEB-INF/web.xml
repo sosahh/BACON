@@ -16,7 +16,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <listener>
-    <listener-class>com.jyss.yqy.filter.MySessionListener</listener-class>
+    <listener-class>com.jyss.bacon.filter.MySessionListener</listener-class>
   </listener>
   <filter>
     <filter-name>shiroFilter</filter-name>
@@ -45,7 +45,7 @@
   </filter-mapping>
   <filter>
     <filter-name>cors</filter-name>
-    <filter-class>com.jyss.yqy.utils.CORSFilter</filter-class>
+    <filter-class>com.jyss.bacon.utils.CORSFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>cors</filter-name>
@@ -53,7 +53,7 @@
   </filter-mapping>
   <filter>
     <filter-name>AuthFilter</filter-name>
-    <filter-class>com.jyss.yqy.filter.AuthFilter</filter-class>
+    <filter-class>com.jyss.bacon.filter.AuthFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>
@@ -73,7 +73,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>CodeImg</servlet-name>
-    <servlet-class>com.jyss.yqy.action.CodeImg</servlet-class>
+    <servlet-class>com.jyss.bacon.action.CodeImg</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CodeImg</servlet-name>

@@ -10,7 +10,7 @@
     </bean>
 
     <!-- 配置进行授权和认证的 Realm，要新增一个java类来实现，下面会有，class=包名.类名，init-methood是初始化的方法 -->
-    <bean id="myRealm" class="com.jyss.yqy.shiro.MyRealm"></bean>
+    <bean id="myRealm" class="com.jyss.bacon.shiro.MyRealm"></bean>
 
     <!-- 配置 Shiro 的 SecurityManager Bean. -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">

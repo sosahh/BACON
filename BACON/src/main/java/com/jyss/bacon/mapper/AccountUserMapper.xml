@@ -3,9 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.jyss.yqy.mapper.AccountUserMapper" > 
+<mapper namespace="com.jyss.bacon.mapper.AccountUserMapper" >
 
-    <resultMap type="com.jyss.yqy.entity.AccountUser" id="auResultMap">   
+    <resultMap type="com.jyss.bacon.entity.AccountUser" id="auResultMap">
         <id property="id" column="id"  />
         <result property="roleId" column="roleId"  />
         <result property="name" column="name"  />
@@ -25,7 +25,7 @@
     </resultMap>     
              
     
-    <select id="getAuBy" resultType="com.jyss.yqy.entity.AccountUser">     
+    <select id="getAuBy" resultType="com.jyss.bacon.entity.AccountUser">
 	     select *  from p_account_users_b  				
          <where> 
               1 = 1
@@ -44,7 +44,7 @@
 		 </where> 
     </select>  -->
     
-    <select id="getAuByUsernameAndPassword" resultType="com.jyss.yqy.entity.AccountUser">  
+    <select id="getAuByUsernameAndPassword" resultType="com.jyss.bacon.entity.AccountUser">
         select t.* from (
 		        select p.*,r.role_name as roleName ,r.role_sign as roleSign from p_account_users_b p 
 				left join  p_account_role r
@@ -119,13 +119,13 @@
     </delete>
     
     <!-- 增加用户 -->
-    <insert id="addAccount" parameterType="com.jyss.yqy.entity.AccountUser" 
+    <insert id="addAccount" parameterType="com.jyss.bacon.entity.AccountUser"
         useGeneratedKeys="true" keyProperty="id"> 
         insert into p_account_users_b values(null,#{roleId},'',#{username},#{pwd},#{name},now(),now(),#{status},#{salt})             
     </insert>
     
      <!--修改用户 --> 
-    <update id="upAccount" parameterType="com.jyss.yqy.entity.AccountUser" >
+    <update id="upAccount" parameterType="com.jyss.bacon.entity.AccountUser" >
         update p_account_users_b  set role_id =#{roleId},pwd = #{pwd},salt = #{salt},username = #{username} ,created_at = now()
              where id =#{id}
     </update>
