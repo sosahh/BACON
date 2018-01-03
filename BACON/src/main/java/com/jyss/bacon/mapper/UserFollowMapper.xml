@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.UserFollowMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.UserFollow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="follow_id" property="followId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.jyss.bacon.entity.UserFollow" useGeneratedKeys="true" keyProperty="id">
+    insert into u_user_follow (id, u_id, follow_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{followId,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserFollow" >
+    update u_user_follow
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="followId != null" >
+        follow_id = #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.UserFollow" >
+    update u_user_follow
+    set u_id = #{uId,jdbcType=INTEGER},
+      follow_id = #{followId,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

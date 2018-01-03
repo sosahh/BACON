@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="headpic" property="headpic" jdbcType="VARCHAR" />
+    <result column="birth_date" property="birthDate" jdbcType="DATE" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="emotional_state" property="emotionalState" jdbcType="TINYINT" />
+    <result column="profession" property="profession" jdbcType="VARCHAR" />
+    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="source" property="source" jdbcType="TINYINT" />
+    <result column="is_auth" property="isAuth" jdbcType="TINYINT" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="id">
+    insert into u_user (id, account, tel, 
+      password, salt, nick, 
+      headpic, birth_date, sex, 
+      age, place, emotional_state, 
+      profession, hobby, status, 
+      source, is_auth, balance, 
+      create_time, last_modify_time)
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
+      #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
+      #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{emotionalState,jdbcType=TINYINT}, 
+      #{profession,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{source,jdbcType=TINYINT}, #{isAuth,jdbcType=TINYINT}, #{balance,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP})
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.User" >
+    update u_user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null" >
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="headpic != null" >
+        headpic = #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null" >
+        birth_date = #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="place != null" >
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="emotionalState != null" >
+        emotional_state = #{emotionalState,jdbcType=TINYINT},
+      </if>
+      <if test="profession != null" >
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=TINYINT},
+      </if>
+      <if test="isAuth != null" >
+        is_auth = #{isAuth,jdbcType=TINYINT},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.User" >
+    update u_user
+    set account = #{account,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      headpic = #{headpic,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=DATE},
+      sex = #{sex,jdbcType=TINYINT},
+      age = #{age,jdbcType=INTEGER},
+      place = #{place,jdbcType=VARCHAR},
+      emotional_state = #{emotionalState,jdbcType=TINYINT},
+      profession = #{profession,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      source = #{source,jdbcType=TINYINT},
+      is_auth = #{isAuth,jdbcType=TINYINT},
+      balance = #{balance,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
