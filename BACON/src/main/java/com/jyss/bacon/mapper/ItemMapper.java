@@ -1,8 +1,9 @@
 package com.jyss.bacon.mapper;
 
 import com.jyss.bacon.entity.Item;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface ItemMapper {
 
     int insert(Item item);

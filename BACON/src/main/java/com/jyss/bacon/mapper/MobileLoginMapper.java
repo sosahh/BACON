@@ -1,7 +1,12 @@
 package com.jyss.bacon.mapper;
 
 import com.jyss.bacon.entity.MobileLogin;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface MobileLoginMapper {
 
     int insert(MobileLogin mobileLogin);
@@ -9,4 +14,7 @@ public interface MobileLoginMapper {
     int updateByPrimaryKeySelective(MobileLogin mobileLogin);
 
     int updateByPrimaryKey(MobileLogin mobileLogin);
+
+    //根据token查询用户
+    List<MobileLogin> findUserByToken(@Param("token")String token);
 }

@@ -12,6 +12,8 @@ public class ItemCat implements Serializable {
 
     private String name;         //段位名称
 
+    private Double price;        //价格
+
     private Integer status;      //0禁用，1可用
 
     private Integer isParent;     //0=不是父级，1=是父级
@@ -82,5 +84,13 @@ public class ItemCat implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }
