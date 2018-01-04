@@ -7,17 +7,17 @@ import java.util.Date;
 public class User implements Serializable {
     private Integer id;
 
-    private String account;     //帐号
+    private String account;       //帐号
 
-    private String tel;        //手机号
+    private String tel;          //手机号
 
-    private String password;     //密码
+    private String password;       //密码
 
-    private String salt;       //加密盐
+    private String salt;        //加密盐
 
-    private String nick;        //昵称
+    private String nick;         //昵称
 
-    private String headpic;      //头像
+    private String headpic;       //头像
 
     private Date birthDate;       //出生日期
 
@@ -33,17 +33,19 @@ public class User implements Serializable {
 
     private String hobby;           //爱好
 
-    private Integer status;      //0禁用，1可用
+    private Integer status;         //0禁用，1普通用户，2陪玩用户，3明星用户
 
-    private Integer source;       //0直接注册，1微信，2微博，3QQ
+    private Integer source;         //0直接注册，1微信，2微博，3QQ
 
-    private Integer isAuth;       //0未认证，1=已认证
+    private Integer isAuth;         //0未认证，1=已认证
 
-    private Float balance;        //余额
+    private String labelDesc;         //明星描述
 
-    private Date createTime;      //创建时间
+    private Float balance;          //余额
 
-    private Date lastModifyTime;     //修改时间
+    private Date createTime;          //创建时间
+
+    private Date lastModifyTime;       //修改时间
 
     public Integer getId() {
         return id;
@@ -179,6 +181,14 @@ public class User implements Serializable {
 
     public void setIsAuth(Integer isAuth) {
         this.isAuth = isAuth;
+    }
+
+    public String getLabelDesc() {
+        return labelDesc;
+    }
+
+    public void setLabelDesc(String labelDesc) {
+        this.labelDesc = labelDesc;
     }
 
     public Float getBalance() {

@@ -15,9 +15,13 @@ public class UserAuth implements Serializable {
 
     private String picture2;
 
+    private String picture3;
+
     private Integer title;       //段位id
 
     private Double price;       //每局价格
+
+    private String desc;        //描述
 
     private Integer status;     //1=审核中 2=通过 3=未通过
 
@@ -63,6 +67,14 @@ public class UserAuth implements Serializable {
         this.picture2 = picture2 == null ? null : picture2.trim();
     }
 
+    public String getPicture3() {
+        return picture3;
+    }
+
+    public void setPicture3(String picture3) {
+        this.picture3 = picture3;
+    }
+
     public Integer getTitle() {
         return title;
     }
@@ -77,6 +89,14 @@ public class UserAuth implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public Integer getStatus() {

@@ -6,7 +6,8 @@
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="pw_price" property="pwPrice" jdbcType="DECIMAL" />
+    <result column="pp_price" property="ppPrice" jdbcType="DECIMAL" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="is_parent" property="isParent" jdbcType="TINYINT" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
@@ -15,10 +16,10 @@
 
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.ItemCat" useGeneratedKeys="true" keyProperty="id">
-    insert into c_item_cat (id, category_id, parent_id, name, price, status, is_parent,
+    insert into c_item_cat (id, category_id, parent_id, name, pw_price, pp_price, status, is_parent,
       sort_order, created)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{isParent,jdbcType=TINYINT},
+      #{name,jdbcType=VARCHAR}, #{pwPrice,jdbcType=DECIMAL}, #{ppPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{isParent,jdbcType=TINYINT},
       #{sortOrder,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP})
   </insert>
 
@@ -34,8 +35,11 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
+      <if test="pwPrice != null" >
+        pw_price = #{pwPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="ppPrice != null" >
+        pp_price = #{ppPrice,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
@@ -58,7 +62,8 @@
     set category_id = #{categoryId,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
+      pw_price = #{pwPrice,jdbcType=DECIMAL},
+      pp_price = #{ppPrice,jdbcType=DECIMAL},
       status = #{status,jdbcType=TINYINT},
       is_parent = #{isParent,jdbcType=TINYINT},
       sort_order = #{sortOrder,jdbcType=INTEGER},

@@ -12,7 +12,9 @@ public class ItemCat implements Serializable {
 
     private String name;         //段位名称
 
-    private Double price;        //价格
+    private Double pwPrice;        //排位价格
+
+    private Double ppPrice;        //匹配价格
 
     private Integer status;      //0禁用，1可用
 
@@ -86,11 +88,19 @@ public class ItemCat implements Serializable {
         this.created = created;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPwPrice() {
+        return pwPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPwPrice(Double pwPrice) {
+        this.pwPrice = pwPrice;
+    }
+
+    public Double getPpPrice() {
+        return ppPrice;
+    }
+
+    public void setPpPrice(Double ppPrice) {
+        this.ppPrice = ppPrice;
     }
 }

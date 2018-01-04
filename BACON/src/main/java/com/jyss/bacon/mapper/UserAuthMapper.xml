@@ -7,20 +7,22 @@
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="picture_1" property="picture1" jdbcType="VARCHAR" />
     <result column="picture_2" property="picture2" jdbcType="VARCHAR" />
+    <result column="picture_3" property="picture3" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserAuth" useGeneratedKeys="true" keyProperty="id">
     insert into u_user_auth (id, u_id, category_id, 
-      picture_1, picture_2, title, 
-      price, status, created
+      picture_1, picture_2, picture_3, title,
+      price, desc, status, created
       )
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
-      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{title,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}
+      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{title,jdbcType=INTEGER},
+      #{price,jdbcType=DECIMAL}, #{desc,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}
       )
   </insert>
 
@@ -39,11 +41,17 @@
       <if test="picture2 != null" >
         picture_2 = #{picture2,jdbcType=VARCHAR},
       </if>
+      <if test="picture3 != null" >
+        picture_3 = #{picture3,jdbcType=VARCHAR},
+      </if>
       <if test="title != null" >
         title = #{title,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="desc != null" >
+        desc = #{desc,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
@@ -60,8 +68,10 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       picture_1 = #{picture1,jdbcType=VARCHAR},
       picture_2 = #{picture2,jdbcType=VARCHAR},
+      picture_3 = #{picture3,jdbcType=VARCHAR},
       title = #{title,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
+      desc = #{desc,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

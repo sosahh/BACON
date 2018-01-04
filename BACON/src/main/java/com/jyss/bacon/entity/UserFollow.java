@@ -1,6 +1,7 @@
 package com.jyss.bacon.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class UserFollow implements Serializable {
     private Integer id;
@@ -10,6 +11,8 @@ public class UserFollow implements Serializable {
     private Integer followId;     //关注人id
 
     private Integer status;      //0禁用，1可用
+
+    private Date created;
 
     public Integer getId() {
         return id;
@@ -41,5 +44,13 @@ public class UserFollow implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

@@ -6,13 +6,14 @@
     <result column="u_id" property="uId" jdbcType="INTEGER" />
     <result column="follow_id" property="followId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserFollow" useGeneratedKeys="true" keyProperty="id">
     insert into u_user_follow (id, u_id, follow_id, 
-      status)
+      status, created)
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{followId,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{status,jdbcType=TINYINT}), #{created,jdbcType=TIMESTAMP}
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserFollow" >
@@ -27,6 +28,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -34,7 +38,8 @@
     update u_user_follow
     set u_id = #{uId,jdbcType=INTEGER},
       follow_id = #{followId,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT}
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
