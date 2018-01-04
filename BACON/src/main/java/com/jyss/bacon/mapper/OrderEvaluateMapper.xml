@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.OrderEvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.OrderEvaluate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="play_id" property="playId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
+    insert into o_order_evaluate (id, u_id, play_id, 
+      order_id, content, status, 
+      created)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER}, 
+      #{orderId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
+    update o_order_evaluate
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="playId != null" >
+        play_id = #{playId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
+    update o_order_evaluate
+    set u_id = #{uId,jdbcType=INTEGER},
+      play_id = #{playId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

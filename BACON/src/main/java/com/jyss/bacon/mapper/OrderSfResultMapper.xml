@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.OrderSfResultMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.OrderSfResult" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="picture_1" property="picture1" jdbcType="VARCHAR" />
+    <result column="result1" property="result1" jdbcType="VARCHAR" />
+    <result column="result2" property="result2" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSfResult" >
+    insert into o_order_sf_result (id, order_id, picture_1, 
+      result1, result2, created
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
+      #{result1,jdbcType=VARCHAR}, #{result2,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSfResult" >
+    update o_order_sf_result
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1 != null" >
+        picture_1 = #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="result1 != null" >
+        result1 = #{result1,jdbcType=VARCHAR},
+      </if>
+      <if test="result2 != null" >
+        result2 = #{result2,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.OrderSfResult" >
+    update o_order_sf_result
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      picture_1 = #{picture1,jdbcType=VARCHAR},
+      result1 = #{result1,jdbcType=VARCHAR},
+      result2 = #{result2,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

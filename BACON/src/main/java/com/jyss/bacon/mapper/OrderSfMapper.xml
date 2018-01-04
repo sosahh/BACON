@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.OrderSfMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.OrderSf" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="is_win" property="isWin" jdbcType="TINYINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="wx_account" property="wxAccount" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSf" >
+    insert into o_order_sf (id, order_id, u_id, 
+      area, type, level_id, 
+      count, price, total, 
+      is_win, account, wx_account, 
+      status, created, modify_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER}, 
+      #{area,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{levelId,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
+      #{isWin,jdbcType=TINYINT}, #{account,jdbcType=VARCHAR}, #{wxAccount,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSf" >
+    update o_order_sf
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="isWin != null" >
+        is_win = #{isWin,jdbcType=TINYINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="wxAccount != null" >
+        wx_account = #{wxAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.OrderSf" >
+    update o_order_sf
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      u_id = #{uId,jdbcType=INTEGER},
+      area = #{area,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      level_id = #{levelId,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      total = #{total,jdbcType=DECIMAL},
+      is_win = #{isWin,jdbcType=TINYINT},
+      account = #{account,jdbcType=VARCHAR},
+      wx_account = #{wxAccount,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
