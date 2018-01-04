@@ -21,7 +21,9 @@ public class UserAuth implements Serializable {
 
     private Integer titleId;       //段位id
 
-    private String titleName;       //段位名称
+    private String titlePwName;      //大段位名称
+
+    private String titleName;       //小段位名称
 
     private Double price;       //每局价格
 
@@ -30,6 +32,7 @@ public class UserAuth implements Serializable {
     private Integer status;     //1=审核中 2=通过 3=未通过
 
     private Date created;
+
 
     public Integer getId() {
         return id;
@@ -55,12 +58,20 @@ public class UserAuth implements Serializable {
         this.categoryId = categoryId;
     }
 
+    public String getCategoryTitle() {
+        return categoryTitle;
+    }
+
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
+    }
+
     public String getPicture1() {
         return picture1;
     }
 
     public void setPicture1(String picture1) {
-        this.picture1 = picture1 == null ? null : picture1.trim();
+        this.picture1 = picture1;
     }
 
     public String getPicture2() {
@@ -68,7 +79,7 @@ public class UserAuth implements Serializable {
     }
 
     public void setPicture2(String picture2) {
-        this.picture2 = picture2 == null ? null : picture2.trim();
+        this.picture2 = picture2;
     }
 
     public String getPicture3() {
@@ -85,6 +96,14 @@ public class UserAuth implements Serializable {
 
     public void setTitleId(Integer titleId) {
         this.titleId = titleId;
+    }
+
+    public String getTitlePwName() {
+        return titlePwName;
+    }
+
+    public void setTitlePwName(String titlePwName) {
+        this.titlePwName = titlePwName;
     }
 
     public String getTitleName() {
@@ -125,13 +144,5 @@ public class UserAuth implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
-    }
-
-    public String getCategoryTitle() {
-        return categoryTitle;
-    }
-
-    public void setCategoryTitle(String categoryTitle) {
-        this.categoryTitle = categoryTitle;
     }
 }

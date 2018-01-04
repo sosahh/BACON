@@ -4,23 +4,25 @@
   <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.ItemCat" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="dw_name" property="dwName" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="pw_price" property="pwPrice" jdbcType="DECIMAL" />
     <result column="pp_price" property="ppPrice" jdbcType="DECIMAL" />
     <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="is_parent" property="isParent" jdbcType="TINYINT" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
 
-
-  <insert id="insert" parameterType="com.jyss.bacon.entity.ItemCat" useGeneratedKeys="true" keyProperty="id">
-    insert into c_item_cat (id, category_id, parent_id, name, pw_price, pp_price, status, is_parent,
-      sort_order, created)
-    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{pwPrice,jdbcType=DECIMAL}, #{ppPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{isParent,jdbcType=TINYINT},
-      #{sortOrder,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.jyss.bacon.entity.ItemCat" >
+    insert into c_item_cat (id, category_id, category_name,
+    dw_name, name, pw_price,
+    pp_price, status, sort_order,
+    created)
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
+    #{dwName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{pwPrice,jdbcType=DECIMAL},
+    #{ppPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER},
+    #{created,jdbcType=TIMESTAMP})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.ItemCat" >
@@ -29,8 +31,11 @@
       <if test="categoryId != null" >
         category_id = #{categoryId,jdbcType=INTEGER},
       </if>
-      <if test="parentId != null" >
-        parent_id = #{parentId,jdbcType=INTEGER},
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="dwName != null" >
+        dw_name = #{dwName,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -44,9 +49,6 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="isParent != null" >
-        is_parent = #{isParent,jdbcType=TINYINT},
-      </if>
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -56,18 +58,17 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.ItemCat" >
     update c_item_cat
     set category_id = #{categoryId,jdbcType=INTEGER},
-      parent_id = #{parentId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      pw_price = #{pwPrice,jdbcType=DECIMAL},
-      pp_price = #{ppPrice,jdbcType=DECIMAL},
-      status = #{status,jdbcType=TINYINT},
-      is_parent = #{isParent,jdbcType=TINYINT},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      created = #{created,jdbcType=TIMESTAMP}
+    category_name = #{categoryName,jdbcType=VARCHAR},
+    dw_name = #{dwName,jdbcType=VARCHAR},
+    name = #{name,jdbcType=VARCHAR},
+    pw_price = #{pwPrice,jdbcType=DECIMAL},
+    pp_price = #{ppPrice,jdbcType=DECIMAL},
+    status = #{status,jdbcType=TINYINT},
+    sort_order = #{sortOrder,jdbcType=INTEGER},
+    created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

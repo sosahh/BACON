@@ -1,26 +1,25 @@
 package com.jyss.bacon.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class ItemCat implements Serializable {
+public class ItemCat {
     private Integer id;
 
-    private Integer categoryId;     //类目id
+    private Integer categoryId;      //类目id
 
-    private Integer parentId;
+    private String categoryName;     //类目名称
 
-    private String name;         //段位名称
+    private String dwName;       //大段位名称
 
-    private Double pwPrice;        //排位价格
+    private String name;        //小段位名称
 
-    private Double ppPrice;        //匹配价格
+    private Double pwPrice;      //排位价格
+
+    private Double ppPrice;      //匹配价格
 
     private Integer status;      //0禁用，1可用
 
-    private Integer isParent;     //0=不是父级，1=是父级
-
-    private Integer sortOrder;      //排列序号
+    private Integer sortOrder;    //排列序号
 
     private Date created;
 
@@ -40,12 +39,20 @@ public class ItemCat implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName == null ? null : categoryName.trim();
+    }
+
+    public String getDwName() {
+        return dwName;
+    }
+
+    public void setDwName(String dwName) {
+        this.dwName = dwName == null ? null : dwName.trim();
     }
 
     public String getName() {
@@ -54,38 +61,6 @@ public class ItemCat implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getIsParent() {
-        return isParent;
-    }
-
-    public void setIsParent(Integer isParent) {
-        this.isParent = isParent;
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public Double getPwPrice() {
@@ -102,5 +77,29 @@ public class ItemCat implements Serializable {
 
     public void setPpPrice(Double ppPrice) {
         this.ppPrice = ppPrice;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

@@ -10,6 +10,7 @@
     <result column="picture_2" property="picture2" jdbcType="VARCHAR" />
     <result column="picture_3" property="picture3" jdbcType="VARCHAR" />
     <result column="title_id" property="titleId" jdbcType="INTEGER" />
+    <result column="title_pw_name" property="titlePwName" jdbcType="VARCHAR" />
     <result column="title_name" property="titleName" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="desc" property="desc" jdbcType="VARCHAR" />
@@ -17,15 +18,17 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.UserAuth" useGeneratedKeys="true" keyProperty="id">
-    insert into u_user_auth (id, u_id, category_id, category_title,
-      picture_1, picture_2, picture_3, title_id, title_name,
-      price, desc, status, created
-      )
-    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryTitle,jdbcType=VARCHAR},
-      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{titleId,jdbcType=INTEGER}, #{titleName,jdbcType=VARCHAR},
-      #{price,jdbcType=DECIMAL}, #{desc,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.jyss.bacon.entity.UserAuth" >
+    insert into u_user_auth (id, u_id, category_id,
+    category_title, picture_1, picture_2,
+    picture_3, title_id, title_pw_name,
+    title_name, price, desc,
+    status, created)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+    #{categoryTitle,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR},
+    #{picture3,jdbcType=VARCHAR}, #{titleId,jdbcType=INTEGER}, #{titlePwName,jdbcType=VARCHAR},
+    #{titleName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{desc,jdbcType=VARCHAR},
+    #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserAuth" >
@@ -52,6 +55,9 @@
       <if test="titleId != null" >
         title_id = #{titleId,jdbcType=INTEGER},
       </if>
+      <if test="titlePwName != null" >
+        title_pw_name = #{titlePwName,jdbcType=VARCHAR},
+      </if>
       <if test="titleName != null" >
         title_name = #{titleName,jdbcType=VARCHAR},
       </if>
@@ -73,17 +79,18 @@
   <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.UserAuth" >
     update u_user_auth
     set u_id = #{uId,jdbcType=INTEGER},
-      category_id = #{categoryId,jdbcType=INTEGER},
-      category_title = #{categoryTitle,jdbcType=VARCHAR},
-      picture_1 = #{picture1,jdbcType=VARCHAR},
-      picture_2 = #{picture2,jdbcType=VARCHAR},
-      picture_3 = #{picture3,jdbcType=VARCHAR},
-      title_id = #{titleId,jdbcType=INTEGER},
-      title_name = #{titleName,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      desc = #{desc,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP}
+    category_id = #{categoryId,jdbcType=INTEGER},
+    category_title = #{categoryTitle,jdbcType=VARCHAR},
+    picture_1 = #{picture1,jdbcType=VARCHAR},
+    picture_2 = #{picture2,jdbcType=VARCHAR},
+    picture_3 = #{picture3,jdbcType=VARCHAR},
+    title_id = #{titleId,jdbcType=INTEGER},
+    title_pw_name = #{titlePwName,jdbcType=VARCHAR},
+    title_name = #{titleName,jdbcType=VARCHAR},
+    price = #{price,jdbcType=DECIMAL},
+    desc = #{desc,jdbcType=VARCHAR},
+    status = #{status,jdbcType=TINYINT},
+    created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
