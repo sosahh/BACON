@@ -1,7 +1,6 @@
 package com.jyss.bacon.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -38,6 +37,8 @@ public class User implements Serializable {
     private Integer source;         //0直接注册，1微信，2微博，3QQ
 
     private Integer isAuth;         //0未认证，1=已认证
+
+    private Integer popularity;       //热度
 
     private String labelDesc;         //明星描述
 
@@ -213,5 +214,13 @@ public class User implements Serializable {
 
     public void setLastModifyTime(Date lastModifyTime) {
         this.lastModifyTime = lastModifyTime;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
     }
 }

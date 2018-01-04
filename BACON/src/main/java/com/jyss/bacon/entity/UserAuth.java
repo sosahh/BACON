@@ -11,13 +11,17 @@ public class UserAuth implements Serializable {
 
     private Integer categoryId;     //类目id
 
+    private String categoryTitle;     //类目名称
+
     private String picture1;
 
     private String picture2;
 
     private String picture3;
 
-    private Integer title;       //段位id
+    private Integer titleId;       //段位id
+
+    private String titleName;       //段位名称
 
     private Double price;       //每局价格
 
@@ -75,12 +79,20 @@ public class UserAuth implements Serializable {
         this.picture3 = picture3;
     }
 
-    public Integer getTitle() {
-        return title;
+    public Integer getTitleId() {
+        return titleId;
     }
 
-    public void setTitle(Integer title) {
-        this.title = title;
+    public void setTitleId(Integer titleId) {
+        this.titleId = titleId;
+    }
+
+    public String getTitleName() {
+        return titleName;
+    }
+
+    public void setTitleName(String titleName) {
+        this.titleName = titleName;
     }
 
     public Double getPrice() {
@@ -113,5 +125,13 @@ public class UserAuth implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getCategoryTitle() {
+        return categoryTitle;
+    }
+
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
     }
 }

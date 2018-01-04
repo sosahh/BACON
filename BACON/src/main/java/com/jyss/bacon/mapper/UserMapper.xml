@@ -19,6 +19,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="source" property="source" jdbcType="TINYINT" />
     <result column="is_auth" property="isAuth" jdbcType="TINYINT" />
+    <result column="popularity" property="popularity" jdbcType="INTEGER" />
     <result column="label_desc" property="labelDesc" jdbcType="VARCHAR" />
     <result column="balance" property="balance" jdbcType="DECIMAL" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -31,14 +32,14 @@
       headpic, birth_date, sex, 
       age, place, emotional_state, 
       profession, hobby, status, 
-      source, is_auth, label_desc, balance,
+      source, is_auth, popularity, label_desc, balance,
       create_time, last_modify_time)
     values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
       #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
       #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{emotionalState,jdbcType=TINYINT}, 
       #{profession,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{source,jdbcType=TINYINT}, #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL},
+      #{source,jdbcType=TINYINT}, #{isAuth,jdbcType=TINYINT}, #{popularity,jdbcType=INTEGER}, #{labelDesc,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL},
       #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP})
   </insert>
 
@@ -94,6 +95,9 @@
       <if test="isAuth != null" >
         is_auth = #{isAuth,jdbcType=TINYINT},
       </if>
+      <if test="popularity != null" >
+        popularity = #{popularity,jdbcType=INTEGER},
+      </if>
       <if test="labelDesc != null" >
         label_desc = #{labelDesc,jdbcType=VARCHAR},
       </if>
@@ -127,10 +131,23 @@
       status = #{status,jdbcType=TINYINT},
       source = #{source,jdbcType=TINYINT},
       is_auth = #{isAuth,jdbcType=TINYINT},
+      popularity = #{popularity,jdbcType=INTEGER},
       label_desc = #{labelDesc,jdbcType=VARCHAR},
       balance = #{balance,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询用户-->
+  <select id="selectUserBy" resultMap="BaseResultMap" >
+    select * from u_user
+    <where>
+      <if test="id != null and id != ''">and id = #{tel} </if>
+      <if test="tel != null and tel != ''">and tel = #{tel} </if>
+      <if test="status != null and status != ''">and status = #{status} </if>
+    </where>
+  </select>
+
+
 </mapper>
