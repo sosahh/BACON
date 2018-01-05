@@ -2,6 +2,7 @@ package com.jyss.bacon.service;
 
 
 import com.jyss.bacon.entity.Page;
+import com.jyss.bacon.entity.UserDetailResult;
 import com.jyss.bacon.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,6 +20,10 @@ public interface UserInfoService {
     Page<UserInfo> getUserInfoBy(@Param("categoryId")Integer categoryId,@Param("sex")Integer sex,
                                  @Param("titlePwName")String titlePwName,@Param("type")Integer type,
                                  @Param("page")Integer page, @Param("limit")Integer pageSize);
+
+    //查询详细信息
+    UserDetailResult findUserDetailInfo(@Param("uId")Integer uId,@Param("playId")Integer playId);
+
 
 
 }

@@ -9,6 +9,7 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
 
+  <!--添加关注-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserFollow" useGeneratedKeys="true" keyProperty="id">
     insert into u_user_follow (id, u_id, follow_id, 
       status, created)
@@ -42,4 +43,19 @@
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询总关注数-->
+  <select id="getUserFellowCount" parameterType="int" resultType="int">
+    select ifnull(count(*),0) from u_user_follow where status = 1 and follow_id = #{followId}
+  </select>
+
+  <!--条件查询-->
+  <select id="getUserFellowBy" parameterType="com.jyss.bacon.entity.UserFollow" resultMap="com.jyss.bacon.entity.UserFollow">
+    select * from u_user_follow
+    <where>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="followId != null and followId != ''">and follow_id = #{followId}</if>
+      <if test="status != null and status != ''">and status = #{status}</if>
+    </where>
+  </select>
 </mapper>

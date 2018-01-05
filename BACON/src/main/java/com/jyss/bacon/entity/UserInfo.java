@@ -19,7 +19,6 @@ public class UserInfo implements Serializable{
     private String titlePwName;      //大段位名称
 
 
-
     public Integer getuId() {
         return uId;
     }

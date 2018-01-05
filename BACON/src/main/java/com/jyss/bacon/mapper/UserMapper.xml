@@ -143,7 +143,7 @@
   <select id="selectUserBy" resultMap="BaseResultMap" >
     select * from u_user
     <where>
-      <if test="id != null and id != ''">and id = #{tel} </if>
+      <if test="id != null and id != ''">and id = #{id} </if>
       <if test="tel != null and tel != ''">and tel = #{tel} </if>
       <if test="status != null and status != ''">and status = #{status} </if>
     </where>

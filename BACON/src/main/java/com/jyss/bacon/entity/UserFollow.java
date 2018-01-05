@@ -8,7 +8,7 @@ public class UserFollow implements Serializable {
 
     private Integer uId;       //用户id
 
-    private Integer followId;     //关注人id
+    private Integer followId;     //陪玩人的id
 
     private Integer status;      //0禁用，1可用
 

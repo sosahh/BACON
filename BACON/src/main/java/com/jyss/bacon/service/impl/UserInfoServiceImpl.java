@@ -2,9 +2,8 @@ package com.jyss.bacon.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jyss.bacon.entity.Page;
-import com.jyss.bacon.entity.UserInfo;
-import com.jyss.bacon.mapper.UserInfoMapper;
+import com.jyss.bacon.entity.*;
+import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,14 @@ public class UserInfoServiceImpl implements UserInfoService{
 
     @Autowired
     private UserInfoMapper userInfoMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserFollowMapper userFollowMapper;
+    @Autowired
+    private UserAuthMapper userAuthMapper;
+    @Autowired
+    private UserDynamicMapper userDynamicMapper;
 
     /**
      * 用户名或id搜索
@@ -78,7 +85,35 @@ public class UserInfoServiceImpl implements UserInfoService{
         return result;
     }
 
+    /**
+     * 查询详细信息  (有问题！！！)
+     */
+    @Override
+    public UserDetailResult findUserDetailInfo(Integer uId, Integer playId) {
+        UserDetailResult result = new UserDetailResult();
+        List<User> userList = userMapper.selectUserBy(playId + "", null, null);
 
+        User user = userList.get(0);
+        //关注数
+        int count = userFollowMapper.getUserFellowCount(playId);
+        //是否已关注
+        List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, playId, 1);
+        //认证游戏
+        List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
+        //动态
+        List<UserDynamic> userDynamicList = userDynamicMapper.getUserUserDynamicBy(playId, 1);
+
+        if(fellowList != null && fellowList.size()>0){
+            result.setType(true);
+        }else {
+            result.setType(false);
+        }
+        result.setUser(user);
+        result.setCount(count);
+        result.setList(userAuthList);
+        result.setPictures(userDynamicList);
+        return result;
+    }
 
 
 }
