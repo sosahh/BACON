@@ -28,16 +28,6 @@
     order by a.popularity desc
   </select>
 
-  <!--根据类目查询-->
-  <select id="getUserByCategoryId" parameterType="String" resultMap="BaseResultMap" >
-    select a.id,a.account,a.nick,a.headpic,b.category_title,b.title_name,b.price  from u_user a ,u_user_auth b
-    <where>
-      <if test="categoryId != null and categoryId != ''">and b.category_id = #{categoryId} </if>
-      and a.id = b.u_id and a.is_auth = 1 and b.status = 2
-    </where>
-    order by a.popularity desc
-  </select>
-
   <!--根据条件查询-->
   <select id="getUserInfoBy"  resultMap="BaseResultMap" >
     select a.id,a.account,a.nick,a.headpic,b.category_title,b.title_name,b.price  from u_user a ,u_user_auth b
@@ -52,6 +42,12 @@
     order by a.popularity desc
   </select>
 
+  <!--查询明星用户-->
+    <select id="getStarUserInfo" resultMap="BaseResultMap">
+        select a.id,a.account,a.nick,a.headpic,a.label_desc,b.category_title,b.title_name,b.price  from u_user a ,u_user_auth b
+        where  a.id = b.u_id and a.is_auth = 1 and a.status = 3 and b.status = 2
+        order by a.popularity desc
+    </select>
 
 
 </mapper>

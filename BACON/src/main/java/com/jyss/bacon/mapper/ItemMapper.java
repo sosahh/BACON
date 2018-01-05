@@ -3,6 +3,8 @@ package com.jyss.bacon.mapper;
 import com.jyss.bacon.entity.Item;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ItemMapper {
 
@@ -11,4 +13,7 @@ public interface ItemMapper {
     int updateByPrimaryKeySelective(Item item);
 
     int updateByPrimaryKey(Item item);
+
+    //查询所有类目
+    List<Item> selectItem();
 }

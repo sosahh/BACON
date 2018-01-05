@@ -18,6 +18,7 @@ public class Item implements Serializable{
 
     private Date updated;       //更新时间
 
+
     public Integer getId() {
         return id;
     }

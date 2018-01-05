@@ -7,8 +7,8 @@
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
-    <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="created" property="created"  />
+    <result column="updated" property="updated"  />
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.Item" useGeneratedKeys="true" keyProperty="id">
@@ -55,4 +55,10 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询所有类目-->
+  <select id="selectItem" resultMap="BaseResultMap">
+    select * from c_item where status = 1 order by sort_order
+  </select>
+
 </mapper>
