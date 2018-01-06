@@ -1,5 +1,6 @@
 package com.jyss.bacon.action;
 
+import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
 import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.CommTool;
@@ -29,8 +30,7 @@ public class UserAction {
      */
     @RequestMapping("/sendCode")
     @ResponseBody
-    public Map<String, Object> sendCode(@RequestParam("tel") String tel,@RequestParam("bz") String bz,HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
+    public ResponseResult sendCode(@RequestParam("tel") String tel, @RequestParam("bz") String bz, HttpServletRequest request) {
         if(tel != null && !"".equals(tel)){
             //注册
             if(bz.equals("1")){
@@ -38,34 +38,18 @@ public class UserAction {
                 if(userList == null || userList.size() == 0){
                     Map<String, String> map2 = sendCode(tel, request);
                     if (map2.get("msgDo").equals("1")) {
-                        map.put("code", "0");
-                        map.put("status", "true");
-                        map.put("message", "操作成功！");
-                        map.put("data", map2);
-                        return map;
+                        return ResponseResult.ok(map2);
                     }
-                    map.put("code", "-1");
-                    map.put("status", "false");
-                    map.put("message", "操作失败！");
-                    map.put("data", "");
-                    return map;
+                    return ResponseResult.error("-1","操作失败！");
                 }
-                map.put("code", "-3");
-                map.put("status", "false");
-                map.put("message", "该手机号已注册！");
-                map.put("data", "");
-                return map;
+                return ResponseResult.error("-2","该手机号已经注册！");
             }
             //忘记密码
 
 
 
         }
-        map.put("code", "-2");
-        map.put("status", "false");
-        map.put("message", "手机号不能为空");
-        map.put("data", "");
-        return map;
+        return ResponseResult.error("-3","手机号不能为空！");
 
     }
 
