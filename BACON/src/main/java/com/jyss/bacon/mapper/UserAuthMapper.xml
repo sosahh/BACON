@@ -95,7 +95,7 @@
   </update>
 
   <!--条件查询-->
-  <select id="getUserAuthBy" parameterType="com.jyss.bacon.entity.UserAuth" resultMap="com.jyss.bacon.entity.UserAuth">
+  <select id="getUserAuthBy" parameterType="com.jyss.bacon.entity.UserAuth" resultMap="BaseResultMap">
     select * from u_user_auth
     <where>
       <if test="status != null and status != ''">and u_id = #{uId}</if>

@@ -50,7 +50,7 @@
   </select>
 
   <!--条件查询-->
-  <select id="getUserFellowBy" parameterType="com.jyss.bacon.entity.UserFollow" resultMap="com.jyss.bacon.entity.UserFollow">
+  <select id="getUserFellowBy" parameterType="com.jyss.bacon.entity.UserFollow" resultMap="BaseResultMap">
     select * from u_user_follow
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId}</if>
@@ -58,4 +58,9 @@
       <if test="status != null and status != ''">and status = #{status}</if>
     </where>
   </select>
+
+  <!--取消关注-->
+  <delete id="deleteUserFellow" parameterType="com.jyss.bacon.entity.UserFollow" >
+    delete from u_user_follow where u_id = #{uId} and follow_id = #{followId} and status = 1
+  </delete>
 </mapper>

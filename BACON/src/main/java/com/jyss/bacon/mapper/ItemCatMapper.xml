@@ -71,4 +71,20 @@
     created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--条件查询-->
+  <select id="getItemCatBy" parameterType="com.jyss.bacon.entity.ItemCat" resultMap="BaseResultMap">
+    select * from c_item_cat
+    <where>
+      <if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+      <if test="status != null and status != ''">and status = #{status}</if>
+    </where>
+    order by sort_order
+  </select>
+  
+  <!--查询所有大段位-->
+  <select id="selectDwNameByCategoryId" parameterType="int" resultMap="BaseResultMap">
+    select * from c_item_cat where category_id = #{categoryId}
+    and status = 1 group by dw_name order by sort_order
+  </select>
 </mapper>

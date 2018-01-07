@@ -26,6 +26,9 @@ public class UserDynamic implements Serializable {
 
     private Date created;
 
+    private String nick;        //昵称
+    private String headpic;     //头像
+
     public Integer getId() {
         return id;
     }
@@ -112,5 +115,21 @@ public class UserDynamic implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getHeadpic() {
+        return headpic;
+    }
+
+    public void setHeadpic(String headpic) {
+        this.headpic = headpic;
     }
 }

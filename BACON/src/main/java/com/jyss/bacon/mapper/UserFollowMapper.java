@@ -22,4 +22,7 @@ public interface UserFollowMapper {
     //条件查询
     List<UserFollow> getUserFellowBy(@Param("uId")Integer uId,@Param("followId")Integer followId,@Param("status")Integer status);
 
+    //取消关注
+    int deleteUserFellow(@Param("uId")Integer uId,@Param("followId")Integer followId);
+
 }

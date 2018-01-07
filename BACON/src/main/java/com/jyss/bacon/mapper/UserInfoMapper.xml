@@ -43,11 +43,11 @@
   </select>
 
   <!--查询明星用户-->
-    <select id="getStarUserInfo" resultMap="BaseResultMap">
-        select a.id,a.account,a.nick,a.headpic,a.label_desc,b.category_title,b.title_name,b.price  from u_user a ,u_user_auth b
-        where  a.id = b.u_id and a.is_auth = 1 and a.status = 3 and b.status = 2
-        order by a.popularity desc
-    </select>
+  <select id="getStarUserInfo" resultMap="BaseResultMap">
+      select a.id,a.account,a.nick,a.headpic,a.label_desc,b.category_title,b.title_name,b.price  from u_user a ,u_user_auth b
+      where  a.id = b.u_id and a.is_auth = 1 and a.status = 3 and b.status = 2
+      order by a.popularity desc
+  </select>
 
 
 </mapper>

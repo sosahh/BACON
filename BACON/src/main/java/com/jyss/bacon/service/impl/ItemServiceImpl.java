@@ -1,6 +1,8 @@
 package com.jyss.bacon.service.impl;
 
 import com.jyss.bacon.entity.Item;
+import com.jyss.bacon.entity.ItemCat;
+import com.jyss.bacon.mapper.ItemCatMapper;
 import com.jyss.bacon.mapper.ItemMapper;
 import com.jyss.bacon.mapper.UserInfoMapper;
 import com.jyss.bacon.service.ItemService;
@@ -17,7 +19,7 @@ public class ItemServiceImpl implements ItemService{
     @Autowired
     private ItemMapper itemMapper;
     @Autowired
-    private UserInfoMapper userInfoMapper;
+    private ItemCatMapper itemCatMapper;
 
 
     /**
@@ -27,6 +29,15 @@ public class ItemServiceImpl implements ItemService{
     public List<Item> selectItem() {
         return itemMapper.selectItem();
     }
+
+    /**
+     * 查询所有大段位
+     */
+    @Override
+    public List<ItemCat> selectDwNameByCategoryId(Integer categoryId) {
+        return itemCatMapper.selectDwNameByCategoryId(categoryId);
+    }
+
 
 
 }

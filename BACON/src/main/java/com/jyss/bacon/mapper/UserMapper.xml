@@ -149,5 +149,34 @@
     </where>
   </select>
 
+  <!--查询我的关注-->
+  <select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
+    select id,account,nick,headpic from u_user
+    <where>
+      1 = 1
+      <if test="ids != null">
+        <foreach collection="ids" item="id" open="id in (" close=")" separator=",">
+          select follow_id from u_user_follow where u_id = #{uId} order by created desc
+        </foreach>
+      </if>
+      and status &gt; 0
+    </where>
+  </select>
+  <!-- select id,account,nick,headpic from u_user where status &gt; 0
+    and id in (select follow_id from u_user_follow where u_id = #{uId} order by created desc) -->
+
+  <!--查询关注我的-->
+  <select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
+    select id,account,nick,headpic from u_user
+    <where>
+      1 = 1
+      <if test="ids != null">
+        <foreach collection="ids" item="id" open="id in (" close=")" separator=",">
+          select u_id from u_user_follow where follow_id = #{followId} order by created desc
+        </foreach>
+      </if>
+      and status &gt; 0
+    </where>
+  </select>
 
 </mapper>

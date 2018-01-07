@@ -101,7 +101,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         //认证游戏
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
         //动态
-        List<UserDynamic> userDynamicList = userDynamicMapper.getUserUserDynamicBy(playId, 1);
+        List<UserDynamic> userDynamicList = userDynamicMapper.getUserDynamicBy(playId, 1);
 
         if(fellowList != null && fellowList.size()>0){
             result.setType(true);
