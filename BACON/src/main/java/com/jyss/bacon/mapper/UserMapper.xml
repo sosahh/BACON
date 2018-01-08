@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jyss.bacon.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.User" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="u_id" property="uId" jdbcType="INTEGER" />
     <result column="account" property="account" jdbcType="VARCHAR" />
     <result column="tel" property="tel" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -26,15 +26,15 @@
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="id">
-    insert into u_user (id, account, tel, 
+  <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="u_id">
+    insert into u_user (u_id, account, tel,
       password, salt, nick, 
       headpic, birth_date, sex, 
       age, place, emotional_state, 
       profession, hobby, status, 
       source, is_auth, popularity, label_desc, balance,
       create_time, last_modify_time)
-    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+    values (#{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
       #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
       #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{emotionalState,jdbcType=TINYINT}, 
@@ -111,7 +111,7 @@
         last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.User" >
     update u_user
@@ -136,14 +136,14 @@
       balance = #{balance,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </update>
 
   <!--查询用户-->
   <select id="selectUserBy" resultMap="BaseResultMap" >
     select * from u_user
     <where>
-      <if test="id != null and id != ''">and id = #{id} </if>
+      <if test="uId != null and uId != ''">and u_id = #{uId} </if>
       <if test="tel != null and tel != ''">and tel = #{tel} </if>
       <if test="status != null and status != ''">and status = #{status} </if>
     </where>
@@ -151,32 +151,26 @@
 
   <!--查询我的关注-->
   <select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
-    select id,account,nick,headpic from u_user
-    <where>
+    select u_id,account,nick,headpic from u_user
+    where u_id in (select follow_id from u_user_follow where u_id = #{uId} order by created desc)
+    and status &gt; 0
+    <!--<where>
       1 = 1
-      <if test="ids != null">
-        <foreach collection="ids" item="id" open="id in (" close=")" separator=",">
-          select follow_id from u_user_follow where u_id = #{uId} order by created desc
+      <if test="uId != null">
+        <foreach collection="uId" item="uId" open="u_id in (" close=")" separator=",">
+          select follow_id as u_id from u_user_follow where u_id = #{uId} order by created desc
         </foreach>
       </if>
       and status &gt; 0
-    </where>
+    </where>-->
   </select>
-  <!-- select id,account,nick,headpic from u_user where status &gt; 0
-    and id in (select follow_id from u_user_follow where u_id = #{uId} order by created desc) -->
+
 
   <!--查询关注我的-->
   <select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
-    select id,account,nick,headpic from u_user
-    <where>
-      1 = 1
-      <if test="ids != null">
-        <foreach collection="ids" item="id" open="id in (" close=")" separator=",">
-          select u_id from u_user_follow where follow_id = #{followId} order by created desc
-        </foreach>
-      </if>
-      and status &gt; 0
-    </where>
+    select u_id,account,nick,headpic from u_user
+    where u_id in (select u_id from u_user_follow where follow_id = #{followId} order by created desc)
+    and status &gt; 0
   </select>
 
 </mapper>

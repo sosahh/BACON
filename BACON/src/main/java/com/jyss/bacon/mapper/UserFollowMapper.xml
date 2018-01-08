@@ -14,7 +14,7 @@
     insert into u_user_follow (id, u_id, follow_id, 
       status, created)
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{followId,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}), #{created,jdbcType=TIMESTAMP}
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserFollow" >

@@ -37,7 +37,7 @@ public class UserInfoAction {
      */
     @RequestMapping("/byCategoryId")
     @ResponseBody
-    public ResponseResult getUserByCategoryId(@RequestParam(value = "id") Integer categoryId,
+    public ResponseResult getUserByCategoryId(@RequestParam(value = "categoryId") Integer categoryId,
                                               @RequestParam(value = "page", required = true) Integer page,
                                               @RequestParam(value = "pageSize", required = true) Integer pageSize){
         Page<UserInfo> result = userInfoService.getUserByCategoryId(categoryId, page, pageSize);
@@ -49,7 +49,7 @@ public class UserInfoAction {
      */
     @RequestMapping("/searchBy")
     @ResponseBody
-    public ResponseResult getUserInfoBy(@RequestParam("id") Integer categoryId,@RequestParam("sex") Integer sex,
+    public ResponseResult getUserInfoBy(@RequestParam("categoryId") Integer categoryId,@RequestParam("sex") Integer sex,
                                         @RequestParam("dwName") String titlePwName,@RequestParam("type") Integer type,
                                         @RequestParam(value = "page", required = true) Integer page,
                                         @RequestParam(value = "pageSize", required = true) Integer pageSize){

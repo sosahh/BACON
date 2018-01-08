@@ -36,7 +36,7 @@ public class ItemAction {
      */
     @RequestMapping("/dwList")
     @ResponseBody
-    public ResponseResult selectDwNameByCategoryId(@RequestParam("id") Integer categoryId){
+    public ResponseResult selectDwNameByCategoryId(@RequestParam("categoryId") Integer categoryId){
         List<ItemCat> list = itemService.selectDwNameByCategoryId(categoryId);
         if(list != null && list.size()>0){
             return ResponseResult.ok(list);

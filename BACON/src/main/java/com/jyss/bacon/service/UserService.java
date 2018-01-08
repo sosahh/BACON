@@ -9,5 +9,5 @@ import java.util.List;
 public interface UserService {
 
     //条件查询用户
-    List<User> selectUserBy(@Param("id")String id, @Param("tel")String tel, @Param("status")String status);
+    List<User> selectUserBy(@Param("uId")String uId, @Param("tel")String tel, @Param("status")String status);
 }

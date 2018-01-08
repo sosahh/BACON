@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
-    private Integer id;
+    private Integer uId;           //用户id
 
     private String account;       //帐号
 
@@ -48,12 +48,13 @@ public class User implements Serializable {
 
     private Date lastModifyTime;       //修改时间
 
-    public Integer getId() {
-        return id;
+
+    public Integer getuId() {
+        return uId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setuId(Integer uId) {
+        this.uId = uId;
     }
 
     public String getAccount() {

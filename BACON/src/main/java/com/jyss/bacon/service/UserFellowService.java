@@ -3,10 +3,8 @@ package com.jyss.bacon.service;
 
 import com.jyss.bacon.entity.Page;
 import com.jyss.bacon.entity.User;
-import com.jyss.bacon.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 public interface UserFellowService {
 

@@ -53,11 +53,12 @@ public class UserFellowServiceImpl implements UserFellowService{
         PageHelper.startPage(page,pageSize);
         List<User> userList = userMapper.getUserFellowByUid(uId);
         for (User user : userList) {
-            List<UserFollow> followList = userFollowMapper.getUserFellowBy(user.getId(), uId, 1);
+            List<UserFollow> followList = userFollowMapper.getUserFellowBy(user.getuId(), uId, 1);
             if(followList != null && followList.size()>0){
                 user.setStatus(1);
+            }else {
+                user.setStatus(0);
             }
-            user.setStatus(0);
         }
         PageInfo<User> pageInfo = new PageInfo<>(userList);
 
@@ -75,11 +76,12 @@ public class UserFellowServiceImpl implements UserFellowService{
         PageHelper.startPage(page,pageSize);
         List<User> userList = userMapper.getUserFellowByFellowId(uId);
         for (User user : userList) {
-            List<UserFollow> followList = userFollowMapper.getUserFellowBy(uId, user.getId(), 1);
+            List<UserFollow> followList = userFollowMapper.getUserFellowBy(uId, user.getuId(), 1);
             if(followList != null && followList.size()>0){
                 user.setStatus(1);
+            }else{
+                user.setStatus(0);
             }
-            user.setStatus(0);
         }
         PageInfo<User> pageInfo = new PageInfo<>(userList);
 
