@@ -14,7 +14,7 @@ public interface UserInfoMapper {
     List<UserInfo> getUserByNickOrAccount(@Param("account")String account);
 
     //根据条件查询
-    List<UserInfo> getUserByCategoryId(@Param("categoryId")Integer categoryId,@Param("sex")Integer sex,
+    List<UserInfo> getUserInfoBy(@Param("categoryId")Integer categoryId,@Param("sex")Integer sex,
                                        @Param("titlePwName")String titlePwName,@Param("age")Integer age,@Param("age1")Integer age1);
 
     //查询明星用户

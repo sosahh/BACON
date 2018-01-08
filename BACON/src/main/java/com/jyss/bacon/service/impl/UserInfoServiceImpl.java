@@ -48,7 +48,7 @@ public class UserInfoServiceImpl implements UserInfoService{
     @Override
     public Page<UserInfo> getUserByCategoryId(Integer categoryId, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<UserInfo> list = userInfoMapper.getUserByCategoryId(categoryId,null,"",null,null);
+        List<UserInfo> list = userInfoMapper.getUserInfoBy(categoryId,null,"",null,null);
         PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
 
         Page<UserInfo> result = new Page<>();
@@ -58,7 +58,7 @@ public class UserInfoServiceImpl implements UserInfoService{
     }
 
     /**
-     * 根据条件查询     type: 0 = 全部年龄，1 = 22岁以下，2 = 22-25岁，3 = 25岁以上
+     * 根据条件查询     type: 1 = 22岁以下，2 = 22-25岁，3 = 25岁以上
      */
     @Override
     public Page<UserInfo> getUserInfoBy(Integer categoryId, Integer sex, String titlePwName, Integer type, Integer page, Integer pageSize) {
@@ -66,16 +66,16 @@ public class UserInfoServiceImpl implements UserInfoService{
         PageHelper.startPage(page,pageSize);
         if(type == 0){
             //全部年龄
-            list = userInfoMapper.getUserByCategoryId(categoryId,sex,titlePwName,null,null);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,null);
         }else if (type == 1){
             //22岁以下
-            list = userInfoMapper.getUserByCategoryId(categoryId,sex,titlePwName,22,null);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,22,null);
         }else if (type == 2){
             //22-25岁
-            list = userInfoMapper.getUserByCategoryId(categoryId,sex,titlePwName,25,22);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,25,22);
         }else if (type == 3){
             //25岁以上
-            list = userInfoMapper.getUserByCategoryId(categoryId,sex,titlePwName,null,25);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,25);
         }
         PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
 
@@ -86,7 +86,7 @@ public class UserInfoServiceImpl implements UserInfoService{
     }
 
     /**
-     * 查询详细信息  (有问题！！！)
+     * 查询详细信息  (内容需修改！！！)
      */
     @Override
     public UserDetailResult findUserDetailInfo(Integer uId, Integer playId) {

@@ -15,7 +15,6 @@ public class UserInfo implements Serializable{
     private Double price;         //每局价格
     private Integer sex;          //1女，2男
     private Integer age;          //年龄
-    private Integer categoryId;      //类目id
     private String titlePwName;      //大段位名称
 
 
@@ -97,14 +96,6 @@ public class UserInfo implements Serializable{
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getTitlePwName() {
