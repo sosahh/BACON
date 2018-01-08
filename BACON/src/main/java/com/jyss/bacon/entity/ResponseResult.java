@@ -19,6 +19,8 @@ public class ResponseResult implements Serializable{
 
     public ResponseResult(Object data) {
         this.status = 1;
+        this.errorCode = "";
+        this.errorMsg = "";
         this.data = data;
     }
 
@@ -26,6 +28,7 @@ public class ResponseResult implements Serializable{
         this.status = 0;
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
+        this.data = "";
     }
 
     public Integer getStatus() {
