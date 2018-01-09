@@ -37,6 +37,7 @@ import com.jyss.bacon.utils.Utils;
 
 @Controller
 public class AccountUserAction {
+
 	@Autowired
 	private AccountUserService auService;
 
