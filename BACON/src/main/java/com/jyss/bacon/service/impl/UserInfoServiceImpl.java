@@ -38,6 +38,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 
         Page<UserInfo> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
+        result.setNext(pageInfo.isHasNextPage());
         result.setRows(list);
         return result;
     }
@@ -53,6 +54,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 
         Page<UserInfo> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
+        result.setNext(pageInfo.isHasNextPage());
         result.setRows(list);
         return result;
     }
@@ -81,6 +83,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 
         Page<UserInfo> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
+        result.setNext(pageInfo.isHasNextPage());
         result.setRows(list);
         return result;
     }

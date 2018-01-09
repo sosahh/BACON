@@ -42,4 +42,24 @@
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--条件查询-->
+  <select id="getUserPraiseBy" parameterType="com.jyss.bacon.entity.UserPraise" resultMap="BaseResultMap">
+    select * from u_user_praise
+    <where>
+      <if test="dynamicId != null and dynamicId != ''">and dynamic_id = #{dynamicId}</if>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="status != null and status != ''">and status = #{status}</if>
+    </where>
+  </select>
+
+  <!--查询点赞数-->
+  <select id="getCountPraise" parameterType="int" resultType="long">
+    select ifnull(count(*),0) from u_user_praise where dynamic_id = #{dynamicId} and status = 1
+  </select>
+
+  <!--取消点赞-->
+  <delete id="deletePraiseBy" parameterType="com.jyss.bacon.entity.UserPraise">
+    delete from u_user_praise where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 1
+  </delete>
 </mapper>

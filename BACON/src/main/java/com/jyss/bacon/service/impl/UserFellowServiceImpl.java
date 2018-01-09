@@ -64,6 +64,7 @@ public class UserFellowServiceImpl implements UserFellowService{
 
         Page<User> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
+        result.setNext(pageInfo.isHasNextPage());
         result.setRows(userList);
         return result;
     }
@@ -87,6 +88,7 @@ public class UserFellowServiceImpl implements UserFellowService{
 
         Page<User> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
+        result.setNext(pageInfo.isHasNextPage());
         result.setRows(userList);
         return result;
     }

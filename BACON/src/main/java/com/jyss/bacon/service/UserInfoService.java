@@ -6,7 +6,6 @@ import com.jyss.bacon.entity.UserDetailResult;
 import com.jyss.bacon.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 public interface UserInfoService {
 

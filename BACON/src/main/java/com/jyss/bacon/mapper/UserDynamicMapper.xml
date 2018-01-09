@@ -13,8 +13,8 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="nick" property="nick" jdbcType="VARCHAR" />
-    <result column="headpic" property="headpic" jdbcType="VARCHAR" />
+    <result column="nick" property="nick" />
+    <result column="headpic" property="headpic" />
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserDynamic" >
@@ -79,7 +79,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--条件查询-->
+  <!--查询我的动态-->
   <select id="getUserDynamicBy" parameterType="com.jyss.bacon.entity.UserDynamic" resultMap="BaseResultMap">
     select * from u_user_dynamic
     <where>

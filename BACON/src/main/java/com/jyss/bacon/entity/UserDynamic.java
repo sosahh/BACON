@@ -1,5 +1,7 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -28,6 +30,8 @@ public class UserDynamic implements Serializable {
 
     private String nick;        //昵称
     private String headpic;     //头像
+    private Long count;         //点赞数
+    private String showTime;     //展示时间
 
     public Integer getId() {
         return id;
@@ -109,6 +113,7 @@ public class UserDynamic implements Serializable {
         this.status = status;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreated() {
         return created;
     }
@@ -131,5 +136,21 @@ public class UserDynamic implements Serializable {
 
     public void setHeadpic(String headpic) {
         this.headpic = headpic;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
     }
 }

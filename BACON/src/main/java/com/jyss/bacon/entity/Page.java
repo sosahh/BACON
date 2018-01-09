@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Page<E> {
 	private long total;
+	private boolean next;        //是否还有下一页
 	private List<E> rows = new ArrayList<E>();
 
 	public Page() {
@@ -14,6 +15,7 @@ public class Page<E> {
 
 	public Page(PageInfo<E> pageInfo) {
 		this.total = pageInfo.getTotal();
+		this.next = pageInfo.isHasNextPage();
 		this.rows = pageInfo.getList();
 	}
 
@@ -33,4 +35,11 @@ public class Page<E> {
 		this.rows = rows;
 	}
 
+	public boolean isNext() {
+		return next;
+	}
+
+	public void setNext(boolean next) {
+		this.next = next;
+	}
 }

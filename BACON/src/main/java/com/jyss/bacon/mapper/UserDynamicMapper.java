@@ -15,7 +15,7 @@ public interface UserDynamicMapper {
 
     int updateByPrimaryKey(UserDynamic userDynamic);
 
-    //条件查询
+    //查询我的动态
     List<UserDynamic> getUserDynamicBy(@Param("uId")Integer uId,@Param("status")Integer status);
 
     //条件查询动态
@@ -24,7 +24,7 @@ public interface UserDynamicMapper {
     //查询关注人的动态
     List<UserDynamic> getDynamicByFellowId(@Param("uId")Integer uId);
 
-    //删除动态
+    //删除我的动态
     int deleteUserDynamicById(@Param("id")Integer id);
 
 }
