@@ -148,12 +148,12 @@
 			<version>1.5.0-b01</version> 
 		</dependency>
 		 <!-- wxpay -->
-		 <dependency> 
+		 <!--<dependency>
 		    <groupId>java.wxpay</groupId>
 		    <artifactId>wxpay</artifactId>
 			<version>0.0.3</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wxpay-sdk-0.0.3.jar</systemPath>
         </dependency>
         <dependency> 
@@ -161,7 +161,7 @@
 		    <artifactId>wxpay</artifactId>
 			<version>0.0.3</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wxpay-sdk-0.0.3-javadoc.jar</systemPath>
         </dependency>
         <dependency> 
@@ -169,17 +169,17 @@
 		    <artifactId>wxpay</artifactId>
 			<version>0.0.3</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/wxpay-sdk-0.0.3-sources.jar</systemPath>
         </dependency>
 		 
-		 <!-- alipay -->
+		 &lt;!&ndash; alipay &ndash;&gt;
 		<dependency> 
 		    <groupId>java.alipay</groupId>
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/alipay-sdk-java20161213173952.jar</systemPath>
         </dependency>
         
@@ -188,7 +188,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/alipay-sdk-java20161213173952-source.jar</systemPath>
         </dependency>
         
@@ -197,7 +197,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/alipay-trade-sdk-20161215.jar</systemPath>
         </dependency>
         
@@ -206,7 +206,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/alipay-trade-sdk-20161215-source.jar</systemPath>
         </dependency>
         
@@ -215,7 +215,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-codec-1.10.jar</systemPath>
         </dependency>
         
@@ -224,7 +224,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-configuration-1.10.jar</systemPath>
         </dependency>
         
@@ -233,7 +233,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-lang-2.6.jar</systemPath>
         </dependency>
         
@@ -242,7 +242,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-logging-1.1.1.jar</systemPath>
         </dependency>
         
@@ -251,7 +251,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/core-2.1.jar</systemPath>
         </dependency>
         
@@ -260,7 +260,7 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/gson-2.3.1.jar</systemPath>
         </dependency>
         
@@ -269,19 +269,13 @@
 		    <artifactId>alipay</artifactId>
 			<version>1.0</version> 
 	        <scope>system</scope>  
-	        <!--本地jar的路径,相对或者绝对都可以-->  
+	        &lt;!&ndash;本地jar的路径,相对或者绝对都可以&ndash;&gt;  
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hamcrest-core-1.3.jar</systemPath>
-        </dependency>
+        </dependency>-->
         
         
 
         <!-- 格式化对象，方便输出日志 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.1.41</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -301,6 +295,22 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.3</version>
         </dependency>
              
         
@@ -375,7 +385,8 @@
  	    <artifactId >aspectjweaver</artifactId >  
  		<version >1.6.8_2</version >  
 	</dependency >
-		
+
+
     </dependencies>
     
     <build>
@@ -396,12 +407,12 @@
                 </webResources>
             </configuration>
         </plugin>
-  		<plugin>
+  		<!--<plugin>
   			<artifactId>maven-war-plugin</artifactId>
   			<configuration>
   				<version>3.1</version>
   			</configuration>
-  		</plugin> 			
+  		</plugin>-->
 	    <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -411,6 +422,13 @@
             </configuration>
           </plugin>
     </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
   </build>
-
 </project>
