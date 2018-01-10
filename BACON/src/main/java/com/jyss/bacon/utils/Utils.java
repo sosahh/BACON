@@ -3,6 +3,7 @@ package com.jyss.bacon.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,5 +60,54 @@ public class Utils {
 		}
 		return false;
 	}
+
+	////补位函数///
+	public static String addZeroForNum(String str, int strLength) {
+		int strLen = str.length();
+		if (strLen < strLength) {
+			while (strLen < strLength) {
+				StringBuffer sb = new StringBuffer();
+				sb.append("0").append(str);// 左补0
+				// sb.append(str).append("0");//右补0
+				str = sb.toString();
+				strLen = str.length();
+			}
+		}
+		return str;
+	}
+
+
+	// 随机生成四位数字
+	public static String getSaltFour() {
+		StringBuilder str = new StringBuilder();// 定义变长字符串
+		Random random = new Random();
+		// 随机生成数字，并添加到字符串
+		for (int i = 0; i < 4; i++) {
+			str.append(random.nextInt(10));
+		}
+		// 将字符串转换为String
+		return str.toString();
+
+	}
+
+	////生成ID的
+	public static String getMyId(String id) {
+		String reStr  ="";
+		String bwStr = addZeroForNum(id,6);
+		String rStr = getSaltFour();
+		reStr = rStr+bwStr;
+		return reStr;
+
+	}
+
+
+	public static void main(String[] args)  {
+		System.out.println(getMyId("5"));
+		System.out.println(getMyId("555"));
+
+	}
+
+
+
 
 }
