@@ -6,17 +6,17 @@
     <result column="u_id" property="uId" jdbcType="INTEGER" />
     <result column="token" property="token" jdbcType="VARCHAR" />
     <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
-    <result column="last_access_time" property="lastAccessTime" jdbcType="INTEGER" />
+    <result column="last_access_time" property="lastAccessTime" jdbcType="BIGINT" />
     <result column="push_info" property="pushInfo" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.MobileLogin" useGeneratedKeys="true" keyProperty="id">
-    insert into u_mobile_login (id, u_id, token, 
-      created_at, last_access_time, push_info, 
+    insert into u_mobile_login (id, u_id, token,
+      created_at, last_access_time, push_info,
       status)
     values (#{id,jdbcType=BIGINT}, #{uId,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=INTEGER}, #{pushInfo,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=BIGINT}, #{pushInfo,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT})
   </insert>
 
@@ -33,7 +33,7 @@
         created_at = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="lastAccessTime != null" >
-        last_access_time = #{lastAccessTime,jdbcType=INTEGER},
+        last_access_time = #{lastAccessTime,jdbcType=BIGINT},
       </if>
       <if test="pushInfo != null" >
         push_info = #{pushInfo,jdbcType=VARCHAR},

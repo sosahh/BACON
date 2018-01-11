@@ -8,5 +8,8 @@ import java.util.List;
 
 public interface MobileLoginService {
 
+    //添加登陆记录
+    int insert(MobileLogin mobileLogin);
+
     List<MobileLogin> findUserByToken(@Param("token") String token);
 }

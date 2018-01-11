@@ -19,6 +19,11 @@ public class MobileLoginServiceImpl implements MobileLoginService {
     private MobileLoginMapper mobileLoginMapper;
 
     @Override
+    public int insert(MobileLogin mobileLogin) {
+        return mobileLoginMapper.insert(mobileLogin);
+    }
+
+    @Override
     public List<MobileLogin> findUserByToken(String token) {
         List<MobileLogin> loginList = mobileLoginMapper.findUserByToken(token);
         if (loginList.size() == 1) {

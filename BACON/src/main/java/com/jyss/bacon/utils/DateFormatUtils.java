@@ -2,6 +2,7 @@ package com.jyss.bacon.utils;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateFormatUtils {
@@ -118,8 +119,46 @@ public class DateFormatUtils {
         return DateFormatUtils.timeDiffText(date, new Date());
     }
 
+
+    /**
+     * 由出生日期获得年龄
+     * @param birthDay
+     * @return
+     * @throws Exception
+     */
+    public static int getAge(Date birthDay) throws Exception {
+        Calendar cal = Calendar.getInstance();
+
+        if (cal.before(birthDay)) {
+            throw new IllegalArgumentException(
+                    "The birthDay is before Now.It's unbelievable!");
+        }
+        int yearNow = cal.get(Calendar.YEAR);
+        int monthNow = cal.get(Calendar.MONTH);
+        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+        cal.setTime(birthDay);
+
+        int yearBirth = cal.get(Calendar.YEAR);
+        int monthBirth = cal.get(Calendar.MONTH);
+        int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+
+        int age = yearNow - yearBirth;
+
+        if (monthNow <= monthBirth) {
+            if (monthNow == monthBirth) {
+                if (dayOfMonthNow < dayOfMonthBirth) age--;
+            }else{
+                age--;
+            }
+        }
+        return age;
+    }
+
     public static void main(String[] args) throws Exception {
         Date start = DateFormatUtils.getDate("2018-01-07 15:30:02", DateFormatUtils.YMDHMS_BREAK);
+        Date birthDay = DateFormatUtils.getDate("2010-10-20", DateFormatUtils.YMD_BREAK);
         System.out.println(DateFormatUtils.showTimeText(start));
+        System.out.println(System.currentTimeMillis());
+        System.out.println(DateFormatUtils.getAge(birthDay));
     }
 }

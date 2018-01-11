@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface MobileLoginMapper {
 
+    //添加登陆记录
     int insert(MobileLogin mobileLogin);
 
     int updateByPrimaryKeySelective(MobileLogin mobileLogin);

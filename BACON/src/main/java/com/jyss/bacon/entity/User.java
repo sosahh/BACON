@@ -1,5 +1,8 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +21,7 @@ public class User implements Serializable {
 
     private String headpic;       //头像
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthDate;       //出生日期
 
     private Integer sex;          //1女，2男
@@ -42,7 +46,7 @@ public class User implements Serializable {
 
     private String labelDesc;         //明星描述
 
-    private Float balance;          //余额
+    private Float balance;           //余额
 
     private Date createTime;          //创建时间
 
@@ -105,6 +109,7 @@ public class User implements Serializable {
         this.headpic = headpic == null ? null : headpic.trim();
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getBirthDate() {
         return birthDate;
     }

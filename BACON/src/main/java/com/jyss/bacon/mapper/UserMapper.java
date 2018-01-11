@@ -9,8 +9,10 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
+    //添加用户
     int insert(User user);
 
+    //用户信息修改
     int updateByPrimaryKeySelective(User user);
 
     int updateByPrimaryKey(User user);

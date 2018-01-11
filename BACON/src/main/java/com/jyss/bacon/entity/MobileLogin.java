@@ -12,7 +12,7 @@ public class MobileLogin implements Serializable {
 
     private Date createdAt;
 
-    private Integer lastAccessTime;     //最后访问时间
+    private Long lastAccessTime;     //最后访问时间
 
     private String pushInfo;     //推送信息
 
@@ -50,11 +50,11 @@ public class MobileLogin implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Integer getLastAccessTime() {
+    public Long getLastAccessTime() {
         return lastAccessTime;
     }
 
-    public void setLastAccessTime(Integer lastAccessTime) {
+    public void setLastAccessTime(Long lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 

@@ -26,24 +26,20 @@
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="u_id">
-    insert into u_user (u_id, account, tel,
-      password, salt, nick, 
-      headpic, birth_date, sex, 
-      age, place, emotional_state, 
-      profession, hobby, status, 
-      source, is_auth, popularity, label_desc, balance,
-      create_time, last_modify_time)
+  <!--添加用户-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="uId">
+    insert into u_user (u_id, account, tel,password, salt, nick, headpic, birth_date, sex, age,
+      profession, hobby, status, source, is_auth, label_desc, create_time, last_modify_time)
     values (#{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
       #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
-      #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{emotionalState,jdbcType=TINYINT}, 
-      #{profession,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{source,jdbcType=TINYINT}, #{isAuth,jdbcType=TINYINT}, #{popularity,jdbcType=INTEGER}, #{labelDesc,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL},
+      #{age,jdbcType=INTEGER}, #{profession,jdbcType=VARCHAR},
+      #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+      #{source,jdbcType=TINYINT}, #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP})
   </insert>
 
-
+  <!--用户信息修改-->
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.User" >
     update u_user
     <set >
@@ -113,6 +109,7 @@
     </set>
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.User" >
     update u_user
     set account = #{account,jdbcType=VARCHAR},
