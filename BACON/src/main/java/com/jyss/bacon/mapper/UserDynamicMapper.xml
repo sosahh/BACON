@@ -111,4 +111,10 @@
   <delete id="deleteUserDynamicById" parameterType="int">
     delete from u_user_dynamic where id = #{id} and status = 1
   </delete>
+
+  <!--查询8张图片-->
+  <select id="getPicture" parameterType="int" resultMap="BaseResultMap">
+    select picture_1 from u_user_dynamic where picture_1 <![CDATA[ <> ]]> "" and u_id = #{uId} and status = 1
+    order by created desc limit 0,8
+  </select>
 </mapper>

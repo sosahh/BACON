@@ -88,8 +88,35 @@ public class UserInfoServiceImpl implements UserInfoService{
         return result;
     }
 
+
     /**
-     * 查询详细信息  (内容需修改！！！)
+     * 查询明星用户
+     */
+    @Override
+    public Page<UserInfo> getStarUserInfo(Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<UserInfo> list = userInfoMapper.getStarUserInfo();
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
+
+        return new Page<>(pageInfo);
+    }
+
+
+    /**
+     * 查询热门用户
+     */
+    @Override
+    public Page<UserInfo> getHotUserInfo(Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<UserInfo> list = userInfoMapper.getHotUserInfo();
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
+
+        return new Page<>(pageInfo);
+    }
+
+
+    /**
+     * 查询详细信息
      */
     @Override
     public UserDetailResult findUserDetailInfo(Integer uId, Integer playId) {
@@ -104,7 +131,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         //认证游戏
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
         //动态
-        List<UserDynamic> userDynamicList = userDynamicMapper.getUserDynamicBy(playId, 1);
+        List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
 
         if(fellowList != null && fellowList.size()>0){
             result.setType(true);
@@ -113,7 +140,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         }
         result.setUser(user);
         result.setCount(count);
-        result.setList(userAuthList);
+        result.setGames(userAuthList);
         result.setPictures(userDynamicList);
         return result;
     }

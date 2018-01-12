@@ -33,8 +33,8 @@ public class UserFellowServiceImpl implements UserFellowService{
         userFollow.setFollowId(fellowId);
         userFollow.setStatus(1);
         userFollow.setCreated(new Date());
-        int gzId = userFollowMapper.insert(userFollow);
-        return gzId;
+        int count = userFollowMapper.insert(userFollow);
+        return count;
     }
 
     /**

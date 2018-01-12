@@ -1,6 +1,7 @@
 package com.jyss.bacon.action;
 
 import com.jyss.bacon.entity.*;
+import com.jyss.bacon.service.ItemService;
 import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/userInfo")
@@ -19,6 +22,8 @@ public class UserInfoAction {
     private UserInfoService userInfoService;
     @Autowired
     private MobileLoginService mobileLoginService;
+    @Autowired
+    private ItemService itemService;
 
     /**
      * 用户名或id搜索
@@ -40,8 +45,12 @@ public class UserInfoAction {
     public ResponseResult getUserByCategoryId(@RequestParam(value = "categoryId") Integer categoryId,
                                               @RequestParam(value = "page", required = true) Integer page,
                                               @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        Map<String, Object> map = new HashMap<>();
+        List<Item> items = itemService.selectItem();
         Page<UserInfo> result = userInfoService.getUserByCategoryId(categoryId, page, pageSize);
-        return ResponseResult.ok(result);
+        map.put("items",items);
+        map.put("result",result);
+        return ResponseResult.ok(map);
     }
 
     /**
@@ -58,7 +67,7 @@ public class UserInfoAction {
     }
 
     /**
-     * 查询详细信息  (内容需修改！！)
+     * 查询详细信息
      */
     @RequestMapping("/getUserInfo")
     @ResponseBody

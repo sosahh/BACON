@@ -34,7 +34,7 @@ public class UserFellowAction {
                 return ResponseResult.error("-2","自己无法关注自己！");
             }
             int count = userFellowService.insertUserFellow(uId, playId);
-            if (count > 0){
+            if (count == 1){
                 return ResponseResult.ok("");
             }
             return ResponseResult.error("-1","关注失败！");

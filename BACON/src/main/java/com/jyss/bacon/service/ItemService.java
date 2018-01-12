@@ -1,6 +1,7 @@
 package com.jyss.bacon.service;
 
 
+import com.jyss.bacon.entity.BaseNew;
 import com.jyss.bacon.entity.Item;
 import com.jyss.bacon.entity.ItemCat;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +15,7 @@ public interface ItemService {
 
     //查询所有大段位
     List<ItemCat> selectDwNameByCategoryId(@Param("categoryId")Integer categoryId);
+
+    //查询所有新闻
+    List<BaseNew> getAllNews();
 }

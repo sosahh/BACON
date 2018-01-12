@@ -17,8 +17,11 @@ public interface UserInfoMapper {
     List<UserInfo> getUserInfoBy(@Param("categoryId")Integer categoryId,@Param("sex")Integer sex,
                                        @Param("titlePwName")String titlePwName,@Param("age")Integer age,@Param("age1")Integer age1);
 
-    //查询明星用户
+    //
     List<UserInfo> getStarUserInfo();
+
+    //查询热门用户
+    List<UserInfo> getHotUserInfo();
 
 
 }

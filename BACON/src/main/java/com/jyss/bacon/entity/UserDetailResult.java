@@ -9,7 +9,7 @@ public class UserDetailResult implements Serializable{
     private Integer count;     //关注数
     private Boolean type;      //是否已关注   true=已关注，false=未关注
     private List<UserDynamic>  pictures;       //动态图片
-    private List<UserAuth> list;     //认证游戏
+    private List<UserAuth> games;     //认证游戏
 
 
     public User getUser() {
@@ -44,11 +44,11 @@ public class UserDetailResult implements Serializable{
         this.pictures = pictures;
     }
 
-    public List<UserAuth> getList() {
-        return list;
+    public List<UserAuth> getGames() {
+        return games;
     }
 
-    public void setList(List<UserAuth> list) {
-        this.list = list;
+    public void setGames(List<UserAuth> games) {
+        this.games = games;
     }
 }

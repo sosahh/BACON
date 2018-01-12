@@ -27,4 +27,7 @@ public interface UserDynamicMapper {
     //删除我的动态
     int deleteUserDynamicById(@Param("id")Integer id);
 
+    //查询8张图片
+    List<UserDynamic> getPicture(@Param("uId")Integer uId);
+
 }

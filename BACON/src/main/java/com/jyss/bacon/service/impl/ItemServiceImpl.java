@@ -1,7 +1,9 @@
 package com.jyss.bacon.service.impl;
 
+import com.jyss.bacon.entity.BaseNew;
 import com.jyss.bacon.entity.Item;
 import com.jyss.bacon.entity.ItemCat;
+import com.jyss.bacon.mapper.BaseNewMapper;
 import com.jyss.bacon.mapper.ItemCatMapper;
 import com.jyss.bacon.mapper.ItemMapper;
 import com.jyss.bacon.mapper.UserInfoMapper;
@@ -20,6 +22,8 @@ public class ItemServiceImpl implements ItemService{
     private ItemMapper itemMapper;
     @Autowired
     private ItemCatMapper itemCatMapper;
+    @Autowired
+    private BaseNewMapper baseNewMapper;
 
 
     /**
@@ -38,6 +42,13 @@ public class ItemServiceImpl implements ItemService{
         return itemCatMapper.selectDwNameByCategoryId(categoryId);
     }
 
+    /**
+     * 查询所有新闻
+     */
+    @Override
+    public List<BaseNew> getAllNews() {
+        return baseNewMapper.getAllNews();
+    }
 
 
 }

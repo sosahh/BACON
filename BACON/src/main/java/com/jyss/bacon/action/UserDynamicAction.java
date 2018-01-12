@@ -34,7 +34,7 @@ public class UserDynamicAction {
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
             int count = userDynamicService.insertUserPraise(uId, dynamicId);
-            if(count > 0){
+            if(count == 1){
                 return ResponseResult.ok("");
             }
             return ResponseResult.error("-1","点赞失败！");
