@@ -136,9 +136,13 @@
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
 
+
   <!--查询用户-->
   <select id="selectUserBy" resultMap="BaseResultMap" >
-    select * from u_user
+    select u_id, account, tel, password, salt, nick, CONCAT('${httpUrl}',headpic)as headpic, birth_date,
+    sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth, popularity, label_desc,
+    balance ,create_time, last_modify_time
+    from u_user
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId} </if>
       <if test="tel != null and tel != ''">and tel = #{tel} </if>
@@ -148,7 +152,7 @@
 
   <!--查询我的关注-->
   <select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
-    select u_id,account,nick,headpic from u_user
+    select u_id,account,nick,CONCAT('${httpUrl}',headpic)as headpic from u_user
     where u_id in (select follow_id from u_user_follow where u_id = #{uId} order by created desc)
     and status &gt; 0
     <!--<where>
@@ -165,7 +169,7 @@
 
   <!--查询关注我的-->
   <select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
-    select u_id,account,nick,headpic from u_user
+    select u_id,account,nick,CONCAT('${httpUrl}',headpic)as headpic from u_user
     where u_id in (select u_id from u_user_follow where follow_id = #{followId} order by created desc)
     and status &gt; 0
   </select>

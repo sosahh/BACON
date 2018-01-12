@@ -1,5 +1,6 @@
 package com.jyss.bacon.service.impl;
 
+import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.MobileLogin;
 import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService{
         if(StringUtils.isEmpty(tel)){
             return ResponseResult.error("-1","手机号不能为空！");
         }
-        List<User> userList = userMapper.selectUserBy(null, tel, "1");
+        List<User> userList = userMapper.selectUserBy(null, tel, "");
         if(userList != null && userList.size()>0){
             User user = userList.get(0);
             if (PasswordUtil.generate(password, user.getSalt()).equals(user.getPassword())){
@@ -100,7 +101,7 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public ResponseResult getUserInfo(String uId) {
-        List<User> userList = userMapper.selectUserBy(uId, null, "1");
+        List<User> userList = userMapper.selectUserBy(uId, null, "");
         if(userList != null && userList.size()==1){
             User user = userList.get(0);
             return ResponseResult.ok(user);
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService{
 
 
     /**
-     * 修用户信息修改
+     * 用户信息修改
      */
     @Override
     public int updateUser(User user) {

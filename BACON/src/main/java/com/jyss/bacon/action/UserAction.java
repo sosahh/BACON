@@ -265,6 +265,11 @@ public class UserAction {
 
 
     /**
+     * 修改头像
+     */
+
+
+    /**
      * 短信修改密码
      */
     @RequestMapping("/updatePwd")

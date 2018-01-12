@@ -53,7 +53,7 @@
 		<property name="validationQuery" value="SELECT 1"/> <!-- 验证使用的SQL语句  -->
 		<property name="minEvictableIdleTimeMillis" value="1800000"/> <!-- 池中的连接空闲30分钟后被回收   -->
 		<property name="timeBetweenEvictionRunsMillis" value="30000"/> <!--  每30秒运行一次空闲连接回收器 -->
-		 
+
 	</bean>
 
 	<!-- SqlsessionFactory -->
@@ -61,7 +61,7 @@
 		<!-- 数据源 -->
 		<property name="dataSource" ref="dataSource" />
 		<!-- mybatis配置文件 -->
-		<property name="configLocation" value="classpath:SqlMapConfig.xml" />
+		<property name="configLocation" value="classpath:SqlMapConfig.xml"/>
 
 	</bean>
 

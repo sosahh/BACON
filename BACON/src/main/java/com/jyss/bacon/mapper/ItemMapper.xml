@@ -58,7 +58,8 @@
 
   <!--查询所有类目-->
   <select id="selectItem" resultMap="BaseResultMap">
-    select * from c_item where status = 1 order by sort_order
+    select id, title, CONCAT('${httpUrl}',pic)as pic,status, sort_order, created,updated
+    from c_item where status = 1 order by sort_order
   </select>
 
 </mapper>

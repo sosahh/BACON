@@ -18,7 +18,8 @@
 
   <!--用户名或id搜索-->
   <select id="getUserByNickOrAccount" parameterType="String" resultMap="BaseResultMap" >
-    select a.u_id,a.account,a.nick,a.headpic,a.sex,a.age,b.category_title,b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
+    b.title_name,b.price,b.title_pw_name
     from u_user a ,u_user_auth b
     <where>
       <if test="account != null and account != ''">and a.account LIKE CONCAT(CONCAT('%', #{account}), '%') </if>
@@ -30,7 +31,8 @@
 
   <!--根据条件查询-->
   <select id="getUserInfoBy"  resultMap="BaseResultMap" >
-    select a.u_id,a.account,a.nick,a.headpic,a.sex,a.age,b.category_title,b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
+    b.title_name,b.price,b.title_pw_name
     from u_user a ,u_user_auth b
     <where>
       <if test="categoryId != null and categoryId != ''">and b.category_id = #{categoryId} </if>
@@ -45,7 +47,8 @@
 
   <!--查询明星用户-->
   <select id="getStarUserInfo" resultMap="BaseResultMap">
-    select a.u_id,a.account,a.nick,a.headpic,a.sex,a.age,a.label_desc,b.category_title,b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,a.label_desc,b.category_title,
+    b.title_name,b.price,b.title_pw_name
     from u_user a ,u_user_auth b
     where  a.u_id = b.u_id and a.is_auth = 1 and a.status = 3 and b.status = 2
     group by a.u_id order by a.popularity desc
@@ -53,7 +56,8 @@
 
   <!--查询热门用户-->
   <select id="getHotUserInfo"  resultMap="BaseResultMap" >
-    select a.u_id,a.account,a.nick,a.headpic,a.sex,a.age,b.category_title,b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
+    b.title_name,b.price,b.title_pw_name
     from u_user a ,u_user_auth b
     where a.u_id = b.u_id and a.is_auth = 1 and b.status = 2 and a.status = 2
     group by a.u_id order by a.popularity desc
