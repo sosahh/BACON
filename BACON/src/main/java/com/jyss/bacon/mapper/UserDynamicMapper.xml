@@ -91,7 +91,7 @@
 
   <!--条件查询动态-->
   <select id="selectUserDynamicBy" parameterType="int" resultMap="BaseResultMap">
-    select a.*,b.nick,b.headpic from u_user_dynamic a left join u_user b on a.u_id = b.u_id
+    select a.*,b.nick,CONCAT('${httpUrl}',b.headpic)as headpic from u_user_dynamic a left join u_user b on a.u_id = b.u_id
     <where>
       <if test="uId != null and uId != ''"> and a.u_id = #{uId}</if>
       <if test="sex != null and sex != ''"> and b.sex = #{sex}</if>
@@ -102,7 +102,7 @@
 
   <!--查询关注人的动态-->
   <select id="getDynamicByFellowId"  parameterType="int" resultMap="BaseResultMap">
-    select a.*,b.nick,b.headpic from u_user_dynamic a left join u_user b on a.u_id = b.u_id
+    select a.*,b.nick,CONCAT('${httpUrl}',b.headpic)as headpic from u_user_dynamic a left join u_user b on a.u_id = b.u_id
     where a.u_id in (select follow_id from u_user_follow where u_id = #{uId}) and a.status = 1
     order by a.created desc
   </select>
@@ -114,7 +114,8 @@
 
   <!--查询8张图片-->
   <select id="getPicture" parameterType="int" resultMap="BaseResultMap">
-    select picture_1 from u_user_dynamic where picture_1 <![CDATA[ <> ]]> "" and u_id = #{uId} and status = 1
+    select CONCAT('${httpUrl}',picture_1)as picture_1 from u_user_dynamic
+    where picture_1 <![CDATA[ <> ]]> "" and u_id = #{uId} and status = 1
     order by created desc limit 0,8
   </select>
 </mapper>

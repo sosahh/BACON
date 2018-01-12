@@ -69,7 +69,7 @@
 
   <!--查询所有-->
   <select id="getAllNews" resultMap="BaseResultMap">
-    select id,new_pic,head_title from p_base_new where status = 1 order by create_time desc
+    select id,CONCAT('${httpUrl}',new_pic)as new_pic,head_title from p_base_new where status = 1 order by create_time desc
   </select>
 
 

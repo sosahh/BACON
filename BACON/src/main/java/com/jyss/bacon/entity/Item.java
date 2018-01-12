@@ -8,7 +8,9 @@ public class Item implements Serializable{
 
     private String title;      //类目标题
 
-    private String pic;       //图片
+    private String brightPic;        //亮图片
+
+    private String ashPic;        //灰图片
 
     private Integer status;    //0禁用，1可用
 
@@ -35,12 +37,20 @@ public class Item implements Serializable{
         this.title = title == null ? null : title.trim();
     }
 
-    public String getPic() {
-        return pic;
+    public String getBrightPic() {
+        return brightPic;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic == null ? null : pic.trim();
+    public void setBrightPic(String brightPic) {
+        this.brightPic = brightPic;
+    }
+
+    public String getAshPic() {
+        return ashPic;
+    }
+
+    public void setAshPic(String ashPic) {
+        this.ashPic = ashPic;
     }
 
     public Integer getStatus() {

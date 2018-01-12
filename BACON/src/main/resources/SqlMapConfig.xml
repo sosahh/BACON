@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
     <!--Mybatis全局配置内容-->
     <properties>
-        <property name="httpUrl" value="http://192.168.0.18:8080/"/>
+        <property name="httpUrl" value="http://121.40.29.64:8081/"/>
     </properties>
 	 <!-- 配置分页插件 -->
     <plugins>

@@ -17,7 +17,7 @@
   </resultMap>
 
   <!--用户名或id搜索-->
-  <select id="getUserByNickOrAccount" parameterType="String" resultMap="BaseResultMap" >
+  <select id="getUserByNickOrAccount"  resultMap="BaseResultMap" >
     select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
     b.title_name,b.price,b.title_pw_name
     from u_user a ,u_user_auth b
