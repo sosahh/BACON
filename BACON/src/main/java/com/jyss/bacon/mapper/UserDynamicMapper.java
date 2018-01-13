@@ -16,7 +16,7 @@ public interface UserDynamicMapper {
     int updateByPrimaryKey(UserDynamic userDynamic);
 
     //查询我的动态
-    List<UserDynamic> getUserDynamicBy(@Param("uId")Integer uId,@Param("status")Integer status);
+    //List<UserDynamic> getUserDynamicBy(@Param("uId")Integer uId,@Param("status")Integer status);
 
     //条件查询动态
     List<UserDynamic> selectUserDynamicBy(@Param("uId")Integer uId,@Param("sex")Integer sex);

@@ -21,9 +21,9 @@ public interface UserMapper {
     List<User> selectUserBy(@Param("uId")String uId,@Param("tel")String tel,@Param("status")String status);
 
     //查询我的关注
-    List<User> getUserFellowByUid(@Param("uId")Integer uId);
+    //List<User> getUserFellowByUid(@Param("uId")Integer uId);
 
     //查询关注我的
-    List<User> getUserFellowByFellowId(@Param("followId")Integer followId);
+    //List<User> getUserFellowByFellowId(@Param("followId")Integer followId);
 
 }

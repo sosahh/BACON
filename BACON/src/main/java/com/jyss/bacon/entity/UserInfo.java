@@ -16,6 +16,7 @@ public class UserInfo implements Serializable{
     private Integer sex;          //1女，2男
     private Integer age;          //年龄
     private String titlePwName;      //大段位名称
+    private Integer status;         //状态
 
 
     public Integer getuId() {
@@ -104,5 +105,13 @@ public class UserInfo implements Serializable{
 
     public void setTitlePwName(String titlePwName) {
         this.titlePwName = titlePwName;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

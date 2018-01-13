@@ -3,9 +3,10 @@ package com.jyss.bacon.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jyss.bacon.entity.Page;
-import com.jyss.bacon.entity.User;
 import com.jyss.bacon.entity.UserFollow;
+import com.jyss.bacon.entity.UserInfo;
 import com.jyss.bacon.mapper.UserFollowMapper;
+import com.jyss.bacon.mapper.UserInfoMapper;
 import com.jyss.bacon.mapper.UserMapper;
 import com.jyss.bacon.service.UserFellowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class UserFellowServiceImpl implements UserFellowService{
     private UserFollowMapper userFollowMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     /**
      * 点击关注
@@ -49,23 +52,23 @@ public class UserFellowServiceImpl implements UserFellowService{
      * 查询我的关注   status: 0 = 已关注,1 = 互相关注
      */
     @Override
-    public Page<User> getUserFellowById(Integer uId, Integer page, Integer pageSize) {
+    public Page<UserInfo> getUserFellowById(Integer uId, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<User> userList = userMapper.getUserFellowByUid(uId);
-        for (User user : userList) {
-            List<UserFollow> followList = userFollowMapper.getUserFellowBy(user.getuId(), uId, 1);
+        List<UserInfo> list = userInfoMapper.getUserFellowByUid(uId);
+        for (UserInfo userInfo : list) {
+            List<UserFollow> followList = userFollowMapper.getUserFellowBy(userInfo.getuId(), uId, 1);
             if(followList != null && followList.size()>0){
-                user.setStatus(1);
+                userInfo.setStatus(1);
             }else {
-                user.setStatus(0);
+                userInfo.setStatus(0);
             }
         }
-        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
 
-        Page<User> result = new Page<>();
+        Page<UserInfo> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
         result.setNext(pageInfo.isHasNextPage());
-        result.setRows(userList);
+        result.setRows(list);
         return result;
     }
 
@@ -73,23 +76,23 @@ public class UserFellowServiceImpl implements UserFellowService{
      * 查询关注我的   status: 0 = 已关注,1 = 互相关注
      */
     @Override
-    public Page<User> getUserFellowByFellowId(Integer uId,Integer page,Integer pageSize) {
+    public Page<UserInfo> getUserFellowByFellowId(Integer uId,Integer page,Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<User> userList = userMapper.getUserFellowByFellowId(uId);
-        for (User user : userList) {
-            List<UserFollow> followList = userFollowMapper.getUserFellowBy(uId, user.getuId(), 1);
+        List<UserInfo> list = userInfoMapper.getUserFellowByFellowId(uId);
+        for (UserInfo userInfo : list) {
+            List<UserFollow> followList = userFollowMapper.getUserFellowBy(uId, userInfo.getuId(), 1);
             if(followList != null && followList.size()>0){
-                user.setStatus(1);
+                userInfo.setStatus(1);
             }else{
-                user.setStatus(0);
+                userInfo.setStatus(0);
             }
         }
-        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
 
-        Page<User> result = new Page<>();
+        Page<UserInfo> result = new Page<>();
         result.setTotal(pageInfo.getTotal());
         result.setNext(pageInfo.isHasNextPage());
-        result.setRows(userList);
+        result.setRows(list);
         return result;
     }
 }

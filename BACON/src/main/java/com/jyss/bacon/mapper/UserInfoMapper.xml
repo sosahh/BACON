@@ -20,11 +20,11 @@
   <select id="getUserByNickOrAccount"  resultMap="BaseResultMap" >
     select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
     b.title_name,b.price,b.title_pw_name
-    from u_user a ,u_user_auth b
+    from u_user a right join u_user_auth b on a.u_id = b.u_id
     <where>
       <if test="account != null and account != ''">and a.account LIKE CONCAT(CONCAT('%', #{account}), '%') </if>
       <if test="account != null and account != ''">or a.nick LIKE CONCAT(CONCAT('%', #{account}), '%') </if>
-      and a.u_id = b.u_id and a.is_auth = 1 and b.status = 2 and a.status &gt; 1
+      and a.is_auth = 1 and b.status = 2 and a.status &gt; 1
     </where>
     group by a.u_id order by a.popularity desc
   </select>
@@ -33,14 +33,14 @@
   <select id="getUserInfoBy"  resultMap="BaseResultMap" >
     select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
     b.title_name,b.price,b.title_pw_name
-    from u_user a ,u_user_auth b
+    from u_user a right join u_user_auth b on a.u_id = b.u_id
     <where>
       <if test="categoryId != null and categoryId != ''">and b.category_id = #{categoryId} </if>
       <if test="sex != null and sex != ''">and a.sex = #{sex} </if>
       <if test="titlePwName != null and titlePwName != ''">and b.title_pw_name = #{titlePwName} </if>
       <if test="age != null and age != ''">and a.age &lt;= #{age} </if>
       <if test="age1 != null and age1 != ''">and a.age &gt;= #{age1} </if>
-      and a.u_id = b.u_id and a.is_auth = 1 and b.status = 2 and a.status &gt; 1
+      and a.is_auth = 1 and b.status = 2 and a.status &gt; 1
     </where>
     group by a.u_id order by a.popularity desc
   </select>
@@ -49,8 +49,8 @@
   <select id="getStarUserInfo" resultMap="BaseResultMap">
     select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,a.label_desc,b.category_title,
     b.title_name,b.price,b.title_pw_name
-    from u_user a ,u_user_auth b
-    where  a.u_id = b.u_id and a.is_auth = 1 and a.status = 3 and b.status = 2
+    from u_user a right join u_user_auth b on a.u_id = b.u_id
+    where a.is_auth = 1 and a.status = 3 and b.status = 2
     group by a.u_id order by a.popularity desc
   </select>
 
@@ -58,9 +58,31 @@
   <select id="getHotUserInfo"  resultMap="BaseResultMap" >
     select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
     b.title_name,b.price,b.title_pw_name
-    from u_user a ,u_user_auth b
-    where a.u_id = b.u_id and a.is_auth = 1 and b.status = 2 and a.status = 2
+    from u_user a right join u_user_auth b on a.u_id = b.u_id
+    where a.is_auth = 1 and b.status = 2 and a.status = 2
     group by a.u_id order by a.popularity desc
+  </select>
+
+  <!--查询我的关注-->
+  <select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
+    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
+    b.title_name ,b.title_pw_name
+    from u_user a left join u_user_auth b on a.u_id = b.u_id
+    where a.u_id in (select follow_id from u_user_follow c where c.u_id = #{uId})
+    and a.status &gt; 0
+    group by a.u_id order by a.popularity desc
+  </select>
+
+
+  <!--查询关注我的-->
+  <select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
+    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
+    b.title_name ,b.title_pw_name
+    from u_user a left join u_user_auth b on a.u_id = b.u_id
+    where a.u_id in (select u_id from u_user_follow where follow_id = #{followId})
+    and a.status &gt; 0
+    group by a.u_id order by a.popularity desc
+
   </select>
 
 

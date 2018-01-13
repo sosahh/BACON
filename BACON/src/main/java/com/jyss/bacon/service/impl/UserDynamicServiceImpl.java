@@ -48,13 +48,14 @@ public class UserDynamicServiceImpl implements UserDynamicService {
         return count;
     }
 
+
     /**
      * 条件查询动态      status: 0=未点赞，1=已点赞
      */
     @Override
     public Page<UserDynamic> selectUserDynamicBy(Integer uId, Integer sex, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<UserDynamic> dynamicList = userDynamicMapper.selectUserDynamicBy(uId, sex);
+        List<UserDynamic> dynamicList = userDynamicMapper.selectUserDynamicBy(null, sex);
         for (UserDynamic userDynamic : dynamicList) {
             List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
             if(praiseList != null && praiseList.size()>0){
@@ -70,6 +71,7 @@ public class UserDynamicServiceImpl implements UserDynamicService {
 
         return new Page<UserDynamic>(pageInfo);
     }
+
 
     /**
      * 查询关注人的动态
@@ -90,6 +92,29 @@ public class UserDynamicServiceImpl implements UserDynamicService {
             userDynamic.setCount(count);
         }
         PageInfo<UserDynamic> pageInfo = new PageInfo<>(list);
+        return new Page<UserDynamic>(pageInfo);
+    }
+
+    /**
+     * 查询我的动态      status: 0=未点赞，1=已点赞
+     */
+    @Override
+    public Page<UserDynamic> selectMyUserDynamic(Integer uId, Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<UserDynamic> dynamicList = userDynamicMapper.selectUserDynamicBy(uId, null);
+        for (UserDynamic userDynamic : dynamicList) {
+            List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
+            if(praiseList != null && praiseList.size()>0){
+                userDynamic.setStatus(1);
+            }else{
+                userDynamic.setStatus(0);
+            }
+            long count = userPraiseMapper.getCountPraise(userDynamic.getId());
+            userDynamic.setCount(count);
+            userDynamic.setShowTime(DateFormatUtils.showTimeText(userDynamic.getCreated()));
+        }
+        PageInfo<UserDynamic> pageInfo = new PageInfo<>(dynamicList);
+
         return new Page<UserDynamic>(pageInfo);
     }
 

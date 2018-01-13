@@ -76,7 +76,7 @@ public class UserFellowAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            Page<User> result = userFellowService.getUserFellowById(uId, page, pageSize);
+            Page<UserInfo> result = userFellowService.getUserFellowById(uId, page, pageSize);
             return ResponseResult.ok(result);
         }
         return ResponseResult.error("1","token失效！");
@@ -95,7 +95,7 @@ public class UserFellowAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            Page<User> result = userFellowService.getUserFellowByFellowId(uId, page, pageSize);
+            Page<UserInfo> result = userFellowService.getUserFellowByFellowId(uId, page, pageSize);
             return ResponseResult.ok(result);
         }
         return ResponseResult.error("1","token失效！");

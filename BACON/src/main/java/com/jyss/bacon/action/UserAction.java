@@ -227,8 +227,7 @@ public class UserAction {
      */
     @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult updateUserInfo(User user, @RequestParam("token") String token,
-                                         HttpServletRequest request, HttpServletResponse response)throws Exception{
+    public ResponseResult updateUserInfo(User user, @RequestParam("token") String token){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
@@ -236,23 +235,7 @@ public class UserAction {
             user.setuId(uId);
             user.setLastModifyTime(new Date());
 
-            // Base64.decode(photo);
-            String photo = user.getHeadpic();
-            request.setCharacterEncoding("utf-8");
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("text/html");
 
-            String filePath = request.getSession().getServletContext().getRealPath("/");
-            int index = filePath.indexOf("BACON");
-            filePath = filePath.substring(0, index) + "uploadHeadPic" + "/";
-            File f = new File(filePath);
-            CommTool.judeDirExists(f);
-            filePath = filePath + uId + System.currentTimeMillis() + ".png";
-            boolean isOk = false;
-            isOk = Base64Image.GenerateImage(photo, filePath);
-            if (isOk) {
-                user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
-            }
             int count = userService.updateUser(user);
             if(count == 1){
                 return ResponseResult.ok("");
@@ -267,6 +250,46 @@ public class UserAction {
     /**
      * 修改头像
      */
+    @RequestMapping(value = "/upHeadPic",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult updateHeadPic(@RequestParam("token") String token,@RequestParam("headPic") String headPic,
+                                         HttpServletRequest request, HttpServletResponse response)throws Exception{
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            if(StringUtils.isEmpty(headPic)){
+                return ResponseResult.error("-1","修改失败！");
+            }
+
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            User user = new User();
+            user.setuId(uId);
+            user.setLastModifyTime(new Date());
+
+            // Base64.decode(photo);
+            request.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/html");
+
+            String filePath = request.getSession().getServletContext().getRealPath("/");
+            int index = filePath.indexOf("BACON");
+            filePath = filePath.substring(0, index) + "uploadHeadPic" + "/";
+            File f = new File(filePath);
+            CommTool.judeDirExists(f);
+            filePath = filePath + uId + System.currentTimeMillis() + ".png";
+            boolean isOk = false;
+            isOk = Base64Image.GenerateImage(headPic, filePath);
+            if (isOk) {
+                user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
+            }
+            int count = userService.updateUser(user);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","修改失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
 
 
     /**

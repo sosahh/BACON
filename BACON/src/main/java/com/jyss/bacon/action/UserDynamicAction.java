@@ -66,10 +66,17 @@ public class UserDynamicAction {
      */
     @RequestMapping("/allList")
     @ResponseBody
-    public ResponseResult selectAllUserDynamic(@RequestParam(value = "page", required = true) Integer page,
+    public ResponseResult selectAllUserDynamic(@RequestParam("token")String token,
+                                               @RequestParam(value = "page", required = true) Integer page,
                                                @RequestParam(value = "pageSize", required = true) Integer pageSize){
-        Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(null, null, page, pageSize);
-        return ResponseResult.ok(result);
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(uId, null, page, pageSize);
+            return ResponseResult.ok(result);
+        }
+        return ResponseResult.error("1","token失效！");
     }
 
     /**
@@ -77,11 +84,19 @@ public class UserDynamicAction {
      */
     @RequestMapping("/dynamicBySex")
     @ResponseBody
-    public ResponseResult selectDynamicBySex(@RequestParam("sex")Integer sex,
+    public ResponseResult selectDynamicBySex(@RequestParam("token")String token,@RequestParam("sex")Integer sex,
                                              @RequestParam(value = "page", required = true) Integer page,
                                              @RequestParam(value = "pageSize", required = true) Integer pageSize){
-        Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(null, sex, page, pageSize);
-        return ResponseResult.ok(result);
+        /*Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(null, sex, page, pageSize);
+        return ResponseResult.ok(result);*/
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(uId, sex, page, pageSize);
+            return ResponseResult.ok(result);
+        }
+        return ResponseResult.error("1","token失效！");
     }
 
     /**
@@ -114,7 +129,7 @@ public class UserDynamicAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(uId, null, page, pageSize);
+            Page<UserDynamic> result = userDynamicService.selectMyUserDynamic(uId, page, pageSize);
             return ResponseResult.ok(result);
         }
         return ResponseResult.error("1","token失效！");
@@ -136,6 +151,7 @@ public class UserDynamicAction {
         }
         return ResponseResult.error("1","token失效！");
     }
+
 
 
 }

@@ -2,7 +2,7 @@ package com.jyss.bacon.service;
 
 
 import com.jyss.bacon.entity.Page;
-import com.jyss.bacon.entity.User;
+import com.jyss.bacon.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -15,9 +15,9 @@ public interface UserFellowService {
     int deleteUserFellow(@Param("uId")Integer uId,@Param("followId")Integer followId);
 
     //查询我的关注
-    Page<User> getUserFellowById(@Param("uId")Integer uId, @Param("page")Integer page, @Param("limit")Integer pageSize);
+    Page<UserInfo> getUserFellowById(@Param("uId")Integer uId, @Param("page")Integer page, @Param("limit")Integer pageSize);
 
     //查询关注我的
-    Page<User> getUserFellowByFellowId(@Param("uId")Integer uId,@Param("page")Integer page, @Param("limit")Integer pageSize);
+    Page<UserInfo> getUserFellowByFellowId(@Param("uId")Integer uId,@Param("page")Integer page, @Param("limit")Integer pageSize);
 
 }

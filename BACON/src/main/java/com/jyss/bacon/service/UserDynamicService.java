@@ -17,7 +17,10 @@ public interface UserDynamicService {
     Page<UserDynamic> selectUserDynamicBy(@Param("uId")Integer uId, @Param("sex")Integer sex,@Param("page")Integer page, @Param("pageSize")Integer pageSize);
 
     //查询关注人的动态
-    Page<UserDynamic> getDynamicByFellowId(@Param("uId")Integer uId,@Param("page")Integer page, @Param("pageSize")Integer pageSize);
+    Page<UserDynamic> getDynamicByFellowId(@Param("uId")Integer uId, @Param("page")Integer page, @Param("pageSize")Integer pageSize);
+
+    //查询我的动态
+    Page<UserDynamic> selectMyUserDynamic(@Param("uId")Integer uId, @Param("page")Integer page, @Param("pageSize")Integer pageSize);
 
     //删除我的动态
     int deleteUserDynamicById(@Param("dynamicId")Integer dynamicId);

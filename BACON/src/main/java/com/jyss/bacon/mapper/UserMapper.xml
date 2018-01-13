@@ -151,11 +151,11 @@
   </select>
 
   <!--查询我的关注-->
-  <select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
+  <!--<select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
     select u_id,account,nick,CONCAT('${httpUrl}',headpic)as headpic from u_user
     where u_id in (select follow_id from u_user_follow where u_id = #{uId} order by created desc)
     and status &gt; 0
-    <!--<where>
+    &lt;!&ndash;<where>
       1 = 1
       <if test="uId != null">
         <foreach collection="uId" item="uId" open="u_id in (" close=")" separator=",">
@@ -163,15 +163,15 @@
         </foreach>
       </if>
       and status &gt; 0
-    </where>-->
-  </select>
+    </where>&ndash;&gt;
+  </select>-->
 
 
   <!--查询关注我的-->
-  <select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
+  <!--<select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
     select u_id,account,nick,CONCAT('${httpUrl}',headpic)as headpic from u_user
     where u_id in (select u_id from u_user_follow where follow_id = #{followId} order by created desc)
     and status &gt; 0
-  </select>
+  </select>-->
 
 </mapper>

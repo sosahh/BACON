@@ -66,7 +66,7 @@ public class UserInfoServiceImpl implements UserInfoService{
     public Page<UserInfo> getUserInfoBy(Integer categoryId, Integer sex, String titlePwName, Integer type, Integer page, Integer pageSize) {
         List<UserInfo> list = new ArrayList<UserInfo>();
         PageHelper.startPage(page,pageSize);
-        if(type == 0){
+        if(type == null){
             //全部年龄
             list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,null);
         }else if (type == 1){
