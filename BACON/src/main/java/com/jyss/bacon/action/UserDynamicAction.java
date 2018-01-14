@@ -1,9 +1,6 @@
 package com.jyss.bacon.action;
 
-import com.jyss.bacon.entity.MobileLogin;
-import com.jyss.bacon.entity.Page;
-import com.jyss.bacon.entity.ResponseResult;
-import com.jyss.bacon.entity.UserDynamic;
+import com.jyss.bacon.entity.*;
 import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserDynamicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,5 +152,54 @@ public class UserDynamicAction {
     /**
      * 发布动态
      */
+
+
+
+    /**
+     * 动态评价
+     */
+    @RequestMapping("/evaluate")
+    @ResponseBody
+    public ResponseResult insertUserComment(@RequestParam("token")String token,@RequestParam("dynamicId")Integer dynamicId,
+                                            @RequestParam("content")String content){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userDynamicService.insertUserComment(uId, dynamicId, content);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+    /**
+     * 动态评价查询
+     */
+    @RequestMapping("/getComment")
+    @ResponseBody
+    public ResponseResult selectCommentBy(@RequestParam("dynamicId")Integer dynamicId,
+                                          @RequestParam(value = "page", required = true) Integer page,
+                                          @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        Page<UserComment> result = userDynamicService.selectCommentBy(dynamicId, page, pageSize);
+        return ResponseResult.ok(result);
+    }
+
+
+    /**
+     * 动态删除
+     */
+    @RequestMapping("/deleteComment")
+    @ResponseBody
+    public ResponseResult deleteCommentBy(@RequestParam("token")String token,@RequestParam("dynamicId")Integer dynamicId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userDynamicService.deleteCommentBy(dynamicId, uId);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+    }
 
 }

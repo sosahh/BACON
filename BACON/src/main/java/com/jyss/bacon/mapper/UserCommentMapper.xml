@@ -11,10 +11,10 @@
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
 
+  <!--添加评价-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserComment" >
     insert into u_user_comment (id, dynamic_id, u_id, 
-      u_nick, content, created, 
-      status)
+      u_nick, content, created, status)
     values (#{id,jdbcType=INTEGER}, #{dynamicId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
       #{uNick,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT})
@@ -54,4 +54,15 @@
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--动态评价查询-->
+  <select id="selectCommentBy" parameterType="int" resultMap="BaseResultMap">
+    select * from u_user_comment where dynamic_id = #{dynamicId}
+    and status = 1 order by created desc
+  </select>
+
+  <!--删除评价-->
+  <delete id="deleteCommentBy" parameterType="int">
+    delete from u_user_comment where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 1
+  </delete>
 </mapper>

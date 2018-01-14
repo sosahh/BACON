@@ -1,5 +1,7 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,6 +19,8 @@ public class UserComment implements Serializable {
     private Date created;
 
     private Integer status;     //0禁用，1可用
+
+    private String showTime;
 
 
 
@@ -60,6 +64,7 @@ public class UserComment implements Serializable {
         this.content = content == null ? null : content.trim();
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreated() {
         return created;
     }
@@ -74,5 +79,13 @@ public class UserComment implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
     }
 }

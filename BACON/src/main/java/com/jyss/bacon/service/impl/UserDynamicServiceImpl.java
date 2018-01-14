@@ -1,12 +1,11 @@
 package com.jyss.bacon.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.jyss.bacon.entity.Item;
+import com.github.pagehelper.*;
+import com.jyss.bacon.entity.*;
 import com.jyss.bacon.entity.Page;
-import com.jyss.bacon.entity.UserDynamic;
-import com.jyss.bacon.entity.UserPraise;
+import com.jyss.bacon.mapper.UserCommentMapper;
 import com.jyss.bacon.mapper.UserDynamicMapper;
+import com.jyss.bacon.mapper.UserMapper;
 import com.jyss.bacon.mapper.UserPraiseMapper;
 import com.jyss.bacon.service.UserDynamicService;
 import com.jyss.bacon.utils.DateFormatUtils;
@@ -24,6 +23,10 @@ public class UserDynamicServiceImpl implements UserDynamicService {
     private UserDynamicMapper userDynamicMapper;
     @Autowired
     private UserPraiseMapper userPraiseMapper;
+    @Autowired
+    private UserCommentMapper userCommentMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 点赞
@@ -132,4 +135,55 @@ public class UserDynamicServiceImpl implements UserDynamicService {
      */
 
 
+
+
+    /**
+     * 评价动态
+     */
+    @Override
+    public ResponseResult insertUserComment(Integer uId,Integer dynamicId,String content){
+        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+        if(userList != null && userList.size()== 1){
+            User user = userList.get(0);
+            UserComment userComment = new UserComment();
+            userComment.setDynamicId(dynamicId);
+            userComment.setuId(uId);
+            userComment.setuNick(user.getNick());
+            userComment.setContent(content);
+            userComment.setStatus(1);
+            userComment.setCreated(new Date());
+            int count = userCommentMapper.insert(userComment);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","评价失败！");
+        }
+        return ResponseResult.error("-2","用户异常！");
+    }
+
+    /**
+     * 动态评价查询
+     */
+    @Override
+    public Page<UserComment> selectCommentBy(Integer dynamicId,Integer page, Integer pageSize){
+        PageHelper.startPage(page,pageSize);
+        List<UserComment> commentList = userCommentMapper.selectCommentBy(dynamicId);
+        for (UserComment userComment : commentList) {
+            userComment.setShowTime(DateFormatUtils.showTimeText(userComment.getCreated()));
+        }
+        PageInfo<UserComment> pageInfo = new PageInfo<UserComment>(commentList);
+        return new Page<UserComment>(pageInfo);
+    }
+
+    /**
+     * 删除评价
+     */
+    @Override
+    public ResponseResult deleteCommentBy(Integer dynamicId,Integer uId){
+        int count = userCommentMapper.deleteCommentBy(dynamicId, uId);
+        if(count == 1){
+            return ResponseResult.ok("");
+        }
+        return ResponseResult.error("-1","删除失败！");
+    }
 }
