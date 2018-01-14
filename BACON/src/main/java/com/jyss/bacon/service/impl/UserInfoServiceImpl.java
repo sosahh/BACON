@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -130,18 +132,31 @@ public class UserInfoServiceImpl implements UserInfoService{
         List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, playId, 1);
         //认证游戏
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
+
+        if(uId == playId){
+            result.setuId(uId);
+            result.setUser(user);
+            result.setCount(count);
+            result.setGames(userAuthList);
+            return result;
+        }
         //动态
         List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
+        List<String> list = new ArrayList<>();
+        for (UserDynamic userDynamic : userDynamicList) {
+            list.add(userDynamic.getPicture1());
+        }
 
         if(fellowList != null && fellowList.size()>0){
             result.setType(true);
         }else {
             result.setType(false);
         }
+        result.setuId(uId);
         result.setUser(user);
         result.setCount(count);
+        result.setPictures(list);
         result.setGames(userAuthList);
-        result.setPictures(userDynamicList);
         return result;
     }
 

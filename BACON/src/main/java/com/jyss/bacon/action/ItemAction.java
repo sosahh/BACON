@@ -85,6 +85,16 @@ public class ItemAction {
     /**
      * 查看新闻
      */
+    @RequestMapping("/news")
+    @ResponseBody
+    public ResponseResult getBaseNewById(@RequestParam(value = "newId") Integer newId){
+        List<BaseNew> list = itemService.selectBaseNewBy(newId);
+        if(list != null && list.size()>0){
+            BaseNew baseNew = list.get(0);
+            return ResponseResult.ok(baseNew);
+        }
+        return ResponseResult.error("-1","查询无结果！");
+    }
 
 
 

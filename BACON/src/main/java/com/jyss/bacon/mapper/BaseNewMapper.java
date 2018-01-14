@@ -1,6 +1,7 @@
 package com.jyss.bacon.mapper;
 
 import com.jyss.bacon.entity.BaseNew;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +17,8 @@ public interface BaseNewMapper {
 
     //查询所有
     List<BaseNew> getAllNews();
+
+    //条件查询
+    List<BaseNew> selectBaseNewBy(@Param("id")Integer id);
 
 }

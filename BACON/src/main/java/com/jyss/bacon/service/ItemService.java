@@ -18,4 +18,7 @@ public interface ItemService {
 
     //查询所有新闻
     List<BaseNew> getAllNews();
+
+    //条件查询
+    List<BaseNew> selectBaseNewBy(@Param("id")Integer id);
 }

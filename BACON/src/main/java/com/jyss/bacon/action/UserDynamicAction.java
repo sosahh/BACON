@@ -152,6 +152,8 @@ public class UserDynamicAction {
         return ResponseResult.error("1","token失效！");
     }
 
-
+    /**
+     * 发布动态
+     */
 
 }

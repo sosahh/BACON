@@ -5,12 +5,21 @@ import java.util.List;
 
 public class UserDetailResult implements Serializable{
 
+    private Integer uId;       //用户id
     private User user;
     private Integer count;     //关注数
     private Boolean type;      //是否已关注   true=已关注，false=未关注
-    private List<UserDynamic>  pictures;       //动态图片
+    private List<String>  pictures;       //动态图片
     private List<UserAuth> games;     //认证游戏
 
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
 
     public User getUser() {
         return user;
@@ -36,11 +45,11 @@ public class UserDetailResult implements Serializable{
         this.type = type;
     }
 
-    public List<UserDynamic> getPictures() {
+    public List<String> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<UserDynamic> pictures) {
+    public void setPictures(List<String> pictures) {
         this.pictures = pictures;
     }
 

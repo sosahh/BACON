@@ -72,5 +72,10 @@
     select id,CONCAT('${httpUrl}',new_pic)as new_pic,head_title from p_base_new where status = 1 order by create_time desc
   </select>
 
-
+  <!--条件查询-->
+  <select id="selectBaseNewBy" resultMap="BaseResultMap">
+    select id, CONCAT('${httpUrl}',new_pic)as new_pic, head_title,
+    sub_title, source, cooperation,status, create_time, content
+    from p_base_new where id = #{id} and status = 1
+  </select>
 </mapper>

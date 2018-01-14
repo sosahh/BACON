@@ -51,4 +51,16 @@ public class ItemServiceImpl implements ItemService{
     }
 
 
+    /**
+     * 条件查询
+     * @param id
+     * @return
+     */
+    @Override
+    public List<BaseNew> selectBaseNewBy(Integer id) {
+        return baseNewMapper.selectBaseNewBy(id);
+    }
+
+
+
 }
