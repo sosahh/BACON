@@ -20,7 +20,7 @@ public class UserComment implements Serializable {
 
     private Integer status;     //0禁用，1可用
 
-    private String showTime;
+    private String showTime;     //展示时间
 
 
 

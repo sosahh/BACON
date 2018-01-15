@@ -137,6 +137,8 @@ public class UserInfoServiceImpl implements UserInfoService{
             result.setuId(uId);
             result.setUser(user);
             result.setCount(count);
+            result.setPictures(new ArrayList<>());
+            result.setType(false);
             result.setGames(userAuthList);
             return result;
         }

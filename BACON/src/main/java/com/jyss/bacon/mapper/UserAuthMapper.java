@@ -17,4 +17,6 @@ public interface UserAuthMapper {
 
     //条件查询
     List<UserAuth> getUserAuthBy(@Param("uId")Integer uId,@Param("categoryId")Integer categoryId,@Param("status")Integer status);
+
+
 }

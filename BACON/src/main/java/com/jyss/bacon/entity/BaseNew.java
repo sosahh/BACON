@@ -1,5 +1,7 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class BaseNew {
@@ -17,7 +19,7 @@ public class BaseNew {
 
     private Integer status;       //0=禁用，1=可用
 
-    private Date createTime;       //
+    private Date createTime;       //日期
 
     private String content;       //内容
 
@@ -79,6 +81,7 @@ public class BaseNew {
         this.status = status;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

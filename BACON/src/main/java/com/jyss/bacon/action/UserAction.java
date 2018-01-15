@@ -3,6 +3,7 @@ package com.jyss.bacon.action;
 import com.jyss.bacon.entity.MobileLogin;
 import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
+import com.jyss.bacon.entity.UserAuth;
 import com.jyss.bacon.filter.MySessionContext;
 import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserService;
@@ -361,6 +362,18 @@ public class UserAction {
         return ResponseResult.error("1","token失效！");
 
     }
+
+    /**
+     * 游戏认证
+     */
+    @RequestMapping("/userAuth")
+    @ResponseBody
+    public ResponseResult insertUserAuth(UserAuth userAuth){
+
+
+    return null;
+    }
+
 
 
 }
