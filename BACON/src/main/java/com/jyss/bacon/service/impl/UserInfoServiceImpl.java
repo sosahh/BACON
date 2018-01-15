@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,6 +29,8 @@ public class UserInfoServiceImpl implements UserInfoService{
     private UserAuthMapper userAuthMapper;
     @Autowired
     private UserDynamicMapper userDynamicMapper;
+    @Autowired
+    private XtclMapper xtclMapper;
 
     /**
      * 用户名或id搜索
@@ -67,19 +70,26 @@ public class UserInfoServiceImpl implements UserInfoService{
     @Override
     public Page<UserInfo> getUserInfoBy(Integer categoryId, Integer sex, String titlePwName, Integer type, Integer page, Integer pageSize) {
         List<UserInfo> list = new ArrayList<UserInfo>();
+
+        //查询年龄
+        Xtcl xtcl1 = xtclMapper.getClsValue("age_type", "1");
+        int age = Integer.parseInt(xtcl1.getBz_value());                              //22
+        Xtcl xtcl2 = xtclMapper.getClsValue("age_type", "2");
+        int age1 = Integer.parseInt(xtcl2.getBz_value());                             //25
+
         PageHelper.startPage(page,pageSize);
         if(type == null){
             //全部年龄
             list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,null);
         }else if (type == 1){
             //22岁以下
-            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,22,null);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,age,null);
         }else if (type == 2){
             //22-25岁
-            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,25,22);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,age1,age);
         }else if (type == 3){
             //25岁以上
-            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,25);
+            list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,age1);
         }
         PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
 

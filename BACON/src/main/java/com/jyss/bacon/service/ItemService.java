@@ -4,6 +4,7 @@ package com.jyss.bacon.service;
 import com.jyss.bacon.entity.BaseNew;
 import com.jyss.bacon.entity.Item;
 import com.jyss.bacon.entity.ItemCat;
+import com.jyss.bacon.entity.ResponseResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface ItemService {
 
     //条件查询
     List<BaseNew> selectBaseNewBy(@Param("id")Integer id);
+
+    //条件筛选
+    ResponseResult getCondition(@Param("categoryId")Integer categoryId);
 }

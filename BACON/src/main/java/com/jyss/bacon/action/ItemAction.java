@@ -97,5 +97,16 @@ public class ItemAction {
     }
 
 
+    /**
+     * 条件筛选
+     */
+    @RequestMapping("/condition")
+    @ResponseBody
+    public ResponseResult getCondition(@RequestParam("categoryId") Integer categoryId){
+        ResponseResult result = itemService.getCondition(categoryId);
+        return result;
+    }
+
+
 
 }
