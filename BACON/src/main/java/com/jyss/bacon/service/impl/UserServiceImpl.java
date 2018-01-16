@@ -1,6 +1,5 @@
 package com.jyss.bacon.service.impl;
 
-import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.MobileLogin;
 import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
