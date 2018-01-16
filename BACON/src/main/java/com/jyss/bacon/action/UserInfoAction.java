@@ -54,15 +54,26 @@ public class UserInfoAction {
     }
 
     /**
-     * 条件筛选查询    type: 1 = 22岁以下，2 = 22-25岁，3 = 25岁以上
+     * 条件筛选查询    type: 10 = 全部，11 = 22岁以下，12 = 22-25岁，13 = 25岁以上
      */
     @RequestMapping("/searchBy")
     @ResponseBody
-    public ResponseResult getUserInfoBy(@RequestParam("categoryId") Integer categoryId,@RequestParam("sex") Integer sex,
-                                        @RequestParam("dwName") String titlePwName,@RequestParam("type") Integer type,
+    public ResponseResult getUserInfoBy(@RequestParam("categoryId") Integer categoryId,@RequestParam("ids") String ids,
                                         @RequestParam(value = "page", required = true) Integer page,
                                         @RequestParam(value = "pageSize", required = true) Integer pageSize){
-        Page<UserInfo> result = userInfoService.getUserInfoBy(categoryId, sex, titlePwName, type, page, pageSize);
+
+        String[] id = ids.split(",");
+        String id1 = id[0];
+        String id2 = id[1];
+        Integer sex = Integer.valueOf(id1);
+        if(sex == 0){
+            sex = null;
+        }
+        if(id2.equals("全部")){
+            id2 = null;
+        }
+
+        Page<UserInfo> result = userInfoService.getUserInfoBy(categoryId, sex, id2, id[2], page, pageSize);
         return ResponseResult.ok(result);
     }
 

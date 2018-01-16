@@ -17,7 +17,7 @@ public interface UserInfoService {
 
     //根据条件查询
     Page<UserInfo> getUserInfoBy(@Param("categoryId")Integer categoryId,@Param("sex")Integer sex,
-                                 @Param("titlePwName")String titlePwName,@Param("type")Integer type,
+                                 @Param("titlePwName")String titlePwName,@Param("type")String type,
                                  @Param("page")Integer page, @Param("limit")Integer pageSize);
 
     //查询明星用户

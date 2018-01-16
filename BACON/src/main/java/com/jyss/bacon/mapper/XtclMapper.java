@@ -1,7 +1,6 @@
 package com.jyss.bacon.mapper;
 
 import com.jyss.bacon.entity.BaseArea;
-import com.jyss.bacon.entity.BaseConfig;
 import com.jyss.bacon.entity.Xtcl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

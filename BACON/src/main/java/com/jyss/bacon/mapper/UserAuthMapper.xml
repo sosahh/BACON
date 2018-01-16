@@ -96,11 +96,13 @@
 
   <!--条件查询-->
   <select id="getUserAuthBy" parameterType="com.jyss.bacon.entity.UserAuth" resultMap="BaseResultMap">
-    select * from u_user_auth
+    select a.id,a.u_id,a.category_id,a.category_title,a.title_pw_name,a.title_name,a.price,
+    CONCAT('${httpUrl}',b.bright_pic)as picture_1
+    from u_user_auth a left join c_item b on a.category_id = b.id
     <where>
-      <if test="status != null and status != ''">and u_id = #{uId}</if>
-      <if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
-      <if test="status != null and status != ''">and status = #{status}</if>
+      <if test="status != null and status != ''">and a.u_id = #{uId}</if>
+      <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
+      <if test="status != null and status != ''">and a.status = #{status}</if>
     </where>
   </select>
 </mapper>

@@ -65,10 +65,10 @@ public class UserInfoServiceImpl implements UserInfoService{
     }
 
     /**
-     * 根据条件查询     type: 1 = 22岁以下，2 = 22-25岁，3 = 25岁以上
+     * 根据条件查询     type: 10 = 全部，11 = 22岁以下，12 = 22-25岁，13 = 25岁以上
      */
     @Override
-    public Page<UserInfo> getUserInfoBy(Integer categoryId, Integer sex, String titlePwName, Integer type, Integer page, Integer pageSize) {
+    public Page<UserInfo> getUserInfoBy(Integer categoryId, Integer sex, String titlePwName, String type, Integer page, Integer pageSize) {
         List<UserInfo> list = new ArrayList<UserInfo>();
 
         //查询年龄
@@ -78,16 +78,16 @@ public class UserInfoServiceImpl implements UserInfoService{
         int age1 = Integer.parseInt(xtcl2.getBz_value());                             //25
 
         PageHelper.startPage(page,pageSize);
-        if(type == null){
+        if(type.equals("10")){
             //全部年龄
             list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,null);
-        }else if (type == 1){
+        }else if (type.equals("11")){
             //22岁以下
             list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,age,null);
-        }else if (type == 2){
+        }else if (type.equals("12")){
             //22-25岁
             list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,age1,age);
-        }else if (type == 3){
+        }else if (type.equals("13")){
             //25岁以上
             list = userInfoMapper.getUserInfoBy(categoryId,sex,titlePwName,null,age1);
         }
