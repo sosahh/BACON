@@ -22,6 +22,8 @@ public class UserComment implements Serializable {
 
     private String showTime;     //展示时间
 
+    private String headpic;     //头像
+
 
 
     public Integer getId() {
@@ -87,5 +89,13 @@ public class UserComment implements Serializable {
 
     public void setShowTime(String showTime) {
         this.showTime = showTime;
+    }
+
+    public String getHeadpic() {
+        return headpic;
+    }
+
+    public void setHeadpic(String headpic) {
+        this.headpic = headpic;
     }
 }

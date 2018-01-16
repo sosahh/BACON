@@ -11,8 +11,8 @@ import com.jyss.bacon.mapper.AccountUserMapper;
 import com.jyss.bacon.service.AccountUserService;
 import com.jyss.bacon.utils.CommTool;
 import com.jyss.bacon.utils.PasswordUtil;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

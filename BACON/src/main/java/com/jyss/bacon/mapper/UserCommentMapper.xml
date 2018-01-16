@@ -9,6 +9,7 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="headpic" property="headpic"  />
   </resultMap>
 
   <!--添加评价-->
@@ -57,8 +58,11 @@
 
   <!--动态评价查询-->
   <select id="selectCommentBy" parameterType="int" resultMap="BaseResultMap">
-    select * from u_user_comment where dynamic_id = #{dynamicId}
-    and status = 1 order by created desc
+    select a.id,a.dynamic_id,a.u_id,a.u_nick,a.content,a.created,a.status,
+    CONCAT('${httpUrl}',b.headpic)as headpic
+    from u_user_comment a left join u_user b on a.u_id = b.u_id
+    where a.dynamic_id = #{dynamicId}
+    and a.status = 1 order by a.created desc
   </select>
 
   <!--删除评价-->
