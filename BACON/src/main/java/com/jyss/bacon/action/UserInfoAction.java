@@ -6,6 +6,7 @@ import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,20 +62,27 @@ public class UserInfoAction {
     public ResponseResult getUserInfoBy(@RequestParam("categoryId") Integer categoryId,@RequestParam("ids") String ids,
                                         @RequestParam(value = "page", required = true) Integer page,
                                         @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        if(StringUtils.isEmpty(ids)){
+            Page<UserInfo> result = userInfoService.getUserByCategoryId(categoryId, page, pageSize);
+            return ResponseResult.ok(result);
+        }
 
         String[] id = ids.split(",");
-        String id1 = id[0];
-        String id2 = id[1];
-        Integer sex = Integer.valueOf(id1);
-        if(sex == 0){
-            sex = null;
-        }
-        if(id2.equals("全部")){
-            id2 = null;
-        }
+        if(id.length == 3){
+            String id1 = id[0];
+            String id2 = id[1];
+            Integer sex = Integer.valueOf(id1);
+            if(sex == 0){
+                sex = null;
+            }
+            if(id2.equals("全部")){
+                id2 = null;
+            }
 
-        Page<UserInfo> result = userInfoService.getUserInfoBy(categoryId, sex, id2, id[2], page, pageSize);
-        return ResponseResult.ok(result);
+            Page<UserInfo> result = userInfoService.getUserInfoBy(categoryId, sex, id2, id[2], page, pageSize);
+            return ResponseResult.ok(result);
+        }
+        return ResponseResult.error("-1","筛选条件无效！");
     }
 
     /**

@@ -17,6 +17,8 @@
     <result column="headpic" property="headpic" />
   </resultMap>
 
+
+  <!--添加动态-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserDynamic" >
     insert into u_user_dynamic (id, u_id, picture_1,picture_2, picture_3, picture_4,
       picture_5, picture_6, content, status, created)

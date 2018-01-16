@@ -130,10 +130,14 @@ public class UserDynamicServiceImpl implements UserDynamicService {
         return count;
     }
 
+
     /**
      * 发布动态
      */
-
+    @Override
+    public int insert(UserDynamic userDynamic) {
+        return userDynamicMapper.insert(userDynamic);
+    }
 
 
 

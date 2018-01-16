@@ -30,7 +30,7 @@ public interface UserDynamicService {
     int deleteUserDynamicById(@Param("dynamicId")Integer dynamicId);
 
     //添加动态
-
+    int insert(UserDynamic userDynamic);
 
     //评价动态
     ResponseResult insertUserComment(@Param("uId")Integer uId,@Param("dynamicId")Integer dynamicId,@Param("content")String content);

@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface UserDynamicMapper {
 
+    //添加动态
     int insert(UserDynamic userDynamic);
 
     int updateByPrimaryKeySelective(UserDynamic userDynamic);
