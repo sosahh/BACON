@@ -25,4 +25,7 @@ public interface ItemService {
 
     //条件筛选
     ResponseResult getCondition(@Param("categoryId")Integer categoryId);
+
+    //查询所有小段位
+    List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("dwName")String dwName,@Param("status")Integer status);
 }

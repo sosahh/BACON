@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
+import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -39,7 +40,7 @@ public class Base64Image {
 
 	// base64字符串转化成图片
 	public static boolean GenerateImage(String imgStr, String filePath) { // 对字节数组字符串进行Base64解码并生成图片
-		if (imgStr == null) // 图像数据为空
+		if (StringUtils.isEmpty(imgStr)) // 图像数据为空
 			return false;
 
 		imgStr = imgStr.replace("<img alt=\"\" src=\"data:image/jpeg;base64,",

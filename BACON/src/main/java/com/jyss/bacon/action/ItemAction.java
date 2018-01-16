@@ -107,6 +107,18 @@ public class ItemAction {
         return result;
     }
 
+    /**
+     * 查询所有小段位
+     */
+    @RequestMapping("/xdwList")
+    @ResponseBody
+    public ResponseResult getItemCatBy(@RequestParam("categoryId") Integer categoryId,@RequestParam("dwName") String dwName){
+        List<ItemCat> catList = itemService.getItemCatBy(categoryId, dwName, 1);
+        if(catList != null && catList.size()>0){
+            return ResponseResult.ok(catList);
+        }
+        return ResponseResult.error("-1","查询失败！");
+    }
 
 
 }

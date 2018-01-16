@@ -16,7 +16,7 @@ public interface  ItemCatMapper {
     int updateByPrimaryKey(ItemCat itemCat);
 
     //条件查询
-    List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("status")Integer status);
+    List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("dwName")String dwName,@Param("status")Integer status);
 
     //查询所有大段位
     List<ItemCat> selectDwNameByCategoryId(@Param("categoryId")Integer categoryId);

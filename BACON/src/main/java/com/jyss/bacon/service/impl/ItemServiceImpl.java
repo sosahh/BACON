@@ -148,5 +148,13 @@ public class ItemServiceImpl implements ItemService{
         return ResponseResult.ok(map);
     }
 
+    /**
+     * 查询所有小段位
+     */
+    @Override
+    public List<ItemCat> getItemCatBy(Integer categoryId, String dwName, Integer status) {
+        return itemCatMapper.getItemCatBy(categoryId,dwName,status);
+    }
+
 
 }

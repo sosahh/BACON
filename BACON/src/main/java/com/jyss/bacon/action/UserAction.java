@@ -368,7 +368,7 @@ public class UserAction {
      */
     @RequestMapping("/userAuth")
     @ResponseBody
-    public ResponseResult insertUserAuth(UserAuth userAuth){
+    public ResponseResult insertUserAuth(UserAuth userAuth,@RequestParam("token") String token){
 
 
     return null;
