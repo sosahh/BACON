@@ -47,9 +47,7 @@ public class UserInfoAction {
                                               @RequestParam(value = "page", required = true) Integer page,
                                               @RequestParam(value = "pageSize", required = true) Integer pageSize){
         Map<String, Object> map = new HashMap<>();
-        List<Item> items = itemService.selectItem();
         Page<UserInfo> result = userInfoService.getUserByCategoryId(categoryId, page, pageSize);
-        map.put("items",items);
         map.put("result",result);
         return ResponseResult.ok(map);
     }

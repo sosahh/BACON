@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface UserAuthService {
 
+    //添加认证
+    int insert(UserAuth userAuth);
+
     //条件查询
     List<UserAuth> getUserAuthBy(@Param("uId")Integer uId, @Param("categoryId")Integer categoryId, @Param("status")Integer status);
 }

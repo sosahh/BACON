@@ -9,6 +9,11 @@ import java.util.List;
 @Repository
 public interface UserAuthMapper {
 
+    /**
+     * 添加认证
+     * @param userAuth
+     * @return
+     */
     int insert(UserAuth userAuth);
 
     int updateByPrimaryKeySelective(UserAuth userAuth);

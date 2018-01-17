@@ -1,11 +1,10 @@
 package com.jyss.bacon.action;
 
-import com.jyss.bacon.entity.MobileLogin;
-import com.jyss.bacon.entity.ResponseResult;
-import com.jyss.bacon.entity.User;
-import com.jyss.bacon.entity.UserAuth;
+import com.jyss.bacon.entity.*;
 import com.jyss.bacon.filter.MySessionContext;
+import com.jyss.bacon.service.ItemService;
 import com.jyss.bacon.service.MobileLoginService;
+import com.jyss.bacon.service.UserAuthService;
 import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,10 @@ public class UserAction {
     private UserService userService;
     @Autowired
     private MobileLoginService mobileLoginService;
+    @Autowired
+    private UserAuthService userAuthService;
+    @Autowired
+    private ItemService itemService;
 
 
     /**
@@ -363,16 +366,77 @@ public class UserAction {
 
     }
 
+
     /**
      * 游戏认证
      */
     @RequestMapping("/userAuth")
     @ResponseBody
-    public ResponseResult insertUserAuth(UserAuth userAuth,@RequestParam("token") String token){
+    public ResponseResult insertUserAuth(UserAuth userAuth,@RequestParam("token") String token,
+                                         HttpServletRequest request, HttpServletResponse response)throws Exception{
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            if(StringUtils.isEmpty(userAuth.getTitleId())||StringUtils.isEmpty(userAuth.getCategoryId())){
+                return ResponseResult.error("-1","提交失败！");
+            }
+            List<UserAuth> userAuthList = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 2);
+            if(userAuthList != null && userAuthList.size()>0){
+                return ResponseResult.error("-2","已经认证过此游戏，不可重复认证！");
+            }
+            List<UserAuth> userAuthList1 = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 1);
+            if(userAuthList1 != null && userAuthList1.size()>0){
+                return ResponseResult.error("-3","审核中，请等待！");
+            }
 
+            ItemCat itemCat = itemService.getItemCatById(userAuth.getTitleId());
+            userAuth.setuId(uId);
+            userAuth.setCategoryTitle(itemCat.getCategoryName());
+            userAuth.setTitlePwName(itemCat.getDwName());
+            userAuth.setTitleName(itemCat.getName());
+            userAuth.setStatus(1);
+            userAuth.setCreated(new Date());
 
-    return null;
+            // Base64.decode(photo);
+            request.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/html");
+
+            String filePath = request.getSession().getServletContext().getRealPath("/");
+            int index = filePath.indexOf("BACON");
+            filePath = filePath.substring(0, index) + "uploadAuthPic" + "/";
+            File f = new File(filePath);
+            CommTool.judeDirExists(f);
+            String filePath1 = filePath + uId + System.currentTimeMillis() + "01.png";
+            String filePath2 = filePath + uId + System.currentTimeMillis() + "02.png";
+            String filePath3 = filePath + uId + System.currentTimeMillis() + "03.png";
+            boolean isOk1 = false;
+            isOk1 = Base64Image.GenerateImage(userAuth.getPicture1(), filePath1);
+            if (isOk1) {
+                userAuth.setPicture1(filePath1.substring(filePath1.indexOf("uploadAuthPic")));
+            }
+            boolean isOk2 = false;
+            isOk2 = Base64Image.GenerateImage(userAuth.getPicture2(), filePath2);
+            if (isOk2) {
+                userAuth.setPicture2(filePath2.substring(filePath2.indexOf("uploadAuthPic")));
+            }
+            boolean isOk3 = false;
+            isOk3 = Base64Image.GenerateImage(userAuth.getPicture3(), filePath3);
+            if (isOk3) {
+                userAuth.setPicture3(filePath3.substring(filePath3.indexOf("uploadAuthPic")));
+            }
+
+            int count = userAuthService.insert(userAuth);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","提交失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
     }
+
 
 
 
