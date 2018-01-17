@@ -27,7 +27,7 @@ public class UserAuth implements Serializable {
 
     private Double price;       //每局价格
 
-    private String desc;        //描述
+    private String authDesc;        //描述
 
     private Integer status;     //1=审核中 2=通过 3=未通过
 
@@ -122,12 +122,12 @@ public class UserAuth implements Serializable {
         this.price = price;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getAuthDesc() {
+        return authDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setAuthDesc(String authDesc) {
+        this.authDesc = authDesc;
     }
 
     public Integer getStatus() {

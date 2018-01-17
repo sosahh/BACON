@@ -88,7 +88,7 @@
   </select>
 
   <!--通过id查询-->
-  <select id="getItemCatById" parameterType="int" resultType="com.jyss.bacon.entity.ItemCat">
+  <select id="getItemCatById" parameterType="int" resultMap="BaseResultMap">
     select * from c_item_cat where id = #{id}
   </select>
 </mapper>

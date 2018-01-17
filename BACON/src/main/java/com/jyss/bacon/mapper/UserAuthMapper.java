@@ -23,7 +23,6 @@ public interface UserAuthMapper {
      */
     int updateByPrimaryKeySelective(UserAuth userAuth);
 
-    int updateByPrimaryKey(UserAuth userAuth);
 
     //条件查询
     List<UserAuth> getUserAuthBy(@Param("uId")Integer uId,@Param("categoryId")Integer categoryId,@Param("status")Integer status);
