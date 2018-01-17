@@ -91,10 +91,14 @@
 
   <!--条件查询动态-->
   <select id="selectUserDynamicBy" parameterType="int" resultMap="BaseResultMap">
-    select a.id,a.u_id,CONCAT('${httpUrl}',a.picture_1)as picture_1,CONCAT('${httpUrl}',a.picture_2)as picture_2,
-    CONCAT('${httpUrl}',a.picture_3)as picture_3,CONCAT('${httpUrl}',a.picture_4)as picture_4,
-    CONCAT('${httpUrl}',a.picture_5)as picture_5,CONCAT('${httpUrl}',a.picture_6)as picture_6,
-    a.content,a.status,a.created,b.nick,CONCAT('${httpUrl}',b.headpic)as headpic
+    select a.id,a.u_id,nullif(CONCAT('${httpUrl}',a.picture_1), '${httpUrl}')as picture_1,
+    nullif(CONCAT('${httpUrl}',a.picture_2), '${httpUrl}')as picture_2,
+    nullif(CONCAT('${httpUrl}',a.picture_3), '${httpUrl}')as picture_3,
+    nullif(CONCAT('${httpUrl}',a.picture_4), '${httpUrl}')as picture_4,
+    nullif(CONCAT('${httpUrl}',a.picture_5), '${httpUrl}')as picture_5,
+    nullif(CONCAT('${httpUrl}',a.picture_6), '${httpUrl}')as picture_6,
+    a.content,a.status,a.created,b.nick,
+    nullif(CONCAT('${httpUrl}',b.headpic), '${httpUrl}')as headpic
     from u_user_dynamic a left join u_user b on a.u_id = b.u_id
     <where>
       <if test="uId != null and uId != ''"> and a.u_id = #{uId}</if>
@@ -106,10 +110,14 @@
 
   <!--查询关注人的动态-->
   <select id="getDynamicByFellowId"  parameterType="int" resultMap="BaseResultMap">
-    select a.id,a.u_id,CONCAT('${httpUrl}',a.picture_1)as picture_1,CONCAT('${httpUrl}',a.picture_2)as picture_2,
-    CONCAT('${httpUrl}',a.picture_3)as picture_3,CONCAT('${httpUrl}',a.picture_4)as picture_4,
-    CONCAT('${httpUrl}',a.picture_5)as picture_5,CONCAT('${httpUrl}',a.picture_6)as picture_6,
-    a.content,a.status,a.created,b.nick,CONCAT('${httpUrl}',b.headpic)as headpic
+    select a.id,a.u_id,nullif(CONCAT('${httpUrl}',a.picture_1), '${httpUrl}')as picture_1,
+    nullif(CONCAT('${httpUrl}',a.picture_2), '${httpUrl}')as picture_2,
+    nullif(CONCAT('${httpUrl}',a.picture_3), '${httpUrl}')as picture_3,
+    nullif(CONCAT('${httpUrl}',a.picture_4), '${httpUrl}')as picture_4,
+    nullif(CONCAT('${httpUrl}',a.picture_5), '${httpUrl}')as picture_5,
+    nullif(CONCAT('${httpUrl}',a.picture_6), '${httpUrl}')as picture_6,
+    a.content,a.status,a.created,b.nick,
+    nullif(CONCAT('${httpUrl}',b.headpic), '${httpUrl}')as headpic
     from u_user_dynamic a left join u_user b on a.u_id = b.u_id
     where a.u_id in (select follow_id from u_user_follow where u_id = #{uId}) and a.status = 1
     order by a.created desc
@@ -122,7 +130,8 @@
 
   <!--查询8张图片-->
   <select id="getPicture" parameterType="int" resultMap="BaseResultMap">
-    select CONCAT('${httpUrl}',picture_1)as picture_1 from u_user_dynamic
+    select CONCAT('${httpUrl}',picture_1)as picture_1
+    from u_user_dynamic
     where picture_1 <![CDATA[ <> ]]> "" and u_id = #{uId} and status = 1
     order by created desc limit 0,8
   </select>

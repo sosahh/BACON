@@ -59,7 +59,7 @@
   <!--动态评价查询-->
   <select id="selectCommentBy" parameterType="int" resultMap="BaseResultMap">
     select a.id,a.dynamic_id,a.u_id,a.u_nick,a.content,a.created,a.status,
-    CONCAT('${httpUrl}',b.headpic)as headpic
+    nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
     from u_user_comment a left join u_user b on a.u_id = b.u_id
     where a.dynamic_id = #{dynamicId}
     and a.status = 1 order by a.created desc

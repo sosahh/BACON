@@ -18,8 +18,8 @@
 
   <!--用户名或id搜索-->
   <select id="getUserByNickOrAccount"  resultMap="BaseResultMap" >
-    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
-    b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,nullif(CONCAT('${httpUrl}',a.headpic),'${httpUrl}') as headpic,
+    a.sex,a.age,b.category_title,b.title_name,b.price,b.title_pw_name
     from u_user a right join u_user_auth b on a.u_id = b.u_id
     <where>
       <if test="account != null and account != ''">and a.account LIKE CONCAT(CONCAT('%', #{account}), '%') </if>
@@ -31,8 +31,8 @@
 
   <!--根据条件查询-->
   <select id="getUserInfoBy"  resultMap="BaseResultMap" >
-    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
-    b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,nullif(CONCAT('${httpUrl}',a.headpic),'${httpUrl}') as headpic,
+    a.sex,a.age,b.category_title,b.title_name,b.price,b.title_pw_name
     from u_user a right join u_user_auth b on a.u_id = b.u_id
     <where>
       <if test="categoryId != null and categoryId != ''">and b.category_id = #{categoryId} </if>
@@ -47,8 +47,8 @@
 
   <!--查询明星用户-->
   <select id="getStarUserInfo" resultMap="BaseResultMap">
-    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,a.label_desc,b.category_title,
-    b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,nullif(CONCAT('${httpUrl}',a.headpic),'${httpUrl}') as headpic,
+    a.sex,a.age,a.label_desc,b.category_title,b.title_name,b.price,b.title_pw_name
     from u_user a right join u_user_auth b on a.u_id = b.u_id
     where a.is_auth = 1 and a.status = 3 and b.status = 2
     group by a.u_id order by a.popularity desc
@@ -56,8 +56,8 @@
 
   <!--查询热门用户-->
   <select id="getHotUserInfo"  resultMap="BaseResultMap" >
-    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
-    b.title_name,b.price,b.title_pw_name
+    select a.u_id,a.account,a.nick,nullif(CONCAT('${httpUrl}',a.headpic),'${httpUrl}') as headpic,
+    a.sex,a.age,b.category_title,b.title_name,b.price,b.title_pw_name
     from u_user a right join u_user_auth b on a.u_id = b.u_id
     where a.is_auth = 1 and b.status = 2 and a.status = 2
     group by a.u_id order by a.popularity desc
@@ -65,8 +65,8 @@
 
   <!--查询我的关注-->
   <select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
-    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
-    b.title_name ,b.title_pw_name
+    select a.u_id,a.account,a.nick,nullif(CONCAT('${httpUrl}',a.headpic),'${httpUrl}') as headpic,
+    a.sex,a.age,b.category_title,b.title_name ,b.title_pw_name
     from u_user a left join u_user_auth b on a.u_id = b.u_id
     where a.u_id in (select follow_id from u_user_follow c where c.u_id = #{uId})
     and a.status &gt; 0
@@ -76,8 +76,8 @@
 
   <!--查询关注我的-->
   <select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
-    select a.u_id,a.account,a.nick,CONCAT('${httpUrl}',a.headpic)as headpic,a.sex,a.age,b.category_title,
-    b.title_name ,b.title_pw_name
+    select a.u_id,a.account,a.nick,nullif(CONCAT('${httpUrl}',a.headpic),'${httpUrl}') as headpic,
+    a.sex,a.age,b.category_title,b.title_name ,b.title_pw_name
     from u_user a left join u_user_auth b on a.u_id = b.u_id
     where a.u_id in (select u_id from u_user_follow where follow_id = #{followId})
     and a.status &gt; 0

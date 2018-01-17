@@ -61,7 +61,8 @@
 
   <!--查询所有类目-->
   <select id="selectItem" resultMap="BaseResultMap">
-    select id, title, CONCAT('${httpUrl}',bright_pic)as bright_pic, CONCAT('${httpUrl}',ash_pic)as ash_pic,
+    select id, title, nullif(CONCAT('${httpUrl}',bright_pic),'${httpUrl}') as bright_pic,
+    nullif(CONCAT('${httpUrl}',ash_pic),'${httpUrl}') as ash_pic,
     status, sort_order, created, updated
     from c_item where status = 1 order by sort_order
   </select>
