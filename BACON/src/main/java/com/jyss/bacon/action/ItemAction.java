@@ -59,7 +59,7 @@ public class ItemAction {
         map.put("items",items);
         map.put("star",star);
         map.put("hot",hot);
-        map.put("new",newUser);
+        map.put("newUser",newUser);
         return ResponseResult.ok(map);
     }
 
