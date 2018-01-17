@@ -1,10 +1,7 @@
 package com.jyss.bacon.service;
 
 
-import com.jyss.bacon.entity.BaseNew;
-import com.jyss.bacon.entity.Item;
-import com.jyss.bacon.entity.ItemCat;
-import com.jyss.bacon.entity.ResponseResult;
+import com.jyss.bacon.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -27,7 +24,7 @@ public interface ItemService {
     ResponseResult getCondition(@Param("categoryId")Integer categoryId);
 
     //查询所有小段位
-    List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("dwName")String dwName,@Param("status")Integer status);
+    List<Category> getAllItemCat(@Param("categoryId")Integer categoryId);
 
     //通过id查询小段位
     ItemCat getItemCatById(@Param("id")Integer id);

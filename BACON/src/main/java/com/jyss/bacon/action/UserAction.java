@@ -381,10 +381,7 @@ public class UserAction {
             if(StringUtils.isEmpty(userAuth.getTitleId())||StringUtils.isEmpty(userAuth.getCategoryId())){
                 return ResponseResult.error("-1","提交失败！");
             }
-            List<UserAuth> userAuthList = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 2);
-            if(userAuthList != null && userAuthList.size()>0){
-                return ResponseResult.error("-2","已经认证过此游戏，不可重复认证！");
-            }
+
             List<UserAuth> userAuthList1 = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 1);
             if(userAuthList1 != null && userAuthList1.size()>0){
                 return ResponseResult.error("-3","审核中，请等待！");
@@ -426,7 +423,18 @@ public class UserAction {
             if (isOk3) {
                 userAuth.setPicture3(filePath3.substring(filePath3.indexOf("uploadAuthPic")));
             }
-
+            //修改游戏认证
+            List<UserAuth> userAuthList = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 2);
+            if(userAuthList != null && userAuthList.size()>0){
+                UserAuth userAuth1 = userAuthList.get(0);
+                userAuth.setId(userAuth1.getId());
+                int count = userAuthService.updateByPrimaryKeySelective(userAuth);
+                if(count == 1){
+                    return ResponseResult.ok("");
+                }
+                return ResponseResult.error("-2","修改失败！");
+            }
+            //添加游戏认证
             int count = userAuthService.insert(userAuth);
             if(count == 1){
                 return ResponseResult.ok("");
@@ -436,7 +444,6 @@ public class UserAction {
         return ResponseResult.error("1","token失效！");
 
     }
-
 
 
 

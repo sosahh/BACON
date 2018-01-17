@@ -22,6 +22,11 @@ public class UserAuthServiceImpl implements UserAuthService{
     }
 
     @Override
+    public int updateByPrimaryKeySelective(UserAuth userAuth) {
+        return userAuthMapper.updateByPrimaryKeySelective(userAuth);
+    }
+
+    @Override
     public List<UserAuth> getUserAuthBy(Integer uId, Integer categoryId, Integer status) {
         return userAuthMapper.getUserAuthBy(uId,categoryId,status);
     }

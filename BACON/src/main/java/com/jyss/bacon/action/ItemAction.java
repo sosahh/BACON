@@ -126,8 +126,8 @@ public class ItemAction {
      */
     @RequestMapping("/xdwList")
     @ResponseBody
-    public ResponseResult getItemCatBy(@RequestParam("categoryId") Integer categoryId,@RequestParam("dwName") String dwName){
-        List<ItemCat> catList = itemService.getItemCatBy(categoryId, dwName, 1);
+    public ResponseResult getItemCatBy(@RequestParam("categoryId") Integer categoryId){
+        List<Category> catList = itemService.getAllItemCat(categoryId);
         if(catList != null && catList.size()>0){
             return ResponseResult.ok(catList);
         }

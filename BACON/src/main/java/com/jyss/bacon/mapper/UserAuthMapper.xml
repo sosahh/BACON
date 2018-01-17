@@ -29,6 +29,7 @@
     #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
 
+  <!--修改认证游戏-->
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserAuth" >
     update u_user_auth
     <set >

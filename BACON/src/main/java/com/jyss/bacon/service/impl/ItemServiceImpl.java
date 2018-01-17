@@ -152,8 +152,18 @@ public class ItemServiceImpl implements ItemService{
      * 查询所有小段位
      */
     @Override
-    public List<ItemCat> getItemCatBy(Integer categoryId, String dwName, Integer status) {
-        return itemCatMapper.getItemCatBy(categoryId,dwName,status);
+    public List<Category> getAllItemCat(Integer categoryId) {
+        List<ItemCat> itemCats = itemCatMapper.selectDwNameByCategoryId(categoryId);
+        List<Category> list = new ArrayList<>();
+        for (ItemCat itemCat : itemCats) {
+            Category category = new Category();
+            List<ItemCat> catList = itemCatMapper.getItemCatBy(categoryId, itemCat.getDwName(), 1);
+            category.setDwName(itemCat.getDwName());
+            category.setNames(catList);
+            list.add(category);
+        }
+
+        return list;
     }
 
 

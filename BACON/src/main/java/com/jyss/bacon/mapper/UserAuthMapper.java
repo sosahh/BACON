@@ -16,6 +16,11 @@ public interface UserAuthMapper {
      */
     int insert(UserAuth userAuth);
 
+    /**
+     * 修改认证游戏
+     * @param userAuth
+     * @return
+     */
     int updateByPrimaryKeySelective(UserAuth userAuth);
 
     int updateByPrimaryKey(UserAuth userAuth);
