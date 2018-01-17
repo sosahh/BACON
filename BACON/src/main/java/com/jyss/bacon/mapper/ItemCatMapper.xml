@@ -16,9 +16,7 @@
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.ItemCat" >
     insert into c_item_cat (id, category_id, category_name,
-    dw_name, name, pw_price,
-    pp_price, status, sort_order,
-    created)
+    dw_name, name, pw_price,pp_price, status, sort_order,created)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
     #{dwName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{pwPrice,jdbcType=DECIMAL},
     #{ppPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER},
@@ -87,5 +85,10 @@
   <select id="selectDwNameByCategoryId" parameterType="int" resultMap="BaseResultMap">
     select * from c_item_cat where category_id = #{categoryId}
     and status = 1 group by dw_name order by sort_order
+  </select>
+
+  <!--通过id查询-->
+  <select id="getItemCatById" parameterType="int" resultType="com.jyss.bacon.entity.ItemCat">
+    select * from c_item_cat where id = #{id}
   </select>
 </mapper>

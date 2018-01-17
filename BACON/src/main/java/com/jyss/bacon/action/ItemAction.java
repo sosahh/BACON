@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class ItemAction {
     @RequestMapping("/homepage")
     @ResponseBody
     public ResponseResult showHomepage(){
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new LinkedHashMap<>();
         //标题
         List<BaseNew> news = itemService.getAllNews();
         //类目
@@ -51,12 +51,15 @@ public class ItemAction {
         //明星
         Page<UserInfo> star = userInfoService.getStarUserInfo(1, 4);
         //热门
-        Page<UserInfo> hot = userInfoService.getHotUserInfo(1, 8);
+        Page<UserInfo> hot = userInfoService.getHotUserInfo(1, 4);
+        //新人
+        Page<UserInfo> newUser = userInfoService.getNewUserInfo(1, 4);
 
         map.put("news",news);
         map.put("items",items);
         map.put("star",star);
         map.put("hot",hot);
+        map.put("new",newUser);
         return ResponseResult.ok(map);
     }
 
@@ -79,6 +82,17 @@ public class ItemAction {
     public ResponseResult showHotUserInfo(@RequestParam(value = "page", required = true) Integer page,
                                            @RequestParam(value = "pageSize", required = true) Integer pageSize){
         Page<UserInfo> result = userInfoService.getHotUserInfo(page, pageSize);
+        return ResponseResult.ok(result);
+    }
+
+    /**
+     * 更多新人用户
+     */
+    @RequestMapping("/newUser")
+    @ResponseBody
+    public ResponseResult showNewUserInfo(@RequestParam(value = "page", required = true) Integer page,
+                                          @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        Page<UserInfo> result = userInfoService.getNewUserInfo(page, pageSize);
         return ResponseResult.ok(result);
     }
 

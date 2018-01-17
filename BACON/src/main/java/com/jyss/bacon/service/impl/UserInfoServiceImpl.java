@@ -125,6 +125,21 @@ public class UserInfoServiceImpl implements UserInfoService{
 
 
     /**
+     * 查询新人用户
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<UserInfo> getNewUserInfo(Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<UserInfo> list = userInfoMapper.getNewUserInfo();
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(list);
+        return new Page<>(pageInfo);
+    }
+
+
+    /**
      * 查询详细信息
      */
     @Override

@@ -157,4 +157,15 @@ public class ItemServiceImpl implements ItemService{
     }
 
 
+    /**
+     * 通过id查询小段位
+     * @param id
+     * @return
+     */
+    @Override
+    public ItemCat getItemCatById(Integer id) {
+        return itemCatMapper.getItemCatById(id);
+    }
+
+
 }

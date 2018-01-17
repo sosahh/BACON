@@ -23,9 +23,11 @@ public interface UserInfoService {
     //查询明星用户
     Page<UserInfo> getStarUserInfo(@Param("page")Integer page, @Param("limit")Integer pageSize);
 
-
     //查询热门用户
     Page<UserInfo> getHotUserInfo(@Param("page")Integer page, @Param("limit")Integer pageSize);
+
+    //查询新人用户
+    Page<UserInfo> getNewUserInfo(@Param("page")Integer page, @Param("limit")Integer pageSize);
 
     //查询详细信息
     UserDetailResult findUserDetailInfo(@Param("uId")Integer uId,@Param("playId")Integer playId);

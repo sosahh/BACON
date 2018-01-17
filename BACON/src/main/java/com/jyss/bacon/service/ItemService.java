@@ -28,4 +28,7 @@ public interface ItemService {
 
     //查询所有小段位
     List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("dwName")String dwName,@Param("status")Integer status);
+
+    //通过id查询小段位
+    ItemCat getItemCatById(@Param("id")Integer id);
 }

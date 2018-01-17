@@ -23,6 +23,9 @@ public interface UserInfoMapper {
     //查询热门用户
     List<UserInfo> getHotUserInfo();
 
+    //查询新人用户
+    List<UserInfo> getNewUserInfo();
+
     //查询我的关注
     List<UserInfo> getUserFellowByUid(@Param("uId")Integer uId);
 

@@ -14,8 +14,7 @@
 
   <!--添加评价-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserComment" >
-    insert into u_user_comment (id, dynamic_id, u_id, 
-      u_nick, content, created, status)
+    insert into u_user_comment (id, dynamic_id, u_id, u_nick, content, created, status)
     values (#{id,jdbcType=INTEGER}, #{dynamicId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
       #{uNick,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT})

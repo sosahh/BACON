@@ -21,4 +21,11 @@ public interface  ItemCatMapper {
     //查询所有大段位
     List<ItemCat> selectDwNameByCategoryId(@Param("categoryId")Integer categoryId);
 
+    /**
+     * 通过id查询
+     * @param id
+     * @return
+     */
+    ItemCat getItemCatById(@Param("id")Integer id);
+
 }
