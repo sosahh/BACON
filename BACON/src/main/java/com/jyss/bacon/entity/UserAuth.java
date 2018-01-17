@@ -1,7 +1,6 @@
 package com.jyss.bacon.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserAuth implements Serializable {

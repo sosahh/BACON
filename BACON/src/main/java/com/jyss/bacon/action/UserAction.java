@@ -384,7 +384,7 @@ public class UserAction {
 
             List<UserAuth> userAuthList1 = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 1);
             if(userAuthList1 != null && userAuthList1.size()>0){
-                return ResponseResult.error("-3","审核中，请等待！");
+                return ResponseResult.error("-3","正在审核中，请等待！");
             }
 
             ItemCat itemCat = itemService.getItemCatById(userAuth.getTitleId());

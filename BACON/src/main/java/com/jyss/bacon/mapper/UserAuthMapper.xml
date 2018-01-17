@@ -63,7 +63,7 @@
       <if test="price != null" >
         price = #{price,jdbcType=DECIMAL},
       </if>
-      <if test="desc != null" >
+      <if test="authDesc != null" >
         auth_desc = #{authDesc,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
