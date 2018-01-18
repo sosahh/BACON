@@ -3,7 +3,6 @@ package com.jyss.bacon.service;
 
 import com.jyss.bacon.entity.*;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 public interface ItemService {
@@ -17,8 +16,8 @@ public interface ItemService {
     //查询所有新闻
     List<BaseNew> getAllNews();
 
-    //条件查询
-    List<BaseNew> selectBaseNewBy(@Param("id")Integer id);
+    //条件查询新闻
+    ResponseResult selectBaseNewBy(@Param("newId")Integer newId,@Param("uId")Integer uId);
 
     //条件筛选
     ResponseResult getCondition(@Param("categoryId")Integer categoryId);

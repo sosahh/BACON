@@ -96,19 +96,6 @@ public class ItemAction {
         return ResponseResult.ok(result);
     }
 
-    /**
-     * 查看新闻
-     */
-    @RequestMapping("/news")
-    @ResponseBody
-    public ResponseResult getBaseNewById(@RequestParam(value = "newId") Integer newId){
-        List<BaseNew> list = itemService.selectBaseNewBy(newId);
-        if(list != null && list.size()>0){
-            BaseNew baseNew = list.get(0);
-            return ResponseResult.ok(baseNew);
-        }
-        return ResponseResult.error("-1","查询无结果！");
-    }
 
 
     /**
@@ -131,6 +118,19 @@ public class ItemAction {
         if(catList != null && catList.size()>0){
             return ResponseResult.ok(catList);
         }
+        return ResponseResult.error("-1","查询失败！");
+    }
+
+
+    /**
+     * 上星选择项
+     */
+    @RequestMapping("/sxChoice")
+    @ResponseBody
+    public ResponseResult getChoiceItem(@RequestParam("categoryId") Integer categoryId){
+        List<Category> catList = itemService.getAllItemCat(categoryId);
+
+
         return ResponseResult.error("-1","查询失败！");
     }
 

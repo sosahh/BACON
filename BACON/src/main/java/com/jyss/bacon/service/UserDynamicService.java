@@ -14,8 +14,14 @@ public interface UserDynamicService {
     //点赞
     int insertUserPraise(@Param("uId")Integer uId, @Param("dynamicId")Integer dynamicId);
 
+    //新闻点赞
+    int insertUserPraiseNew(@Param("uId")Integer uId, @Param("newId")Integer newId);
+
     //取消点赞
     int deletePraiseBy(@Param("uId")Integer uId, @Param("dynamicId")Integer dynamicId);
+
+    //取消新闻点赞
+    int deleteNewPraiseBy(@Param("uId")Integer uId, @Param("newId")Integer newId);
 
     //条件查询动态
     Page<UserDynamic> selectUserDynamicBy(@Param("uId")Integer uId, @Param("sex")Integer sex,@Param("page")Integer page, @Param("pageSize")Integer pageSize);
@@ -38,10 +44,20 @@ public interface UserDynamicService {
     //评价动态
     ResponseResult insertUserComment(@Param("uId")Integer uId,@Param("dynamicId")Integer dynamicId,@Param("content")String content);
 
+    //评价新闻动态
+    ResponseResult insertUserCommentNew(@Param("uId")Integer uId,@Param("newId")Integer newId,@Param("content")String content);
+
     //动态评价查询
-    Page<UserComment>  selectCommentBy(@Param("dynamicId")Integer dynamicId,@Param("page")Integer page, @Param("pageSize")Integer pageSize);
+    Page<UserComment> selectCommentBy(@Param("dynamicId")Integer dynamicId,@Param("page")Integer page, @Param("pageSize")Integer pageSize);
+
+    //新闻评价查询
+    Page<UserComment> selectNewCommentBy(@Param("newId")Integer newId,@Param("page")Integer page, @Param("pageSize")Integer pageSize);
 
     //删除评价
     ResponseResult deleteCommentBy(@Param("dynamicId")Integer dynamicId,@Param("uId")Integer uId);
+
+    //删除新闻评价
+    ResponseResult deleteNewCommentBy(@Param("newId")Integer newId,@Param("uId")Integer uId);
+
 
 }

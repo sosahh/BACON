@@ -42,12 +42,37 @@ public class UserDynamicServiceImpl implements UserDynamicService {
         return count;
     }
 
+
+    /**
+     * 新闻点赞
+     */
+    @Override
+    public int insertUserPraiseNew(Integer uId, Integer newId) {
+        UserPraise userPraise = new UserPraise();
+        userPraise.setuId(uId);
+        userPraise.setDynamicId(newId);
+        userPraise.setStatus(2);
+        userPraise.setCreated(new Date());
+        int count = userPraiseMapper.insert(userPraise);
+        return count;
+    }
+
+
     /**
      * 取消点赞
      */
     @Override
     public int deletePraiseBy(Integer uId, Integer dynamicId) {
         int count = userPraiseMapper.deletePraiseBy(dynamicId, uId);
+        return count;
+    }
+
+    /**
+     * 取消新闻点赞
+     */
+    @Override
+    public int deleteNewPraiseBy(Integer uId, Integer newId) {
+        int count = userPraiseMapper.deleteNewPraiseBy(newId, uId);
         return count;
     }
 
@@ -99,7 +124,7 @@ public class UserDynamicServiceImpl implements UserDynamicService {
     }
 
     /**
-     * 查询我的动态      status: 0=未点赞，1=已点赞
+     * 查询我的动态     status: 0=未点赞，1=已点赞
      */
     @Override
     public Page<UserDynamic> selectMyUserDynamic(Integer uId, Integer page, Integer pageSize) {
@@ -120,7 +145,6 @@ public class UserDynamicServiceImpl implements UserDynamicService {
 
         return new Page<UserDynamic>(pageInfo);
     }
-
 
     /**
      * 查询陪玩人的动态      status: 0=未点赞，1=已点赞
@@ -190,6 +214,31 @@ public class UserDynamicServiceImpl implements UserDynamicService {
     }
 
     /**
+     * 评价新闻动态
+     */
+    @Override
+    public ResponseResult insertUserCommentNew(Integer uId,Integer newId,String content){
+        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+        if(userList != null && userList.size()== 1){
+            User user = userList.get(0);
+            UserComment userComment = new UserComment();
+            userComment.setDynamicId(newId);
+            userComment.setuId(uId);
+            userComment.setuNick(user.getNick());
+            userComment.setContent(content);
+            userComment.setStatus(2);
+            userComment.setCreated(new Date());
+            int count = userCommentMapper.insert(userComment);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","评价失败！");
+        }
+        return ResponseResult.error("-3","用户异常！");
+    }
+
+
+    /**
      * 动态评价查询
      */
     @Override
@@ -203,12 +252,39 @@ public class UserDynamicServiceImpl implements UserDynamicService {
         return new Page<UserComment>(pageInfo);
     }
 
+
+    /**
+     * 新闻评价查询
+     */
+    @Override
+    public Page<UserComment> selectNewCommentBy(Integer newId,Integer page, Integer pageSize){
+        PageHelper.startPage(page,pageSize);
+        List<UserComment> commentList = userCommentMapper.selectNewCommentBy(newId);
+        for (UserComment userComment : commentList) {
+            userComment.setShowTime(DateFormatUtils.showTimeText(userComment.getCreated()));
+        }
+        PageInfo<UserComment> pageInfo = new PageInfo<UserComment>(commentList);
+        return new Page<UserComment>(pageInfo);
+    }
+
     /**
      * 删除评价
      */
     @Override
     public ResponseResult deleteCommentBy(Integer dynamicId,Integer uId){
         int count = userCommentMapper.deleteCommentBy(dynamicId, uId);
+        if(count == 1){
+            return ResponseResult.ok("");
+        }
+        return ResponseResult.error("-1","删除失败！");
+    }
+
+    /**
+     * 删除新闻评价
+     */
+    @Override
+    public ResponseResult deleteNewCommentBy(Integer newId,Integer uId){
+        int count = userCommentMapper.deleteNewCommentBy(newId, uId);
         if(count == 1){
             return ResponseResult.ok("");
         }

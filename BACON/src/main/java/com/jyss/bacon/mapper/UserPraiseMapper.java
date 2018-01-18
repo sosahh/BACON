@@ -25,4 +25,7 @@ public interface UserPraiseMapper {
     //取消点赞
     int deletePraiseBy(@Param("dynamicId")Integer dynamicId,@Param("uId")Integer uId);
 
+    //取消新闻点赞
+    int deleteNewPraiseBy(@Param("dynamicId")Integer dynamicId,@Param("uId")Integer uId);
+
 }

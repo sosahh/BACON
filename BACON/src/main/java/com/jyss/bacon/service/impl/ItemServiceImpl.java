@@ -21,6 +21,10 @@ public class ItemServiceImpl implements ItemService{
     private BaseNewMapper baseNewMapper;
     @Autowired
     private XtclMapper xtclMapper;
+    @Autowired
+    private UserCommentMapper userCommentMapper;
+    @Autowired
+    private UserPraiseMapper userPraiseMapper;
 
 
     /**
@@ -50,12 +54,26 @@ public class ItemServiceImpl implements ItemService{
 
     /**
      * 条件查询
-     * @param id
+     * @param newId
      * @return
      */
     @Override
-    public List<BaseNew> selectBaseNewBy(Integer id) {
-        return baseNewMapper.selectBaseNewBy(id);
+    public ResponseResult selectBaseNewBy(Integer newId,Integer uId) {
+        List<BaseNew> list = baseNewMapper.selectBaseNewBy(newId);
+        if(list != null && list.size()>0){
+            BaseNew baseNew = list.get(0);
+            Map<String, Object> map = new LinkedHashMap<>();
+            long count = userCommentMapper.getCountComment(newId, 2);
+            List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(newId, uId, 2);
+            if(praiseList != null && praiseList.size()>0){
+                map.put("status",true);
+            }
+            map.put("status",false);
+            map.put("baseNew",baseNew);
+            map.put("count",count);
+            return ResponseResult.ok(map);
+        }
+        return ResponseResult.error("-1","查询无结果！");
     }
 
 

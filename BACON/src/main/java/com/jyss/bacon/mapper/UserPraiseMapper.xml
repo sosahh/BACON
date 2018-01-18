@@ -62,4 +62,10 @@
   <delete id="deletePraiseBy" parameterType="com.jyss.bacon.entity.UserPraise">
     delete from u_user_praise where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 1
   </delete>
+
+  <!--取消新闻点赞-->
+  <delete id="deleteNewPraiseBy" parameterType="com.jyss.bacon.entity.UserPraise">
+    delete from u_user_praise where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 2
+  </delete>
+
 </mapper>

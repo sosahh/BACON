@@ -91,8 +91,6 @@ public class UserDynamicAction {
     public ResponseResult selectDynamicBySex(@RequestParam("token")String token,@RequestParam("sex")Integer sex,
                                              @RequestParam(value = "page", required = true) Integer page,
                                              @RequestParam(value = "pageSize", required = true) Integer pageSize){
-        /*Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(null, sex, page, pageSize);
-        return ResponseResult.ok(result);*/
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
@@ -296,7 +294,7 @@ public class UserDynamicAction {
 
 
     /**
-     * 动态删除
+     * 评价删除
      */
     @RequestMapping("/deleteComment")
     @ResponseBody

@@ -64,8 +64,27 @@
     and a.status = 1 order by a.created desc
   </select>
 
+  <!--新闻评价查询-->
+  <select id="selectNewCommentBy" parameterType="int" resultMap="BaseResultMap">
+    select a.id,a.dynamic_id,a.u_id,a.u_nick,a.content,a.created,a.status,
+    nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from u_user_comment a left join u_user b on a.u_id = b.u_id
+    where a.dynamic_id = #{dynamicId}
+    and a.status = 2 order by a.created desc
+  </select>
+
   <!--删除评价-->
   <delete id="deleteCommentBy" parameterType="int">
     delete from u_user_comment where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 1
   </delete>
+
+  <!--删除新闻评价-->
+  <delete id="deleteNewCommentBy" parameterType="int">
+    delete from u_user_comment where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 2
+  </delete>
+
+  <!--查询评论数-->
+  <select id="getCountComment" resultType="long">
+    select ifnull(count(*),0) from u_user_comment where dynamic_id = #{dynamicId} and status = #{status}
+  </select>
 </mapper>
