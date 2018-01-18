@@ -6,29 +6,29 @@ import java.util.Date;
 public class OrderSf implements Serializable {
     private Integer id;
 
-    private String orderId;        //订单号
+    private String orderId;          //订单号
 
     private Integer uId;             //用户id
 
-    private Integer area;           //1微信区，2qq区，3其它区
+    private Integer area;            //1微信区，2qq区，3其它区
 
-    private Integer type;              //0排位赛，1匹配赛
+    private Integer type;            //1排位赛，2匹配赛
 
-    private Integer levelId;             //段位id
+    private Integer levelId;          //段位id
 
-    private Integer count;           //局数
+    private Integer count;            //局数
 
-    private Double price;              //单价
+    private Double price;             //单价
 
-    private Double total;            //合计
+    private Double total;             //合计
 
-    private Integer isWin;           //0不计胜负，1计胜负
+    private Integer isWin;            //0不计胜负，1计胜负
 
-    private String account;          //账号
+    private String account;           //账号
 
     private String wxAccount;         //微信账号
 
-    private Integer status;          //0未支付，1已支付，2已接单，3完成，4取消订单
+    private Integer status;           //0未支付，1已支付，2已接单，3完成，4取消订单
 
     private Date created;
 

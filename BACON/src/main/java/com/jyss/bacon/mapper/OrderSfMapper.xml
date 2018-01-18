@@ -20,18 +20,13 @@
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSf" >
-    insert into o_order_sf (id, order_id, u_id, 
-      area, type, level_id, 
-      count, price, total, 
-      is_win, account, wx_account, 
-      status, created, modify_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER}, 
+    insert into o_order_sf (id, order_id, u_id, area, type, level_id, count, price, total,
+      is_win, account, wx_account, status, created, modify_time )
+      values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER},
       #{area,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{levelId,jdbcType=INTEGER}, 
       #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
       #{isWin,jdbcType=TINYINT}, #{account,jdbcType=VARCHAR}, #{wxAccount,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
-      )
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSf" >

@@ -221,4 +221,16 @@ public class ItemServiceImpl implements ItemService{
     }
 
 
+    /**
+     * 根据标识符取得标志对应常量值
+     * @param bz_type
+     * @param bz_id
+     * @return
+     */
+    @Override
+    public Xtcl getClsValue(String bz_type, String bz_id) {
+        return xtclMapper.getClsValue(bz_type,bz_id);
+    }
+
+
 }
