@@ -140,6 +140,25 @@ public class UserDynamicAction {
     }
 
     /**
+     * 查询陪玩人的动态
+     */
+    @RequestMapping("/playDynamic")
+    @ResponseBody
+    public ResponseResult selectMyDynamic(@RequestParam("token")String token,@RequestParam("playId")Integer playId,
+                                          @RequestParam(value = "page", required = true) Integer page,
+                                          @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            Page<UserDynamic> result = userDynamicService.selectDynamicByPlayId(uId, playId, page, pageSize);
+            return ResponseResult.ok(result);
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+    /**
      * 删除我的动态
      */
     @RequestMapping("/delMyDynamic")

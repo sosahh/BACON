@@ -26,6 +26,9 @@ public interface UserDynamicService {
     //查询我的动态
     Page<UserDynamic> selectMyUserDynamic(@Param("uId")Integer uId, @Param("page")Integer page, @Param("pageSize")Integer pageSize);
 
+    //查询陪玩人的动态
+    Page<UserDynamic> selectDynamicByPlayId(@Param("uId")Integer uId,@Param("playId")Integer playId,@Param("page") Integer page, @Param("pageSize")Integer pageSize);
+
     //删除我的动态
     int deleteUserDynamicById(@Param("dynamicId")Integer dynamicId);
 

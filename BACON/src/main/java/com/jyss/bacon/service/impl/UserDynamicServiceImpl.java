@@ -121,6 +121,30 @@ public class UserDynamicServiceImpl implements UserDynamicService {
         return new Page<UserDynamic>(pageInfo);
     }
 
+
+    /**
+     * 查询陪玩人的动态      status: 0=未点赞，1=已点赞
+     */
+    @Override
+    public Page<UserDynamic> selectDynamicByPlayId(Integer uId,Integer playId, Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<UserDynamic> dynamicList = userDynamicMapper.selectUserDynamicBy(playId, null);
+        for (UserDynamic userDynamic : dynamicList) {
+            List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
+            if(praiseList != null && praiseList.size()>0){
+                userDynamic.setStatus(1);
+            }else{
+                userDynamic.setStatus(0);
+            }
+            long count = userPraiseMapper.getCountPraise(userDynamic.getId());
+            userDynamic.setCount(count);
+            userDynamic.setShowTime(DateFormatUtils.showTimeText(userDynamic.getCreated()));
+        }
+        PageInfo<UserDynamic> pageInfo = new PageInfo<>(dynamicList);
+
+        return new Page<UserDynamic>(pageInfo);
+    }
+
     /**
      * 删除我的动态
      */
