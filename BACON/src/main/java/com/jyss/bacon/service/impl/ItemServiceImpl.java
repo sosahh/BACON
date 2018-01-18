@@ -67,8 +67,9 @@ public class ItemServiceImpl implements ItemService{
             List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(newId, uId, 2);
             if(praiseList != null && praiseList.size()>0){
                 map.put("status",true);
+            }else{
+                map.put("status",false);
             }
-            map.put("status",false);
             map.put("baseNew",baseNew);
             map.put("count",count);
             return ResponseResult.ok(map);
