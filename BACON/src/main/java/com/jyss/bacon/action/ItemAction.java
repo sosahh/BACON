@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,15 @@ public class ItemAction {
     public ResponseResult selectDwNameByCategoryId(@RequestParam("categoryId") Integer categoryId){
         List<ItemCat> list = itemService.selectDwNameByCategoryId(categoryId);
         if(list != null && list.size()>0){
-            return ResponseResult.ok(list);
+            List<Xtcl> xtclList = itemService.getClsBy("discount", "1");
+            if(xtclList != null && xtclList.size()>0){
+                Xtcl xtcl = xtclList.get(0);
+                String value = xtcl.getBz_value();
+                Map<Object, Object> map = new HashMap<>();
+                map.put("items",list);
+                map.put("value",value);
+                return ResponseResult.ok(map);
+            }
         }
         return ResponseResult.error("-1","查询无结果！");
     }
@@ -114,25 +123,10 @@ public class ItemAction {
     @RequestMapping("/xdwList")
     @ResponseBody
     public ResponseResult getItemCatBy(@RequestParam("categoryId") Integer categoryId){
-        List<Category> catList = itemService.getAllItemCat(categoryId);
-        if(catList != null && catList.size()>0){
-            return ResponseResult.ok(catList);
-        }
-        return ResponseResult.error("-1","查询失败！");
+        ResponseResult result = itemService.getAllItemCat(categoryId);
+        return result;
     }
 
-
-    /**
-     * 上星选择项
-     */
-    @RequestMapping("/sxChoice")
-    @ResponseBody
-    public ResponseResult getChoiceItem(@RequestParam("categoryId") Integer categoryId){
-        List<Category> catList = itemService.getAllItemCat(categoryId);
-
-
-        return ResponseResult.error("-1","查询失败！");
-    }
 
 
 }

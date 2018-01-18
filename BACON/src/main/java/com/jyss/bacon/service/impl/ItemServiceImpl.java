@@ -171,7 +171,8 @@ public class ItemServiceImpl implements ItemService{
      * 查询所有小段位
      */
     @Override
-    public List<Category> getAllItemCat(Integer categoryId) {
+    public ResponseResult getAllItemCat(Integer categoryId) {
+        Map<String, Object> map = new HashMap<>();
         List<ItemCat> itemCats = itemCatMapper.selectDwNameByCategoryId(categoryId);
         List<Category> list = new ArrayList<>();
         for (ItemCat itemCat : itemCats) {
@@ -181,8 +182,19 @@ public class ItemServiceImpl implements ItemService{
             category.setNames(catList);
             list.add(category);
         }
+        if(list !=null && list.size()>0){
+            map.put("cats",list);
+            List<Xtcl> list2 = xtclMapper.getClsBy("gameArea_type", null);
+            List<Xtcl> xtclList = xtclMapper.getClsBy("game_type", null);
+            List<Xtcl> list1 = xtclMapper.getClsBy("discount", "1");
+            Xtcl xtcl = list1.get(0);
+            map.put("areas",list2);
+            map.put("types",xtclList);
+            map.put("value",xtcl.getBz_value());
 
-        return list;
+            return ResponseResult.ok(map);
+        }
+        return ResponseResult.error("-1","查询失败");
     }
 
 
@@ -194,6 +206,18 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public ItemCat getItemCatById(Integer id) {
         return itemCatMapper.getItemCatById(id);
+    }
+
+
+    /**
+     * 取得标志对应常量值
+     * @param bz_type
+     * @param bz_id
+     * @return
+     */
+    @Override
+    public List<Xtcl> getClsBy(String bz_type, String bz_id) {
+        return xtclMapper.getClsBy(bz_type,bz_id);
     }
 
 

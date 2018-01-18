@@ -24,7 +24,7 @@
     </resultMap>
 
      
-    <!-- 查询对应常量-->  
+
     <select id="getCls" resultMap="clResultMap" >  
         select * from p_xt_cl  where status =1 order by bz_type ,bz_id      
     </select> 

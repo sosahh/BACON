@@ -10,7 +10,7 @@ public class OrderSf implements Serializable {
 
     private Integer uId;             //用户id
 
-    private Integer area;           //0微信区，1qq区，2其它区
+    private Integer area;           //1微信区，2qq区，3其它区
 
     private Integer type;              //0排位赛，1匹配赛
 
@@ -28,7 +28,7 @@ public class OrderSf implements Serializable {
 
     private String wxAccount;         //微信账号
 
-    private Integer status;          //0未支付，1已支付，2已接单，3完成
+    private Integer status;          //0未支付，1已支付，2已接单，3完成，4取消订单
 
     private Date created;
 

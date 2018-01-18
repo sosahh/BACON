@@ -18,8 +18,7 @@ public interface XtclMapper {
 
 
 	//根据标识符取得标志对应常量值
-	List<Xtcl> getClsBy(@Param("bz_type") String bz_type,
-						@Param("bz_id") String bz_id);
+	List<Xtcl> getClsBy(@Param("bz_type") String bz_type,@Param("bz_id") String bz_id);
 
 	/**
 	 * 获取常量下拉
@@ -33,8 +32,7 @@ public interface XtclMapper {
 
 
 	//根据标识符取得标志对应常量值
-	Xtcl getClsValue(@Param("bz_type") String bz_type,
-                     @Param("bz_id") String bz_id);
+	Xtcl getClsValue(@Param("bz_type") String bz_type,@Param("bz_id") String bz_id);
 
 
 
@@ -45,7 +43,6 @@ public interface XtclMapper {
 	 *
 	 * @return
 	 */
-	List<BaseArea> getBaseAreas(@Param("status") String status,
-								@Param("area") String area);
+	List<BaseArea> getBaseAreas(@Param("status") String status,@Param("area") String area);
 
 }

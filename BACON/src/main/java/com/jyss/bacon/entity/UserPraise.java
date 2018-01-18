@@ -10,7 +10,7 @@ public class UserPraise implements Serializable {
 
     private Integer uId;          //评价人id
 
-    private Integer status;       //0禁用，1可用
+    private Integer status;       //0禁用，1可用，2新闻
 
     private Date created;
 

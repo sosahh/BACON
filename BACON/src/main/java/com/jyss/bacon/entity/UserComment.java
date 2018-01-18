@@ -18,7 +18,7 @@ public class UserComment implements Serializable {
 
     private Date created;
 
-    private Integer status;     //0禁用，1可用
+    private Integer status;     //0禁用，1可用，2新闻
 
     private String showTime;     //展示时间
 
