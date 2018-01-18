@@ -32,6 +32,8 @@ public class UserAuth implements Serializable {
 
     private Date created;
 
+    private String brightPic;    //类目图片
+
 
     public Integer getId() {
         return id;
@@ -143,5 +145,13 @@ public class UserAuth implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getBrightPic() {
+        return brightPic;
+    }
+
+    public void setBrightPic(String brightPic) {
+        this.brightPic = brightPic;
     }
 }
