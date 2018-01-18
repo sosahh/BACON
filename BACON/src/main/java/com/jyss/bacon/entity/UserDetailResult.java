@@ -9,7 +9,7 @@ public class UserDetailResult implements Serializable{
     private User user;
     private Integer count;     //关注数
     private Boolean type;      //是否已关注   true=已关注，false=未关注
-    private List<String>  pictures;       //动态图片
+    private List<UserDynamic>  pictures;       //动态图片
     private List<UserAuth> games;     //认证游戏
 
 
@@ -45,11 +45,11 @@ public class UserDetailResult implements Serializable{
         this.type = type;
     }
 
-    public List<String> getPictures() {
+    public List<UserDynamic> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(List<UserDynamic> pictures) {
         this.pictures = pictures;
     }
 

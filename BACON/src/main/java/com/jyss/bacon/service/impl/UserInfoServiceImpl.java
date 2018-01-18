@@ -156,10 +156,6 @@ public class UserInfoServiceImpl implements UserInfoService{
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
         //动态
         List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
-        List<String> list = new ArrayList<>();
-        for (UserDynamic userDynamic : userDynamicList) {
-            list.add(userDynamic.getPicture1());
-        }
 
         if(fellowList != null && fellowList.size()>0){
             result.setType(true);
@@ -169,7 +165,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         result.setuId(uId);
         result.setUser(user);
         result.setCount(count);
-        result.setPictures(list);
+        result.setPictures(userDynamicList);
         result.setGames(userAuthList);
         return result;
     }

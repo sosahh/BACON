@@ -130,7 +130,12 @@
 
   <!--查询8张图片-->
   <select id="getPicture" parameterType="int" resultMap="BaseResultMap">
-    select CONCAT('${httpUrl}',picture_1)as picture_1
+    select id,CONCAT('${httpUrl}',picture_1)as picture_1,
+    nullif(CONCAT('${httpUrl}',picture_2), '${httpUrl}')as picture_2,
+    nullif(CONCAT('${httpUrl}',picture_3), '${httpUrl}')as picture_3,
+    nullif(CONCAT('${httpUrl}',picture_4), '${httpUrl}')as picture_4,
+    nullif(CONCAT('${httpUrl}',picture_5), '${httpUrl}')as picture_5,
+    nullif(CONCAT('${httpUrl}',picture_6), '${httpUrl}')as picture_6
     from u_user_dynamic
     where picture_1 <![CDATA[ <> ]]> "" and u_id = #{uId} and status = 1
     order by created desc limit 0,8
