@@ -3,7 +3,9 @@ package com.jyss.bacon.service.impl;
 import com.jyss.bacon.entity.MobileLogin;
 import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
+import com.jyss.bacon.entity.UserAuth;
 import com.jyss.bacon.mapper.MobileLoginMapper;
+import com.jyss.bacon.mapper.UserAuthMapper;
 import com.jyss.bacon.mapper.UserMapper;
 import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.CommTool;
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService{
     private UserMapper userMapper;
     @Autowired
     private MobileLoginMapper mobileLoginMapper;
+    @Autowired
+    private UserAuthMapper userAuthMapper;
 
 
     /**
@@ -100,10 +104,14 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public ResponseResult getUserInfo(String uId) {
+        Map<String, Object> map = new HashMap<>();
         List<User> userList = userMapper.selectUserBy(uId, null, "");
         if(userList != null && userList.size()==1){
             User user = userList.get(0);
-            return ResponseResult.ok(user);
+            List<UserAuth> authList = userAuthMapper.getUserAuthBy(Integer.valueOf(uId), null, 2);
+            map.put("user",user);
+            map.put("auth",authList);
+            return ResponseResult.ok(map);
         }
         return ResponseResult.error("-1","用户信息异常！");
 

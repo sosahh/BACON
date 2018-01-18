@@ -154,22 +154,11 @@ public class UserInfoServiceImpl implements UserInfoService{
         List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, playId, 1);
         //认证游戏
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
-
         //动态
         List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
         List<String> list = new ArrayList<>();
         for (UserDynamic userDynamic : userDynamicList) {
             list.add(userDynamic.getPicture1());
-        }
-
-        if(uId == playId){
-            result.setuId(uId);
-            result.setUser(user);
-            result.setCount(count);
-            result.setPictures(list);
-            result.setType(false);
-            result.setGames(userAuthList);
-            return result;
         }
 
         if(fellowList != null && fellowList.size()>0){
