@@ -162,7 +162,7 @@ public class UserDynamicServiceImpl implements UserDynamicService {
             }
             return ResponseResult.error("-1","评价失败！");
         }
-        return ResponseResult.error("-2","用户异常！");
+        return ResponseResult.error("-3","用户异常！");
     }
 
     /**

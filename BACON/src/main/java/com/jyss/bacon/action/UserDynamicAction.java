@@ -249,6 +249,9 @@ public class UserDynamicAction {
     @ResponseBody
     public ResponseResult insertUserComment(@RequestParam("token")String token,@RequestParam("dynamicId")Integer dynamicId,
                                             @RequestParam("content")String content){
+        if(content == null || content.trim().length()==0){
+            return ResponseResult.error("-2","内容不能为空！");
+        }
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
