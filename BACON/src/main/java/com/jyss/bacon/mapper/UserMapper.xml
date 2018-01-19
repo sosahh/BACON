@@ -125,7 +125,7 @@
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId} </if>
       <if test="tel != null and tel != ''">and tel = #{tel} </if>
-      <if test="status != null ">and status = #{status} </if>
+      <if test="status != null and status != '' or status == 0">and status = #{status} </if>
     </where>
   </select>
 
