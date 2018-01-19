@@ -81,12 +81,13 @@ public class OrderAction {
      */
     @RequestMapping("/sfPayment")
     @ResponseBody
-    public ResponseResult sfOrderPayment(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+    public ResponseResult sfOrderPayment(@RequestParam("token") String token,@RequestParam("oId")Integer oId,
+                                         @RequestParam("payPwd") String payPwd){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            ResponseResult result = orderService.updateOrderSf(uId, oId);
+            ResponseResult result = orderService.updateOrderSf(uId, oId, payPwd);
             return result;
 
         }

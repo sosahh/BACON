@@ -85,11 +85,15 @@ public class UserDynamicServiceImpl implements UserDynamicService {
         PageHelper.startPage(page,pageSize);
         List<UserDynamic> dynamicList = userDynamicMapper.selectUserDynamicBy(null, sex);
         for (UserDynamic userDynamic : dynamicList) {
-            List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
-            if(praiseList != null && praiseList.size()>0){
-                userDynamic.setStatus(1);
-            }else{
+            if(uId == null){
                 userDynamic.setStatus(0);
+            }else{
+                List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
+                if(praiseList != null && praiseList.size()>0){
+                    userDynamic.setStatus(1);
+                }else{
+                    userDynamic.setStatus(0);
+                }
             }
             long count = userPraiseMapper.getCountPraise(userDynamic.getId());
             userDynamic.setCount(count);
@@ -150,16 +154,21 @@ public class UserDynamicServiceImpl implements UserDynamicService {
      * 查询陪玩人的动态      status: 0=未点赞，1=已点赞
      */
     @Override
-    public Page<UserDynamic> selectDynamicByPlayId(Integer uId,Integer playId, Integer page, Integer pageSize) {
+    public Page<UserDynamic> selectDynamicByPlayId(Integer uId, Integer playId, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
         List<UserDynamic> dynamicList = userDynamicMapper.selectUserDynamicBy(playId, null);
         for (UserDynamic userDynamic : dynamicList) {
-            List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
-            if(praiseList != null && praiseList.size()>0){
-                userDynamic.setStatus(1);
-            }else{
+            if(uId == null){
                 userDynamic.setStatus(0);
+            }else{
+                List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(userDynamic.getId(), uId, 1);
+                if(praiseList != null && praiseList.size()>0){
+                    userDynamic.setStatus(1);
+                }else{
+                    userDynamic.setStatus(0);
+                }
             }
+
             long count = userPraiseMapper.getCountPraise(userDynamic.getId());
             userDynamic.setCount(count);
             userDynamic.setShowTime(DateFormatUtils.showTimeText(userDynamic.getCreated()));

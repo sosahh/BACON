@@ -73,6 +73,10 @@ public class UserDynamicAction {
     public ResponseResult selectAllUserDynamic(@RequestParam("token")String token,
                                                @RequestParam(value = "page", required = true) Integer page,
                                                @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        if(StringUtils.isEmpty(token)){
+            Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(null, null, page, pageSize);
+            return ResponseResult.ok(result);
+        }
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
@@ -91,6 +95,10 @@ public class UserDynamicAction {
     public ResponseResult selectDynamicBySex(@RequestParam("token")String token,@RequestParam("sex")Integer sex,
                                              @RequestParam(value = "page", required = true) Integer page,
                                              @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        if(StringUtils.isEmpty(token)){
+            Page<UserDynamic> result = userDynamicService.selectUserDynamicBy(null, sex, page, pageSize);
+            return ResponseResult.ok(result);
+        }
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
@@ -145,6 +153,10 @@ public class UserDynamicAction {
     public ResponseResult selectMyDynamic(@RequestParam("token")String token,@RequestParam("playId")Integer playId,
                                           @RequestParam(value = "page", required = true) Integer page,
                                           @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        if(StringUtils.isEmpty(token)){
+            Page<UserDynamic> result = userDynamicService.selectDynamicByPlayId(null, playId, page, pageSize);
+            return ResponseResult.ok(result);
+        }
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);

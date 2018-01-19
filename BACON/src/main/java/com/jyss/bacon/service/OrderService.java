@@ -11,7 +11,7 @@ public interface OrderService {
     int insert(OrderSf orderSf);
 
     //上分订单支付
-    ResponseResult updateOrderSf(@Param("uId")Integer uId,@Param("oId") Integer oId);
+    ResponseResult updateOrderSf(@Param("uId")Integer uId,@Param("oId") Integer oId,@Param("payPwd") String payPwd);
 
 
 }
