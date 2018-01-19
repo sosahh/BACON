@@ -55,17 +55,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.BaseNew" >
-    update p_base_new
-    set new_pic = #{newPic,jdbcType=VARCHAR},
-      head_title = #{headTitle,jdbcType=VARCHAR},
-      sub_title = #{subTitle,jdbcType=VARCHAR},
-      source = #{source,jdbcType=VARCHAR},
-      cooperation = #{cooperation,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 
   <!--查询所有-->
   <select id="getAllNews" resultMap="BaseResultMap">

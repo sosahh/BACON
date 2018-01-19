@@ -47,17 +47,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.Item" >
-    update c_item
-    set title = #{title,jdbcType=VARCHAR},
-      bright_pic = #{brightPic,jdbcType=VARCHAR},
-      ash_pic = #{ashPic,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      created = #{created,jdbcType=TIMESTAMP},
-      updated = #{updated,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 
   <!--查询所有类目-->
   <select id="selectItem" resultMap="BaseResultMap">

@@ -13,8 +13,6 @@ public interface  ItemCatMapper {
 
     int updateByPrimaryKeySelective(ItemCat itemCat);
 
-    int updateByPrimaryKey(ItemCat itemCat);
-
     //条件查询
     List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("dwName")String dwName,@Param("status")Integer status);
 

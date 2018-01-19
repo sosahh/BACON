@@ -35,14 +35,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.UserFollow" >
-    update u_user_follow
-    set u_id = #{uId,jdbcType=INTEGER},
-      follow_id = #{followId,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
   <!--查询总关注数-->
   <select id="getUserFellowCount" parameterType="int" resultType="int">
@@ -55,7 +48,7 @@
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId}</if>
       <if test="followId != null and followId != ''">and follow_id = #{followId}</if>
-      <if test="status != null and status != ''">and status = #{status}</if>
+      <if test="status != null ">and status = #{status}</if>
     </where>
   </select>
 

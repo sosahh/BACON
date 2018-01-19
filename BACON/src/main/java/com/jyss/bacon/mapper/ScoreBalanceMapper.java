@@ -11,5 +11,4 @@ public interface ScoreBalanceMapper {
 
     int updateByPrimaryKeySelective(ScoreBalance scoreBalance);
 
-    int updateByPrimaryKey(ScoreBalance scoreBalance);
 }

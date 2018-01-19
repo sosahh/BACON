@@ -110,32 +110,6 @@
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.User" >
-    update u_user
-    set account = #{account,jdbcType=VARCHAR},
-      tel = #{tel,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      nick = #{nick,jdbcType=VARCHAR},
-      headpic = #{headpic,jdbcType=VARCHAR},
-      birth_date = #{birthDate,jdbcType=DATE},
-      sex = #{sex,jdbcType=TINYINT},
-      age = #{age,jdbcType=INTEGER},
-      place = #{place,jdbcType=VARCHAR},
-      emotional_state = #{emotionalState,jdbcType=TINYINT},
-      profession = #{profession,jdbcType=VARCHAR},
-      hobby = #{hobby,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      source = #{source,jdbcType=TINYINT},
-      is_auth = #{isAuth,jdbcType=TINYINT},
-      popularity = #{popularity,jdbcType=INTEGER},
-      label_desc = #{labelDesc,jdbcType=VARCHAR},
-      balance = #{balance,jdbcType=DECIMAL},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
-    where u_id = #{uId,jdbcType=INTEGER}
-  </update>
-
 
   <!--查询用户-->
   <select id="selectUserBy" resultMap="BaseResultMap" >
@@ -147,7 +121,7 @@
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId} </if>
       <if test="tel != null and tel != ''">and tel = #{tel} </if>
-      <if test="status != null and status != ''">and status = #{status} </if>
+      <if test="status != null ">and status = #{status} </if>
     </where>
   </select>
 

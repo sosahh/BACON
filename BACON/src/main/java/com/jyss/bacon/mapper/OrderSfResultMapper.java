@@ -10,5 +10,4 @@ public interface OrderSfResultMapper {
 
     int updateByPrimaryKeySelective(OrderSfResult orderSfResult);
 
-    int updateByPrimaryKey(OrderSfResult orderSfResult);
 }

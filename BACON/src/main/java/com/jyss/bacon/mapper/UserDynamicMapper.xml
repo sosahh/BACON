@@ -64,20 +64,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.UserDynamic" >
-    update u_user_dynamic
-    set u_id = #{uId,jdbcType=INTEGER},
-      picture_1 = #{picture1,jdbcType=VARCHAR},
-      picture_2 = #{picture2,jdbcType=VARCHAR},
-      picture_3 = #{picture3,jdbcType=VARCHAR},
-      picture_4 = #{picture4,jdbcType=VARCHAR},
-      picture_5 = #{picture5,jdbcType=VARCHAR},
-      picture_6 = #{picture6,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      created = #{created,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
   <!--查询我的动态-->
   <!--<select id="getUserDynamicBy" parameterType="com.jyss.bacon.entity.UserDynamic" resultMap="BaseResultMap">

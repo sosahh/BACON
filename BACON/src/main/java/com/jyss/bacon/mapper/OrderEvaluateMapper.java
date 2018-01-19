@@ -10,5 +10,4 @@ public interface OrderEvaluateMapper {
 
     int updateByPrimaryKeySelective(OrderEvaluate orderEvaluate);
 
-    int updateByPrimaryKey(OrderEvaluate orderEvaluate);
 }

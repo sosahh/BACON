@@ -56,19 +56,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.ScoreBalance" >
-    update u_score_balance
-    set end = #{end,jdbcType=TINYINT},
-      u_id = #{uId,jdbcType=INTEGER},
-      detail = #{detail,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
-      score = #{score,jdbcType=DECIMAL},
-      jy_score = #{jyScore,jdbcType=DECIMAL},
-      order_sn = #{orderSn,jdbcType=CHAR},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
 
 

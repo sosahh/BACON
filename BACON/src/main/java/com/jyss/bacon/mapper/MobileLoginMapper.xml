@@ -44,16 +44,6 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.MobileLogin" >
-    update u_mobile_login
-    set u_id = #{uId,jdbcType=INTEGER},
-      token = #{token,jdbcType=VARCHAR},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      last_access_time = #{lastAccessTime,jdbcType=INTEGER},
-      push_info = #{pushInfo,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
 
 
   <!-- 根据token查询用户 -->

@@ -86,7 +86,7 @@
     <where>
       <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
       <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
-      <if test="status != null and status != ''">and a.status = #{status}</if>
+      <if test="status != null ">and a.status = #{status}</if>
     </where>
   </select>
 

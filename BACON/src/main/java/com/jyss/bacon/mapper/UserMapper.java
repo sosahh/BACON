@@ -15,8 +15,6 @@ public interface UserMapper {
     //用户信息修改
     int updateByPrimaryKeySelective(User user);
 
-    int updateByPrimaryKey(User user);
-
     //条件查询用户
     List<User> selectUserBy(@Param("uId")String uId,@Param("tel")String tel,@Param("status")String status);
 

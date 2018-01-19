@@ -44,16 +44,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.UserComment" >
-    update u_user_comment
-    set dynamic_id = #{dynamicId,jdbcType=INTEGER},
-      u_id = #{uId,jdbcType=INTEGER},
-      u_nick = #{uNick,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      created = #{created,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
   <!--动态评价查询-->
   <select id="selectCommentBy" parameterType="int" resultMap="BaseResultMap">

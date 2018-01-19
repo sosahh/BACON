@@ -10,5 +10,4 @@ public interface OrderPwMapper {
 
     int updateByPrimaryKeySelective(OrderPw orderPw);
 
-    int updateByPrimaryKey(OrderPw orderPw);
 }

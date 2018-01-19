@@ -13,8 +13,6 @@ public interface BaseNewMapper {
 
     int updateByPrimaryKeySelective(BaseNew baseNew);
 
-    int updateByPrimaryKey(BaseNew baseNew);
-
     //查询所有
     List<BaseNew> getAllNews();
 

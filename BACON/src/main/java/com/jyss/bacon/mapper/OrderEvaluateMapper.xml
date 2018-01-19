@@ -44,14 +44,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
-    update o_order_evaluate
-    set u_id = #{uId,jdbcType=INTEGER},
-      play_id = #{playId,jdbcType=INTEGER},
-      order_id = #{orderId,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 </mapper>

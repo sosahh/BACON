@@ -14,8 +14,6 @@ public interface MobileLoginMapper {
 
     int updateByPrimaryKeySelective(MobileLogin mobileLogin);
 
-    int updateByPrimaryKey(MobileLogin mobileLogin);
-
     //根据token查询用户
     List<MobileLogin> findUserByToken(@Param("token")String token);
 }

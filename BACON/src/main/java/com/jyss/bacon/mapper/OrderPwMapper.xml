@@ -90,24 +90,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.OrderPw" >
-    update o_order_pw
-    set order_id = #{orderId,jdbcType=VARCHAR},
-      u_id = #{uId,jdbcType=INTEGER},
-      play_id = #{playId,jdbcType=INTEGER},
-      category_id = #{categoryId,jdbcType=INTEGER},
-      category_title = #{categoryTitle,jdbcType=VARCHAR},
-      appoint_time = #{appointTime,jdbcType=TIMESTAMP},
-      count = #{count,jdbcType=INTEGER},
-      remarks = #{remarks,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      total = #{total,jdbcType=DECIMAL},
-      status = #{status,jdbcType=TINYINT},
-      order_reason = #{orderReason,jdbcType=TINYINT},
-      type = #{type,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP},
-      single_time = #{singleTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 </mapper>

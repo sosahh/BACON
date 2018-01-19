@@ -18,8 +18,6 @@ public interface UserCommentMapper {
 
     int updateByPrimaryKeySelective(UserComment userComment);
 
-    int updateByPrimaryKey(UserComment userComment);
-
     /**
      * 动态评价查询
      * @param dynamicId

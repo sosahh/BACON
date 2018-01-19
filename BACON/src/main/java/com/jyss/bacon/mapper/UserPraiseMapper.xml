@@ -34,14 +34,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.UserPraise" >
-    update u_user_praise
-    set dynamic_id = #{dynamicId,jdbcType=INTEGER},
-      u_id = #{uId,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
   <!--条件查询-->
   <select id="getUserPraiseBy" parameterType="com.jyss.bacon.entity.UserPraise" resultMap="BaseResultMap">

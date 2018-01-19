@@ -14,8 +14,6 @@ public interface UserFollowMapper {
 
     int updateByPrimaryKeySelective(UserFollow userFollow);
 
-    int updateByPrimaryKey(UserFollow userFollow);
-
     //查询总关注数
     int getUserFellowCount(@Param("followId")Integer followId);
 

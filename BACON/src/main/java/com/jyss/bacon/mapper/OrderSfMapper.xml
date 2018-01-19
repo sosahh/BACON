@@ -19,7 +19,8 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSf" >
+  <!--添加上分订单-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSf" useGeneratedKeys="true" keyProperty="id">
     insert into o_order_sf (id, order_id, u_id, area, type, level_id, count, price, total,
       is_win, account, wx_account, status, created, modify_time )
       values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER},
@@ -77,22 +78,18 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jyss.bacon.entity.OrderSf" >
-    update o_order_sf
-    set order_id = #{orderId,jdbcType=VARCHAR},
-      u_id = #{uId,jdbcType=INTEGER},
-      area = #{area,jdbcType=TINYINT},
-      type = #{type,jdbcType=TINYINT},
-      level_id = #{levelId,jdbcType=INTEGER},
-      count = #{count,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
-      total = #{total,jdbcType=DECIMAL},
-      is_win = #{isWin,jdbcType=TINYINT},
-      account = #{account,jdbcType=VARCHAR},
-      wx_account = #{wxAccount,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      created = #{created,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+
+  <!--条件查询订单-->
+  <select id="selectOrderSfBy" resultMap="BaseResultMap">
+    select * from o_order_sf
+    <where>
+      <if test="orderId != null and orderId != ''">and order_id = #{orderId}</if>
+      <if test="id != null and id != ''">and id = #{id}</if>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="status != null ">and status = #{status}</if>
+    </where>
+    order by status,created
+  </select>
+
 </mapper>

@@ -14,8 +14,6 @@ public interface UserPraiseMapper {
 
     int updateByPrimaryKeySelective(UserPraise userPraise);
 
-    int updateByPrimaryKey(UserPraise userPraise);
-
     //条件查询
     List<UserPraise> getUserPraiseBy(@Param("dynamicId")Integer dynamicId,@Param("uId")Integer uId,@Param("status")Integer status);
 
