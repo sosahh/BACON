@@ -66,16 +66,6 @@
   </update>
 
 
-  <!--查询我的动态-->
-  <!--<select id="getUserDynamicBy" parameterType="com.jyss.bacon.entity.UserDynamic" resultMap="BaseResultMap">
-    select * from u_user_dynamic
-    <where>
-      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
-      <if test="status != null and status != ''">and status = #{status}</if>
-    </where>
-    order by created desc
-  </select>-->
-
   <!--条件查询动态-->
   <select id="selectUserDynamicBy" parameterType="int" resultMap="BaseResultMap">
     select a.id,a.u_id,nullif(CONCAT('${httpUrl}',a.picture_1), '${httpUrl}')as picture_1,

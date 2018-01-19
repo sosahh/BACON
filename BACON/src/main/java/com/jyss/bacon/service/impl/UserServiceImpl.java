@@ -109,6 +109,11 @@ public class UserServiceImpl implements UserService{
         if(userList != null && userList.size()==1){
             User user = userList.get(0);
             List<UserAuth> authList = userAuthMapper.getUserAuthBy(Integer.valueOf(uId), null, 2);
+            if(StringUtils.isEmpty(user.getPayPwd())){
+                map.put("isPay",false);
+            }else {
+                map.put("isPay",true);
+            }
             map.put("user",user);
             map.put("auth",authList);
             return ResponseResult.ok(map);
