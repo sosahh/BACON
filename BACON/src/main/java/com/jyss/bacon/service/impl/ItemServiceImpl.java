@@ -6,6 +6,7 @@ import com.jyss.bacon.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -53,7 +54,7 @@ public class ItemServiceImpl implements ItemService{
 
 
     /**
-     * 条件查询
+     * 条件查询新闻
      * @param newId
      * @return
      */
@@ -64,12 +65,17 @@ public class ItemServiceImpl implements ItemService{
             BaseNew baseNew = list.get(0);
             Map<String, Object> map = new LinkedHashMap<>();
             long count = userCommentMapper.getCountComment(newId, 2);
-            List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(newId, uId, 2);
-            if(praiseList != null && praiseList.size()>0){
-                map.put("status",true);
-            }else{
+            if(StringUtils.isEmpty(uId)){
                 map.put("status",false);
+            }else{
+                List<UserPraise> praiseList = userPraiseMapper.getUserPraiseBy(newId, uId, 2);
+                if(praiseList != null && praiseList.size()>0){
+                    map.put("status",true);
+                }else{
+                    map.put("status",false);
+                }
             }
+
             map.put("baseNew",baseNew);
             map.put("count",count);
             return ResponseResult.ok(map);

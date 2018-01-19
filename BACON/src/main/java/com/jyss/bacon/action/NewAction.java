@@ -6,6 +6,7 @@ import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserDynamicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,12 +32,16 @@ public class NewAction {
     @ResponseBody
     public ResponseResult getBaseNewById(@RequestParam(value = "token") String token,
                                          @RequestParam(value = "newId") Integer newId){
+        if(StringUtils.isEmpty(token)){
+            ResponseResult result = itemService.selectBaseNewBy(newId, null);
+            return result;
+        }
+
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
             ResponseResult result = itemService.selectBaseNewBy(newId, uId);
-
             return result;
         }
         return ResponseResult.error("1","token失效！");
