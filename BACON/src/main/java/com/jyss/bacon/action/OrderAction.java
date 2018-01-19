@@ -1,9 +1,6 @@
 package com.jyss.bacon.action;
 
-import com.jyss.bacon.entity.MobileLogin;
-import com.jyss.bacon.entity.OrderSf;
-import com.jyss.bacon.entity.ResponseResult;
-import com.jyss.bacon.entity.Xtcl;
+import com.jyss.bacon.entity.*;
 import com.jyss.bacon.service.ItemService;
 import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.OrderService;
@@ -16,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/order")
 @Controller
@@ -30,7 +29,12 @@ public class OrderAction {
     private ItemService itemService;
 
 
-
+    /**
+     * 上分订单
+     * @param orderSf
+     * @param token
+     * @return
+     */
     @RequestMapping(value = "/sfOrder",method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult insertOrderSf(OrderSf orderSf,@RequestParam("token") String token){
@@ -42,13 +46,13 @@ public class OrderAction {
 
         Xtcl xtcl = itemService.getClsValue("discount", "1");
         String value = xtcl.getBz_value();
-        int discount = 1 - Integer.parseInt(value);
+        double discount = 1 - Double.parseDouble(value);
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
             orderSf.setuId(uId);
-            orderSf.setOrderId(uId+System.currentTimeMillis()+"");
+            orderSf.setOrderId((uId+"")+(System.currentTimeMillis()+""));
 
             if(orderSf.getIsWin() == 0){
                 orderSf.setTotal(orderSf.getCount()*orderSf.getPrice()*discount);   //不计胜负
@@ -60,7 +64,9 @@ public class OrderAction {
             orderSf.setModifyTime(new Date());
             int count = orderService.insert(orderSf);
             if(count == 1){
-                return ResponseResult.ok("");
+                Map<String, Object> map = new HashMap<>();
+                map.put("oId",orderSf.getId());
+                return ResponseResult.ok(map);
             }
 
             return ResponseResult.error("-1","提交失败！");
@@ -68,6 +74,32 @@ public class OrderAction {
         return ResponseResult.error("1","token失效！");
 
     }
+
+
+    /**
+     * 上分订单支付
+     */
+    @RequestMapping("/sfPayment")
+    @ResponseBody
+    public ResponseResult sfOrderPayment(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.updateOrderSf(uId, oId);
+            return result;
+
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+
+
+
+    /**
+     * 上分订单取消
+     */
 
 
 

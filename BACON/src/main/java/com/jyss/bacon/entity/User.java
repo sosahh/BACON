@@ -17,6 +17,8 @@ public class User implements Serializable {
 
     private String salt;        //加密盐
 
+    private String payPwd;        //支付密码
+
     private String nick;         //昵称
 
     private String headpic;       //头像
@@ -228,5 +230,13 @@ public class User implements Serializable {
 
     public void setPopularity(Integer popularity) {
         this.popularity = popularity;
+    }
+
+    public String getPayPwd() {
+        return payPwd;
+    }
+
+    public void setPayPwd(String payPwd) {
+        this.payPwd = payPwd;
     }
 }

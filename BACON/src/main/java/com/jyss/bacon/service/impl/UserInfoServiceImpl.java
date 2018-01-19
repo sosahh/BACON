@@ -150,17 +150,20 @@ public class UserInfoServiceImpl implements UserInfoService{
         User user = userList.get(0);
         //关注数
         int count = userFollowMapper.getUserFellowCount(playId);
-        //是否已关注
-        List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, playId, 1);
         //认证游戏
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
         //动态
         List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
-
-        if(fellowList != null && fellowList.size()>0){
-            result.setType(true);
-        }else {
+        if(uId == null){
             result.setType(false);
+        }else{
+            //是否已关注
+            List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, playId, 1);
+            if(fellowList != null && fellowList.size()>0){
+                result.setType(true);
+            }else {
+                result.setType(false);
+            }
         }
         result.setuId(uId);
         result.setUser(user);

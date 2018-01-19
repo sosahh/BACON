@@ -7,6 +7,7 @@
     <result column="tel" property="tel" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="pay_pwd" property="payPwd" jdbcType="VARCHAR" />
     <result column="nick" property="nick" jdbcType="VARCHAR" />
     <result column="headpic" property="headpic" jdbcType="VARCHAR" />
     <result column="birth_date" property="birthDate" jdbcType="DATE" />
@@ -28,10 +29,10 @@
 
   <!--添加用户-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="uId">
-    insert into u_user (u_id, account, tel,password, salt, nick, headpic, birth_date, sex, age, place,
+    insert into u_user (u_id, account, tel, password, salt, pay_pwd, nick, headpic, birth_date, sex, age, place,
       profession, hobby, status, source, is_auth, label_desc, create_time, last_modify_time)
     values (#{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
-      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR},
       #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
       #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR},
       #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
@@ -54,6 +55,9 @@
       </if>
       <if test="salt != null" >
         salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="payPwd != null" >
+        pay_pwd = #{payPwd,jdbcType=VARCHAR},
       </if>
       <if test="nick != null" >
         nick = #{nick,jdbcType=VARCHAR},
@@ -113,7 +117,7 @@
 
   <!--查询用户-->
   <select id="selectUserBy" resultMap="BaseResultMap" >
-    select u_id, account, tel, password, salt, nick,
+    select u_id, account, tel, password, salt, pay_pwd, nick,
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
     popularity, label_desc, balance ,create_time, last_modify_time

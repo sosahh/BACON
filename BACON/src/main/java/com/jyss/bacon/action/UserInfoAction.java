@@ -87,6 +87,10 @@ public class UserInfoAction {
     @RequestMapping("/getUserInfo")
     @ResponseBody
     public ResponseResult findUserDetailInfo(@RequestParam("token") String token,@RequestParam("playId") Integer playId){
+        if(StringUtils.isEmpty(token)){
+            UserDetailResult result = userInfoService.findUserDetailInfo(null, playId);
+            return ResponseResult.ok(result);
+        }
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);

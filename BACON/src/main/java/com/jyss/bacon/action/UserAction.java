@@ -9,6 +9,7 @@ import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -359,7 +360,7 @@ public class UserAction {
                     }
                     return ResponseResult.error("-4","修改失败！");
                 }
-                return ResponseResult.error("-1","旧密码不正确！");
+                return ResponseResult.error("-1","原密码不正确！");
             }
         }
         return ResponseResult.error("1","token失效！");
@@ -445,6 +446,101 @@ public class UserAction {
 
     }
 
+    /**
+     * 设置支付密码
+     */
+    @RequestMapping("/setPayPwd")
+    @ResponseBody
+    public ResponseResult updateUserPayPwd(@RequestParam("token")String token,@RequestParam("payPwd")String payPwd){
+        if(payPwd == null || payPwd.length() != 6){
+            return ResponseResult.error("-2","支付密码需为6位！");
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            //String pwd = PasswordUtil.generatePayPwd(payPwd);             //md5加密
+            String newPayPwd = DigestUtils.md5DigestAsHex(payPwd.getBytes());
+            User user = new User();
+            user.setuId(uId);
+            user.setPayPwd(newPayPwd);
+            int count = userService.updateUser(user);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","支付密码设置失败！");
+        }
+        return ResponseResult.error("1","token失效！");
 
+    }
+
+    /**
+     * 原密码修改支付密码
+     */
+    @RequestMapping("/upPayPassword")
+    @ResponseBody
+    public ResponseResult upPayPwdByPayPwd(@RequestParam("token")String token,
+                                           @RequestParam("payPwd")String payPwd,@RequestParam("newPayPwd")String newPayPwd){
+        if(newPayPwd == null || newPayPwd.length() != 6){
+            return ResponseResult.error("-2","支付密码需为6位！");
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<User> userList = userService.selectUserBy(uId + "", null, null);
+            if(userList != null && userList.size()==1){
+                User user = userList.get(0);
+                if(DigestUtils.md5DigestAsHex(payPwd.getBytes()).equals(user.getPayPwd())){
+                    String pwd = DigestUtils.md5DigestAsHex(newPayPwd.getBytes());
+                    User user1 = new User();
+                    user1.setuId(uId);
+                    user1.setPayPwd(pwd);
+                    int count = userService.updateUser(user1);
+                    if(count == 1){
+                        return ResponseResult.ok("");
+                    }
+                    return ResponseResult.error("-4","修改失败！");
+                }
+                return ResponseResult.error("-1","原密码不正确！");
+            }
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+    /**
+     * 短信修改支付密码
+     */
+    @RequestMapping("/updatePayPwd")
+    @ResponseBody
+    public ResponseResult updatePayPwdBy(@RequestParam("tel") String tel,@RequestParam("newPayPwd") String newPayPwd,
+                                    @RequestParam("code") String code,@RequestParam("sessionId") String sessionId){
+        if(StringUtils.isEmpty(sessionId)){
+            return ResponseResult.error("-1","请重新获取验证码！");
+        }
+        if(newPayPwd == null || newPayPwd.length() != 6){
+            return ResponseResult.error("-2","支付密码需为6位！");
+        }
+        HttpSession session = MySessionContext.getSession(sessionId);
+        String checkTel = (String) session.getAttribute("tel");
+        String checkCode = (String) session.getAttribute("code");
+        if(tel.equals(checkTel) && code.equals(checkCode)){
+            String pwd = DigestUtils.md5DigestAsHex(newPayPwd.getBytes());
+            List<User> userList = userService.selectUserBy(null, tel, null);
+            if(userList != null && userList.size()==1){
+                User user = new User();
+                user.setPayPwd(pwd);
+                user.setuId(userList.get(0).getuId());
+                int count = userService.updateUser(user);
+                if(count == 1){
+                    return ResponseResult.ok("");
+                }
+                return ResponseResult.error("-4","修改失败！");
+            }
+        }
+        return ResponseResult.error("-3","验证码不正确！");
+    }
 
 }
