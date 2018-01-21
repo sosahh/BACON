@@ -77,17 +77,40 @@ public class OrderAction {
 
 
     /**
-     * 上分订单支付
+     * 订单支付     payType: 1=上分，2=陪玩
      */
     @RequestMapping("/sfPayment")
     @ResponseBody
     public ResponseResult sfOrderPayment(@RequestParam("token") String token,@RequestParam("oId")Integer oId,
-                                         @RequestParam("payPwd") String payPwd){
+                                         @RequestParam("payPwd") String payPwd,@RequestParam("payType")Integer payType){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            ResponseResult result = orderService.updateOrderSf(uId, oId, payPwd);
+            if(payType == 1){
+                ResponseResult result = orderService.updateOrderSf(uId, oId, payPwd);
+                return result;
+            }else if (payType == 2){
+                ResponseResult result = orderService.updateOrderPw(uId, oId, payPwd);
+                return result;
+            }
+            return ResponseResult.error("-3","支付失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+    /**
+     * 上分订单取消
+     */
+    @RequestMapping("/upOrderSf")
+    @ResponseBody
+    public ResponseResult updateOrderSfStatus(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.updateOrderSfStatus(uId, oId);
             return result;
 
         }
@@ -96,11 +119,150 @@ public class OrderAction {
 
 
 
+    /**
+     * 上分订单个人查询
+     */
+    @RequestMapping("/getOrderSf")
+    @ResponseBody
+    public ResponseResult selectOrderSf(@RequestParam("token") String token,
+                                        @RequestParam(value = "page", required = true) Integer page,
+                                        @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.getOrderSfByUid(uId, page, pageSize);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+    }
 
 
     /**
-     * 上分订单取消
+     * 陪玩订单
      */
+    @RequestMapping("/pwOrder")
+    @ResponseBody
+    public ResponseResult selectOrderSf(@RequestParam("token") String token,OrderPw orderPw){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            if(uId == orderPw.getPlayId()){
+                return ResponseResult.error("-2","自己不能给自己下单！");
+            }
+            orderPw.setOrderId((uId+"")+(System.currentTimeMillis()+""));
+            orderPw.setuId(uId);
+            orderPw.setTotal(orderPw.getCount()*orderPw.getPrice());
+            orderPw.setStatus(0);
+            orderPw.setOrderReason(0);
+            orderPw.setType(1);
+            orderPw.setCreated(new Date());
+            orderPw.setModifyTime(new Date());
+            int count = orderService.insertOrderPw(orderPw);
+            if(count == 1){
+                Map<String, Object> map = new HashMap<>();
+                map.put("oId",orderPw.getId());
+                return ResponseResult.ok(map);
+            }
+            return ResponseResult.error("-1","提交失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+    /**
+     * 陪玩订单取消       cclType: 1=用户取消，2=陪玩人取消
+     */
+    @RequestMapping("/upOrderPw")
+    @ResponseBody
+    public ResponseResult updateOrderPwStatus(@RequestParam("token") String token,@RequestParam("oId")Integer oId,
+                                              @RequestParam("cclType")Integer cclType){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.updateOrderPwStatus(uId, oId, cclType);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+    /**
+     * 陪玩订单个人查询    orderType: 1=用户查询，2=约客查询
+     */
+    @RequestMapping("/getOrderPw")
+    @ResponseBody
+    public ResponseResult selectOrderPwByUid(@RequestParam("token") String token,@RequestParam("orderType") Integer orderType,
+                                             @RequestParam(value = "page", required = true) Integer page,
+                                             @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.getOrderPwByUid(uId, orderType, page, pageSize);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+    /**
+     * 陪玩订单接单
+     */
+    @RequestMapping("/updatePw")
+    @ResponseBody
+    public ResponseResult updateOrderPwByPlayId(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.updateOrderPwByPlayId(uId, oId);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+    /**
+     * 陪玩订单确认完成      陪玩人端确认
+     */
+    @RequestMapping("/confirmOrder")
+    @ResponseBody
+    public ResponseResult updateOrderPwBy(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.updateOrderPwBy(uId, oId);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+
+    /**
+     * 删除未支付订单     dltType:  1=上分订单删除，2=陪玩订单删除
+     */
+    @RequestMapping("/confirmOrder")
+    @ResponseBody
+    public ResponseResult deleteOrderByUid(@RequestParam("token") String token,@RequestParam("oId")Integer oId,
+                                           @RequestParam("dltType")Integer dltType){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.deleteOrderByUid(uId, oId, dltType);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
 
 
 

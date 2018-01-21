@@ -19,15 +19,15 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="single_time" property="singleTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="nick" property="nick"  />
+    <result column="headpic" property="headpic"  />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderPw" >
-    insert into o_order_pw (id, order_id, u_id, 
-      play_id, category_id, category_title, 
-      appoint_time, count, remarks, 
-      price, total, status, 
-      order_reason, type, created, 
-      single_time, modify_time)
+  <!--添加陪玩订单-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderPw" useGeneratedKeys="true" keyProperty="id">
+    insert into o_order_pw (id, order_id, u_id, play_id, category_id, category_title,
+      appoint_time, count, remarks, price, total, status,
+      order_reason, type, created, single_time, modify_time)
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER}, 
       #{playId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryTitle,jdbcType=VARCHAR}, 
       #{appointTime,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, 
@@ -90,5 +90,44 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--条件查询-->
+  <select id="selectOrderPwBy" resultMap="BaseResultMap">
+    select * from o_order_pw
+    <where>
+      <if test="playId != null and playId != ''">and play_id = #{playId}</if>
+      <if test="id != null and id != ''">and id = #{id}</if>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="status != null and status != ''">and status = #{status}</if>
+    </where>
+    and order_reason = 0
+  </select>
+
+  <!--查询个人订单-->
+  <select id="selectOrderPwByUid" parameterType="int" resultMap="BaseResultMap">
+    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from o_order_pw a left join u_user b on a.play_id = b.u_id
+    <where>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      and a.order_reason <![CDATA[ <> ]]> 1
+    </where>
+    order by a.status,a.appoint_time
+  </select>
+
+  <!--查询陪玩订单-->
+  <select id="selectOrderPwByPlayId" parameterType="int" resultMap="BaseResultMap">
+    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from o_order_pw a left join u_user b on a.u_id = b.u_id
+    <where>
+      <if test="playId != null and playId != ''">and play_id = #{playId}</if>
+      and a.order_reason <![CDATA[ <> ]]> 1 and a.status &gt; 0
+    </where>
+    order by a.status,a.appoint_time
+  </select>
+
+  <!--删除未支付订单-->
+  <delete id="deleteOrderPwBy" parameterType="int">
+    delete from o_order_pw where id = #{id} and u_id = #{uId} and status = 0
+  </delete>
 
 </mapper>

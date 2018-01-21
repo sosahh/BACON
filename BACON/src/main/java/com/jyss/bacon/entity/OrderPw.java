@@ -36,7 +36,10 @@ public class OrderPw implements Serializable {
 
     private Date singleTime;       //接单时间
 
-    private Date modifyTime;        //订单完成时间
+    private Date modifyTime;        //订单修改时间
+
+    private String nick;            //昵称
+    private String headpic;         //头像
 
 
 
@@ -174,5 +177,21 @@ public class OrderPw implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getHeadpic() {
+        return headpic;
+    }
+
+    public void setHeadpic(String headpic) {
+        this.headpic = headpic;
     }
 }
