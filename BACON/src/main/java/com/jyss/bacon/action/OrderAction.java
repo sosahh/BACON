@@ -248,7 +248,7 @@ public class OrderAction {
     /**
      * 删除未支付订单     dltType:  1=上分订单删除，2=陪玩订单删除
      */
-    @RequestMapping("/confirmOrder")
+    @RequestMapping("/deleteOrder")
     @ResponseBody
     public ResponseResult deleteOrderByUid(@RequestParam("token") String token,@RequestParam("oId")Integer oId,
                                            @RequestParam("dltType")Integer dltType){
