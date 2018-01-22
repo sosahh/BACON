@@ -1,5 +1,8 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,6 +19,7 @@ public class OrderPw implements Serializable {
 
     private String categoryTitle;     //类目名称
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date appointTime;        //预约时间
 
     private Integer count;        //局数
@@ -91,6 +95,7 @@ public class OrderPw implements Serializable {
         this.categoryTitle = categoryTitle == null ? null : categoryTitle.trim();
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm",timezone = "GMT+8")
     public Date getAppointTime() {
         return appointTime;
     }

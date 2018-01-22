@@ -101,7 +101,6 @@
     from o_order_sf a left join
     (select b.*,c.bright_pic from c_item_cat b ,c_item c where b.category_id = c.id) d
     on a.level_id = d.id
-    where
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId}</if>
       and a.status <![CDATA[ <> ]]> 4
