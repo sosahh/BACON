@@ -108,7 +108,7 @@
     select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
     from o_order_pw a left join u_user b on a.play_id = b.u_id
     <where>
-      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
     </where>
     order by a.status,a.appoint_time
   </select>
@@ -118,7 +118,7 @@
     select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
     from o_order_pw a left join u_user b on a.u_id = b.u_id
     <where>
-      <if test="playId != null and playId != ''">and play_id = #{playId}</if>
+      <if test="playId != null and playId != ''">and a.play_id = #{playId}</if>
       and a.order_reason <![CDATA[ <> ]]> 1 and a.status &gt; 0
     </where>
     order by a.status,a.appoint_time
