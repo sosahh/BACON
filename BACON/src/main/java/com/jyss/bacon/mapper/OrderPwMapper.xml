@@ -109,7 +109,6 @@
     from o_order_pw a left join u_user b on a.play_id = b.u_id
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId}</if>
-      and a.order_reason <![CDATA[ <> ]]> 1
     </where>
     order by a.status,a.appoint_time
   </select>

@@ -103,7 +103,6 @@
     on a.level_id = d.id
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId}</if>
-      and a.status <![CDATA[ <> ]]> 4
     </where>
     order by a.status,a.created desc
   </select>
