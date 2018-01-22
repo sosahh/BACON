@@ -66,4 +66,14 @@
     order by a.created desc
   </select>
 
+  <!--条件查询-->
+  <select id="selectEvaluateBy" resultMap="BaseResultMap">
+    select * from o_order_evaluate
+    <where>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="oId != null and oId != ''">and o_id = #{oId}</if>
+      and status = 1
+    </where>
+  </select>
+
 </mapper>

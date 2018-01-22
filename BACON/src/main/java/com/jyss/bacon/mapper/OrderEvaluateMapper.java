@@ -28,4 +28,12 @@ public interface OrderEvaluateMapper {
      * @return
      */
     List<OrderEvaluate> selectOrderEvaluateBy(@Param("playId")Integer playId, @Param("categoryId")Integer categoryId);
+
+    /**
+     * 条件查询
+     * @param uId
+     * @param oId
+     * @return
+     */
+    List<OrderEvaluate> selectEvaluateBy(@Param("uId")Integer uId, @Param("oId")Integer oId);
 }

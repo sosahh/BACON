@@ -37,6 +37,9 @@ public interface OrderService {
     //陪玩订单接单
     ResponseResult updateOrderPwByPlayId(@Param("uId")Integer uId,@Param("oId") Integer oId);
 
+    //陪玩订单进行中
+    ResponseResult updateOrderPwSatusByPlayId(@Param("uId")Integer uId,@Param("oId") Integer oId);
+
     //陪玩订单确认完成
     ResponseResult updateOrderPwBy(@Param("uId")Integer uId,@Param("oId") Integer oId);
 

@@ -30,7 +30,7 @@ public class OrderPw implements Serializable {
 
     private Double total;         //总计
 
-    private Integer status;       //0未支付，1已支付，2已接单，3完成，4订单取消
+    private Integer status;       //0未支付，1已支付，2已接单，3进行中，4完成，5订单取消
 
     private Integer orderReason;     //0正常，1客户取消，2约客取消
 
@@ -42,6 +42,7 @@ public class OrderPw implements Serializable {
 
     private Date modifyTime;        //订单修改时间
 
+    private Integer isPj;           //是否评价   0未评价，1已评价
     private String nick;            //昵称
     private String headpic;         //头像
 
@@ -198,5 +199,13 @@ public class OrderPw implements Serializable {
 
     public void setHeadpic(String headpic) {
         this.headpic = headpic;
+    }
+
+    public Integer getIsPj() {
+        return isPj;
+    }
+
+    public void setIsPj(Integer isPj) {
+        this.isPj = isPj;
     }
 }

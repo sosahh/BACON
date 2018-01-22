@@ -246,7 +246,7 @@ public class OrderServiceImpl implements OrderService{
                 if(count == 1){
                     OrderPw orderPw1 = new OrderPw();
                     orderPw1.setId(oId);
-                    orderPw1.setStatus(4);
+                    orderPw1.setStatus(5);
                     orderPw1.setOrderReason(1);
                     orderPw1.setModifyTime(new Date());
                     int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
@@ -284,7 +284,7 @@ public class OrderServiceImpl implements OrderService{
                 if(count == 1){
                     OrderPw orderPw1 = new OrderPw();
                     orderPw1.setId(oId);
-                    orderPw1.setStatus(4);
+                    orderPw1.setStatus(5);
                     orderPw1.setOrderReason(2);
                     orderPw1.setModifyTime(new Date());
                     int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
@@ -326,6 +326,14 @@ public class OrderServiceImpl implements OrderService{
         if(orderType == 1){
             PageHelper.startPage(page,pageSize);
             List<OrderPw> orderPwList = orderPwMapper.selectOrderPwByUid(uId);
+            for (OrderPw orderPw : orderPwList) {
+                List<OrderEvaluate> evaluateList = orderEvaluateMapper.selectEvaluateBy(orderPw.getuId(), orderPw.getId());
+                if(evaluateList != null && evaluateList.size()>0){
+                    orderPw.setIsPj(1);
+                }else {
+                    orderPw.setIsPj(0);
+                }
+            }
             PageInfo<OrderPw> pageInfo = new PageInfo<>(orderPwList);
             Page<OrderPw> result = new Page<>(pageInfo);
             return ResponseResult.ok(result);
@@ -364,6 +372,29 @@ public class OrderServiceImpl implements OrderService{
         return ResponseResult.error("-1","订单异常！");
     }
 
+    /**
+     * 陪玩订单进行中    陪玩人端开始
+     * @param uId
+     * @param oId
+     * @return
+     */
+    @Override
+    public ResponseResult updateOrderPwSatusByPlayId(Integer uId, Integer oId) {
+        List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(uId, oId, null, 2);
+        if(orderPwList != null && orderPwList.size()>0){
+            OrderPw orderPw1 = new OrderPw();
+            orderPw1.setId(oId);
+            orderPw1.setStatus(3);
+            orderPw1.setModifyTime(new Date());
+            int count = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-2","操作失败！");
+        }
+        return ResponseResult.error("-1","订单异常！");
+    }
+
 
     /**
      * 陪玩订单确认完成     陪玩人端确认
@@ -373,7 +404,7 @@ public class OrderServiceImpl implements OrderService{
      */
     @Override
     public ResponseResult updateOrderPwBy(Integer uId, Integer oId) {
-        List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(uId, oId, null, 2);
+        List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(uId, oId, null, 3);
         if(orderPwList != null && orderPwList.size()>0){
             OrderPw orderPw = orderPwList.get(0);
             List<User> userList = userMapper.selectUserBy(uId + "", null, null);
@@ -387,7 +418,7 @@ public class OrderServiceImpl implements OrderService{
             if(count == 1){
                 OrderPw orderPw1 = new OrderPw();
                 orderPw1.setId(oId);
-                orderPw1.setStatus(3);
+                orderPw1.setStatus(4);
                 orderPw1.setModifyTime(new Date());
                 int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
                 if(count1 == 1){

@@ -227,6 +227,23 @@ public class OrderAction {
 
     }
 
+    /**
+     * 陪玩订单进行中      陪玩人端开始
+     */
+    @RequestMapping("/updatePwStatus")
+    @ResponseBody
+    public ResponseResult updateOrderPwSatusByPlayId(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.updateOrderPwSatusByPlayId(uId, oId);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
 
     /**
      * 陪玩订单确认完成      陪玩人端确认
