@@ -1,22 +1,31 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class OrderEvaluate implements Serializable{
     private Integer id;
 
-    private Integer uId;        //用户id
+    private Integer uId;          //用户id
 
-    private Integer playId;      //陪玩人id
+    private Integer playId;       //陪玩人id
 
-    private String orderId;      //订单号
+    private Integer categoryId;   //游戏id
+
+    private Integer oId;          //订单号
 
     private String content;       //评论内容
 
     private Integer status;       //0禁用，1可用
 
     private Date created;
+
+    private String nick;           //昵称
+    private String headpic;        //头像
+    private String showTime;     //展示时间
+
 
     public Integer getId() {
         return id;
@@ -42,12 +51,12 @@ public class OrderEvaluate implements Serializable{
         this.playId = playId;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public Integer getoId() {
+        return oId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
+    public void setoId(Integer oId) {
+        this.oId = oId;
     }
 
     public String getContent() {
@@ -66,11 +75,44 @@ public class OrderEvaluate implements Serializable{
         this.status = status;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreated() {
         return created;
     }
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getHeadpic() {
+        return headpic;
+    }
+
+    public void setHeadpic(String headpic) {
+        this.headpic = headpic;
+    }
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
     }
 }

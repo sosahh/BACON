@@ -29,6 +29,7 @@ public class OrderAction {
     private ItemService itemService;
 
 
+
     /**
      * 上分订单
      * @param orderSf
@@ -264,6 +265,27 @@ public class OrderAction {
     }
 
 
+    /**
+     * 评价订单
+     */
+    @RequestMapping("/evaluate")
+    @ResponseBody
+    public ResponseResult insertOrderEvaluate(OrderEvaluate orderEvaluate,@RequestParam("token") String token){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            orderEvaluate.setuId(uId);
+            orderEvaluate.setStatus(1);
+            orderEvaluate.setCreated(new Date());
+            int count = orderService.insertEvaluate(orderEvaluate);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","评价失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
 
 
 }

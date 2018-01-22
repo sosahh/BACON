@@ -3,10 +3,7 @@ package com.jyss.bacon.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jyss.bacon.entity.*;
-import com.jyss.bacon.mapper.OrderPwMapper;
-import com.jyss.bacon.mapper.OrderSfMapper;
-import com.jyss.bacon.mapper.ScoreBalanceMapper;
-import com.jyss.bacon.mapper.UserMapper;
+import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,8 @@ public class OrderServiceImpl implements OrderService{
     private ScoreBalanceMapper scoreBalanceMapper;
     @Autowired
     private OrderPwMapper orderPwMapper;
+    @Autowired
+    private OrderEvaluateMapper orderEvaluateMapper;
 
 
 
@@ -441,6 +440,16 @@ public class OrderServiceImpl implements OrderService{
             }
         }
         return ResponseResult.error("-1","订单异常！");
+    }
+
+    /**
+     * 添加订单评论
+     * @param orderEvaluate
+     * @return
+     */
+    @Override
+    public int insertEvaluate(OrderEvaluate orderEvaluate) {
+        return orderEvaluateMapper.insertEvaluate(orderEvaluate);
     }
 
 

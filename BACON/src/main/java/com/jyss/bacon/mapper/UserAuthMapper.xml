@@ -81,11 +81,25 @@
   <!--条件查询-->
   <select id="getUserAuthBy" parameterType="com.jyss.bacon.entity.UserAuth" resultMap="BaseResultMap">
     select a.id,a.u_id,a.category_id,a.category_title,a.title_pw_name,a.title_name,a.price,
-    nullif(CONCAT('${httpUrl}',b.bright_pic),'${httpUrl}') as bright_pic
+    nullif(CONCAT('${httpUrl}',b.bright_pic),'${httpUrl}') as picture_1
     from u_user_auth a left join c_item b on a.category_id = b.id
     <where>
       <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
       <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
+      <if test="status != null ">and a.status = #{status}</if>
+    </where>
+  </select>
+
+  <!--查询认证详情-->
+  <select id="getUserAuthById" parameterType="int" resultMap="BaseResultMap">
+    select a.id,a.u_id,a.category_id,a.category_title,a.title_pw_name,a.title_name,a.price,a.title_id,
+    nullif(CONCAT('${httpUrl}',a.picture_1),'${httpUrl}') as picture_1,
+    nullif(CONCAT('${httpUrl}',a.picture_2),'${httpUrl}') as picture_2,
+    nullif(CONCAT('${httpUrl}',a.picture_3),'${httpUrl}') as picture_3,
+    b.nick as bright_pic
+    from u_user_auth a left join u_user b on a.u_id = b.u_id
+    <where>
+      <if test="id != null and id != ''">and a.id = #{id}</if>
       <if test="status != null ">and a.status = #{status}</if>
     </where>
   </select>

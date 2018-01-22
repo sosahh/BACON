@@ -3,6 +3,7 @@ package com.jyss.bacon.action;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.service.ItemService;
 import com.jyss.bacon.service.MobileLoginService;
+import com.jyss.bacon.service.UserAuthService;
 import com.jyss.bacon.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,8 @@ public class UserInfoAction {
     @Autowired
     private MobileLoginService mobileLoginService;
     @Autowired
-    private ItemService itemService;
+    private UserAuthService userAuthService;
+
 
     /**
      * 用户名或id搜索
@@ -99,6 +101,19 @@ public class UserInfoAction {
             return ResponseResult.ok(result);
         }
         return ResponseResult.error("1","token失效！");
+    }
+
+
+    /**
+     * 游戏详细信息
+     */
+    @RequestMapping("/getUserAuth")
+    @ResponseBody
+    public ResponseResult selectUserAuth(@RequestParam("authId") Integer authId,
+                                         @RequestParam(value = "page", required = true) Integer page,
+                                         @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        ResponseResult result = userAuthService.selectUserAuth(authId,page,pageSize);
+        return result;
     }
 
 

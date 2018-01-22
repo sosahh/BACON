@@ -27,4 +27,7 @@ public interface OrderPwMapper {
     //删除未支付订单
     int deleteOrderPwBy(@Param("id")Integer id,@Param("uId")Integer uId);
 
+    //查询完成订单数量
+    int selectCount(@Param("playId")Integer playId,@Param("categoryId")Integer categoryId);
+
 }

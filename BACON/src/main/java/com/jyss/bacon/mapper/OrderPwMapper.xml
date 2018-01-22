@@ -129,4 +129,10 @@
     delete from o_order_pw where id = #{id} and u_id = #{uId} and status = 0
   </delete>
 
+  <!--查询完成订单数量-->
+  <select id="selectCount" parameterType="int" resultType="int" >
+    select ifnull(count(*),0) from o_order_pw where play_id = #{playId} and category_id = #{categoryId} and status = 3
+  </select>
+
+
 </mapper>

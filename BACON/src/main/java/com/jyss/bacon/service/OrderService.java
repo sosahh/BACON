@@ -1,5 +1,6 @@
 package com.jyss.bacon.service;
 
+import com.jyss.bacon.entity.OrderEvaluate;
 import com.jyss.bacon.entity.OrderPw;
 import com.jyss.bacon.entity.OrderSf;
 import com.jyss.bacon.entity.ResponseResult;
@@ -41,5 +42,8 @@ public interface OrderService {
 
     //删除未支付订单
     ResponseResult deleteOrderByUid(@Param("uId")Integer uId,@Param("oId") Integer oId,@Param("dltType") Integer dltType);
+
+    //添加订单评价
+    int insertEvaluate(OrderEvaluate orderEvaluate);
 
 }

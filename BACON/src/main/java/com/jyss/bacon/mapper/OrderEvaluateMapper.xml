@@ -5,19 +5,20 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="u_id" property="uId" jdbcType="INTEGER" />
     <result column="play_id" property="playId" jdbcType="INTEGER" />
-    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="o_id" property="oId" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="headpic" property="headpic" jdbcType="VARCHAR" />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
-    insert into o_order_evaluate (id, u_id, play_id, 
-      order_id, content, status, 
-      created)
-    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER}, 
-      #{orderId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{created,jdbcType=TIMESTAMP})
+  <insert id="insertEvaluate" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
+    insert into o_order_evaluate (id, u_id, play_id, category_id, o_id, content, status, created)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER},
+      #{categoryId,jdbcType=INTEGER}, #{oId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
@@ -29,8 +30,11 @@
       <if test="playId != null" >
         play_id = #{playId,jdbcType=INTEGER},
       </if>
-      <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=VARCHAR},
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="oId != null" >
+        o_id = #{oId,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
@@ -44,5 +48,22 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询评论数量-->
+  <select id="selectCountEvaluate" parameterType="int" resultType="int" >
+    select ifnull(count(*),0) from o_order_evaluate where play_id = #{playId} and category_id = #{categoryId} and status = 1
+  </select>
+  
+  <!--条件查询评论-->
+  <select id="selectOrderEvaluateBy" resultMap="BaseResultMap">
+    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from o_order_evaluate a left join u_user b on a.u_id = b.u_id
+    <where>
+      <if test="playId != null and playId != ''">and a.play_id = #{playId}</if>
+      <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
+      and a.status = 1
+    </where>
+    order by a.created desc
+  </select>
 
 </mapper>
