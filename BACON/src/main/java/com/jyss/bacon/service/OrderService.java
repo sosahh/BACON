@@ -6,6 +6,8 @@ import com.jyss.bacon.entity.OrderSf;
 import com.jyss.bacon.entity.ResponseResult;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 public interface OrderService {
 
@@ -48,5 +50,8 @@ public interface OrderService {
 
     //添加订单评价
     int insertEvaluate(OrderEvaluate orderEvaluate);
+
+    //条件查询订单评价
+    List<OrderEvaluate> selectEvaluateBy(@Param("uId")Integer uId, @Param("oId")Integer oId);
 
 }

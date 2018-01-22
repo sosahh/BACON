@@ -543,4 +543,27 @@ public class UserAction {
         return ResponseResult.error("-3","验证码不正确！");
     }
 
+
+    /**
+     * 游戏下架
+     */
+    @RequestMapping("/upUserAuth")
+    @ResponseBody
+    public ResponseResult updateUserAuth(@RequestParam("token")String token,@RequestParam("authId")Integer authId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            UserAuth userAuth = new UserAuth();
+            userAuth.setId(authId);
+            userAuth.setStatus(0);
+            int count = userAuthService.updateByPrimaryKeySelective(userAuth);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","下架失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
 }

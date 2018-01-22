@@ -292,6 +292,10 @@ public class OrderAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
+            List<OrderEvaluate> evaluateList = orderService.selectEvaluateBy(uId, orderEvaluate.getoId());
+            if(evaluateList != null && evaluateList.size()>0){
+                return ResponseResult.error("-2","已经评价！");
+            }
             orderEvaluate.setuId(uId);
             orderEvaluate.setStatus(1);
             orderEvaluate.setCreated(new Date());

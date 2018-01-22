@@ -327,10 +327,14 @@ public class OrderServiceImpl implements OrderService{
             PageHelper.startPage(page,pageSize);
             List<OrderPw> orderPwList = orderPwMapper.selectOrderPwByUid(uId);
             for (OrderPw orderPw : orderPwList) {
-                List<OrderEvaluate> evaluateList = orderEvaluateMapper.selectEvaluateBy(orderPw.getuId(), orderPw.getId());
-                if(evaluateList != null && evaluateList.size()>0){
-                    orderPw.setIsPj(1);
-                }else {
+                if(orderPw.getStatus() == 4){
+                    List<OrderEvaluate> evaluateList = orderEvaluateMapper.selectEvaluateBy(orderPw.getuId(), orderPw.getId());
+                    if(evaluateList != null && evaluateList.size()>0){
+                        orderPw.setIsPj(1);         //已评
+                    }else {
+                        orderPw.setIsPj(0);         //未评
+                    }
+                }else{
                     orderPw.setIsPj(0);
                 }
             }
@@ -481,6 +485,12 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public int insertEvaluate(OrderEvaluate orderEvaluate) {
         return orderEvaluateMapper.insertEvaluate(orderEvaluate);
+    }
+
+
+    @Override
+    public List<OrderEvaluate> selectEvaluateBy(Integer uId, Integer oId) {
+        return orderEvaluateMapper.selectEvaluateBy(uId,oId);
     }
 
 
