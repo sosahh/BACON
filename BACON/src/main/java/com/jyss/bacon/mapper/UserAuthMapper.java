@@ -32,6 +32,16 @@ public interface UserAuthMapper {
      */
     List<UserAuth> getUserAuthBy(@Param("uId")Integer uId,@Param("categoryId")Integer categoryId,@Param("status")Integer status);
 
+
+    /**
+     * 查询上架
+     * @param uId
+     * @param categoryId
+     * @param status
+     * @return
+     */
+    List<UserAuth> getUserAuthByIsShelve(@Param("uId")Integer uId,@Param("categoryId")Integer categoryId,@Param("status")Integer status);
+
     /**
      * 查询认证详情
      * @param id

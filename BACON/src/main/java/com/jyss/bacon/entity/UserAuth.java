@@ -18,21 +18,23 @@ public class UserAuth implements Serializable {
 
     private String picture3;
 
-    private Integer titleId;       //段位id
+    private Integer titleId;         //段位id
 
     private String titlePwName;      //大段位名称
 
     private String titleName;       //小段位名称
 
-    private Double price;       //每局价格
+    private Double price;           //每局价格
 
     private String authDesc;        //描述
 
-    private Integer status;     //1=审核中 2=通过 3=未通过
+    private Integer status;         //1=审核中 2=通过 3=未通过
+
+    private Integer isShelve;       //0下架，1上架
 
     private Date created;
 
-    private String brightPic;    //类目图片
+    private String brightPic;       //类目图片
 
 
     public Integer getId() {
@@ -153,5 +155,13 @@ public class UserAuth implements Serializable {
 
     public void setBrightPic(String brightPic) {
         this.brightPic = brightPic;
+    }
+
+    public Integer getIsShelve() {
+        return isShelve;
+    }
+
+    public void setIsShelve(Integer isShelve) {
+        this.isShelve = isShelve;
     }
 }

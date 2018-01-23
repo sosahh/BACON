@@ -4,41 +4,20 @@
   <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.OrderSfResult" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
-    <result column="picture_1" property="picture1" jdbcType="VARCHAR" />
-    <result column="result1" property="result1" jdbcType="VARCHAR" />
-    <result column="result2" property="result2" jdbcType="VARCHAR" />
+    <result column="sf_user_id" property="sfUserId" jdbcType="INTEGER" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="sf_star" property="sfStar" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSfResult" >
-    insert into o_order_sf_result (id, order_id, picture_1, 
-      result1, result2, created
-      )
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
-      #{result1,jdbcType=VARCHAR}, #{result2,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
-      )
-  </insert>
+  <!--条件查询-->
+  <select id="selectOrderSfResult" parameterType="string" resultMap="BaseResultMap">
+    select id,order_id,sf_user_id,picture,
+    result,sf_star,created from o_order_sf_result
+    where order_id = #{orderId}
+  </select>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSfResult" >
-    update o_order_sf_result
-    <set >
-      <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=VARCHAR},
-      </if>
-      <if test="picture1 != null" >
-        picture_1 = #{picture1,jdbcType=VARCHAR},
-      </if>
-      <if test="result1 != null" >
-        result1 = #{result1,jdbcType=VARCHAR},
-      </if>
-      <if test="result2 != null" >
-        result2 = #{result2,jdbcType=VARCHAR},
-      </if>
-      <if test="created != null" >
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
 </mapper>

@@ -394,6 +394,7 @@ public class UserAction {
             userAuth.setTitlePwName(itemCat.getDwName());
             userAuth.setTitleName(itemCat.getName());
             userAuth.setStatus(1);
+            userAuth.setIsShelve(1);
             userAuth.setCreated(new Date());
 
             // Base64.decode(photo);
@@ -545,27 +546,54 @@ public class UserAction {
 
 
     /**
-     * 游戏下架
+     * 游戏下架和删除      yxType: 1=删除，2=下架
      */
     @RequestMapping("/upUserAuth")
     @ResponseBody
-    public ResponseResult updateUserAuth(@RequestParam("token")String token,@RequestParam("authId")Integer authId){
+    public ResponseResult updateUserAuth(@RequestParam("token")String token,@RequestParam("authId")Integer authId,
+                                         @RequestParam("yxType")Integer yxType){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
             UserAuth userAuth = new UserAuth();
             userAuth.setId(authId);
-            userAuth.setStatus(0);
+            if(yxType == 1){
+                userAuth.setStatus(0);
+            }else if(yxType == 2){
+                userAuth.setIsShelve(0);
+            }
             int count = userAuthService.updateByPrimaryKeySelective(userAuth);
             if(count == 1){
                 return ResponseResult.ok("");
             }
-            return ResponseResult.error("-1","下架失败！");
+            return ResponseResult.error("-1","操作失败！");
         }
         return ResponseResult.error("1","token失效！");
     }
 
+
+    /**
+     * 游戏上架
+     */
+    @RequestMapping("/upAuthShelve")
+    @ResponseBody
+    public ResponseResult updateUserAuthShelve(@RequestParam("token")String token,@RequestParam("authId")Integer authId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            UserAuth userAuth = new UserAuth();
+            userAuth.setId(authId);
+            userAuth.setIsShelve(1);
+            int count = userAuthService.updateByPrimaryKeySelective(userAuth);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","操作失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
 
 
     /**

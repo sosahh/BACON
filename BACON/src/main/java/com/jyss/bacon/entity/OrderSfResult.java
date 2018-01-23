@@ -6,15 +6,19 @@ import java.util.Date;
 public class OrderSfResult implements Serializable {
     private Integer id;
 
-    private String orderId;     //订单号
+    private String orderId;      //订单号
 
-    private String picture1;     //
+    private Integer sfUserId;    //代练人id
 
-    private String result1;      //胜负情况
+    private String picture;      //结果图片
 
-    private String result2;      //加星情况
+    private String result;       //胜负情况
+
+    private String sfStar;       //加星情况
 
     private Date created;
+
+
 
     public Integer getId() {
         return id;
@@ -32,28 +36,20 @@ public class OrderSfResult implements Serializable {
         this.orderId = orderId == null ? null : orderId.trim();
     }
 
-    public String getPicture1() {
-        return picture1;
+    public String getResult() {
+        return result;
     }
 
-    public void setPicture1(String picture1) {
-        this.picture1 = picture1 == null ? null : picture1.trim();
+    public void setResult(String result) {
+        this.result = result;
     }
 
-    public String getResult1() {
-        return result1;
+    public String getSfStar() {
+        return sfStar;
     }
 
-    public void setResult1(String result1) {
-        this.result1 = result1 == null ? null : result1.trim();
-    }
-
-    public String getResult2() {
-        return result2;
-    }
-
-    public void setResult2(String result2) {
-        this.result2 = result2 == null ? null : result2.trim();
+    public void setSfStar(String sfStar) {
+        this.sfStar = sfStar;
     }
 
     public Date getCreated() {
@@ -62,5 +58,21 @@ public class OrderSfResult implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Integer getSfUserId() {
+        return sfUserId;
+    }
+
+    public void setSfUserId(Integer sfUserId) {
+        this.sfUserId = sfUserId;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

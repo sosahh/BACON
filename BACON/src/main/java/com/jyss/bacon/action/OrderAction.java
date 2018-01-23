@@ -347,4 +347,41 @@ public class OrderAction {
     }
 
 
+    /**
+     * 上分订单详情
+     */
+    @RequestMapping("/sfDetails")
+    @ResponseBody
+    public ResponseResult getOrderSfDetails(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+
+            return null;
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+
+    /**
+     * 陪玩订单详情    pwType:  1=用户端，2=陪玩人端
+     */
+    @RequestMapping("/pwDetails")
+    @ResponseBody
+    public ResponseResult getOrderPwDetails(@RequestParam("token") String token,@RequestParam("oId")Integer oId,
+                                            @RequestParam("pwType")Integer pwType){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = orderService.getOrderPwDetails(uId, oId, pwType);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+
 }

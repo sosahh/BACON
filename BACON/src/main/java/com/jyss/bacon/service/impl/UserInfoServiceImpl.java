@@ -151,7 +151,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         //关注数
         int count = userFollowMapper.getUserFellowCount(playId);
         //认证游戏
-        List<UserAuth> userAuthList = userAuthMapper.getUserAuthBy(playId, null, 2);
+        List<UserAuth> userAuthList = userAuthMapper.getUserAuthByIsShelve(playId, null, 2);
         //动态
         List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
         if(uId == null){

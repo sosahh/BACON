@@ -100,7 +100,6 @@
       <if test="uId != null and uId != ''">and u_id = #{uId}</if>
       <if test="status != null and status != ''">and status = #{status}</if>
     </where>
-    and order_reason = 0
   </select>
 
   <!--查询个人订单-->

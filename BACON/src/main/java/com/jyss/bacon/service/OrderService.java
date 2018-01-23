@@ -54,4 +54,11 @@ public interface OrderService {
     //条件查询订单评价
     List<OrderEvaluate> selectEvaluateBy(@Param("uId")Integer uId, @Param("oId")Integer oId);
 
+    //上分订单详情
+    ResponseResult getOrderSfDetails(@Param("uId")Integer uId, @Param("oId")Integer oId);
+
+    //陪玩订单详情
+    ResponseResult getOrderPwDetails(@Param("uId")Integer uId, @Param("oId")Integer oId , @Param("pwType")Integer pwType);
+
+
 }

@@ -5,12 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.OrderService;
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -27,6 +29,8 @@ public class OrderServiceImpl implements OrderService{
     private OrderPwMapper orderPwMapper;
     @Autowired
     private OrderEvaluateMapper orderEvaluateMapper;
+    @Autowired
+    private OrderSfResultMapper orderSfResultMapper;
 
 
 
@@ -491,6 +495,77 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<OrderEvaluate> selectEvaluateBy(Integer uId, Integer oId) {
         return orderEvaluateMapper.selectEvaluateBy(uId,oId);
+    }
+
+
+    /**
+     * 上分订单详情
+     * @param uId
+     * @param oId
+     * @return
+     */
+    @Override
+    public ResponseResult getOrderSfDetails(Integer uId, Integer oId) {
+        List<OrderSf> orderSfList = orderSfMapper.selectOrderSfBy(null, oId, uId, null);
+        if(orderSfList != null && orderSfList.size()==1){
+            OrderSf orderSf = orderSfList.get(0);
+
+
+
+
+
+
+        }
+
+        return ResponseResult.error("-1","订单异常！");
+    }
+
+
+    /**
+     * 陪玩订单详情    1=用户端，2=陪玩人端
+     * @param uId
+     * @param oId
+     * @return
+     */
+    @Override
+    public ResponseResult getOrderPwDetails(Integer uId, Integer oId, Integer pwType) {
+        if(pwType == 1){
+            List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(null, oId, uId, null);
+            if(orderPwList != null && orderPwList.size()==1){
+                OrderPw orderPw = orderPwList.get(0);
+                if(orderPw.getStatus() == 4){
+                    List<OrderEvaluate> evaluateList = orderEvaluateMapper.selectEvaluateBy(orderPw.getuId(), orderPw.getId());
+                    if(evaluateList != null && evaluateList.size()>0){
+                        orderPw.setIsPj(1);         //已评
+                    }else {
+                        orderPw.setIsPj(0);         //未评
+                    }
+                }else{
+                    orderPw.setIsPj(0);
+                }
+
+                HashMap<String, Object> map = new HashMap<>();
+                List<User> userList = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                User user = userList.get(0);
+                map.put("order",orderPw);
+                map.put("user",user);
+                return ResponseResult.ok(map);
+            }
+
+        }else if(pwType == 2){
+            List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(uId, oId, null, null);
+            if(orderPwList != null && orderPwList.size()==1){
+                OrderPw orderPw = orderPwList.get(0);
+                HashMap<String, Object> map = new HashMap<>();
+                List<User> userList = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
+                User user = userList.get(0);
+                map.put("order",orderPw);
+                map.put("user",user);
+                return ResponseResult.ok(map);
+            }
+        }
+
+        return ResponseResult.error("-1","订单异常！");
     }
 
 
