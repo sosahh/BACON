@@ -8,6 +8,9 @@
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="o_id" property="oId" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="picture_1" property="picture1" jdbcType="VARCHAR" />
+    <result column="picture_2" property="picture2" jdbcType="VARCHAR" />
+    <result column="picture_3" property="picture3" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="nick" property="nick" jdbcType="VARCHAR" />
@@ -15,9 +18,11 @@
   </resultMap>
 
   <insert id="insertEvaluate" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
-    insert into o_order_evaluate (id, u_id, play_id, category_id, o_id, content, status, created)
-    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER},
+    insert into o_order_evaluate (id, u_id, play_id, category_id, o_id, content,
+      picture_1, picture_2, picture_3, status, created)
+      values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER},
       #{categoryId,jdbcType=INTEGER}, #{oId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
+      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
   </insert>
 
@@ -39,6 +44,15 @@
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="picture1 != null" >
+        picture_1 = #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null" >
+        picture_2 = #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null" >
+        picture_3 = #{picture3,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -56,7 +70,11 @@
   
   <!--条件查询评论-->
   <select id="selectOrderEvaluateBy" resultMap="BaseResultMap">
-    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    select a.id, a.u_id, a.play_id, a.category_id, a.o_id, a.content, a.status, a.created,
+    nullif(CONCAT('${httpUrl}',a.picture_1),'${httpUrl}') as picture_1,
+    nullif(CONCAT('${httpUrl}',a.picture_2),'${httpUrl}') as picture_2,
+    nullif(CONCAT('${httpUrl}',a.picture_3),'${httpUrl}') as picture_3,
+    b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
     from o_order_evaluate a left join u_user b on a.u_id = b.u_id
     <where>
       <if test="playId != null and playId != ''">and a.play_id = #{playId}</if>

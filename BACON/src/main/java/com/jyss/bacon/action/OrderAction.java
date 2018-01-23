@@ -4,6 +4,8 @@ import com.jyss.bacon.entity.*;
 import com.jyss.bacon.service.ItemService;
 import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.OrderService;
+import com.jyss.bacon.utils.Base64Image;
+import com.jyss.bacon.utils.CommTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -287,7 +292,11 @@ public class OrderAction {
      */
     @RequestMapping("/evaluate")
     @ResponseBody
-    public ResponseResult insertOrderEvaluate(OrderEvaluate orderEvaluate,@RequestParam("token") String token){
+    public ResponseResult insertOrderEvaluate(OrderEvaluate orderEvaluate, @RequestParam("token") String token,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception{
+        if(StringUtils.isEmpty(orderEvaluate.getContent())){
+            return ResponseResult.error("-3","内容不能为空！");
+        }
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
@@ -299,6 +308,35 @@ public class OrderAction {
             orderEvaluate.setuId(uId);
             orderEvaluate.setStatus(1);
             orderEvaluate.setCreated(new Date());
+
+            // Base64.decode(photo);
+            request.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/html");
+
+            String filePath = request.getSession().getServletContext().getRealPath("/");
+            int index = filePath.indexOf("BACON");
+            filePath = filePath.substring(0, index) + "uploadDyPic" + "/";
+            File f = new File(filePath);
+            CommTool.judeDirExists(f);
+            String filePath1 = filePath + uId + System.currentTimeMillis() + "001.png";
+            String filePath2 = filePath + uId + System.currentTimeMillis() + "002.png";
+            String filePath3 = filePath + uId + System.currentTimeMillis() + "003.png";
+            boolean isOk1 = false;
+            isOk1 = Base64Image.GenerateImage(orderEvaluate.getPicture1(), filePath1);
+            if (isOk1) {
+                orderEvaluate.setPicture1(filePath1.substring(filePath1.indexOf("uploadDyPic")));
+            }
+            boolean isOk2 = false;
+            isOk2 = Base64Image.GenerateImage(orderEvaluate.getPicture2(), filePath2);
+            if (isOk2) {
+                orderEvaluate.setPicture2(filePath2.substring(filePath2.indexOf("uploadDyPic")));
+            }
+            boolean isOk3 = false;
+            isOk3 = Base64Image.GenerateImage(orderEvaluate.getPicture3(), filePath3);
+            if (isOk3) {
+                orderEvaluate.setPicture3(filePath3.substring(filePath3.indexOf("uploadDyPic")));
+            }
             int count = orderService.insertEvaluate(orderEvaluate);
             if(count == 1){
                 return ResponseResult.ok("");
