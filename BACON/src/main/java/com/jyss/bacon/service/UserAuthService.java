@@ -19,5 +19,6 @@ public interface UserAuthService {
     List<UserAuth> getUserAuthBy(@Param("uId")Integer uId, @Param("categoryId")Integer categoryId, @Param("status")Integer status);
 
     //游戏详细信息
-    ResponseResult selectUserAuth(@Param("authId")Integer authId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
+    ResponseResult selectUserAuth(@Param("uId")Integer uId,@Param("authId")Integer authId,
+                                  @Param("page")Integer page,@Param("pageSize")Integer pageSize);
 }

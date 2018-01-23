@@ -109,11 +109,22 @@ public class UserInfoAction {
      */
     @RequestMapping("/getUserAuth")
     @ResponseBody
-    public ResponseResult selectUserAuth(@RequestParam("authId") Integer authId,
+    public ResponseResult selectUserAuth(@RequestParam("authId") Integer authId,@RequestParam("token") String token,
                                          @RequestParam(value = "page", required = true) Integer page,
                                          @RequestParam(value = "pageSize", required = true) Integer pageSize){
-        ResponseResult result = userAuthService.selectUserAuth(authId,page,pageSize);
-        return result;
+        if(StringUtils.isEmpty(token)){
+            ResponseResult result = userAuthService.selectUserAuth(null,authId,page,pageSize);
+            return ResponseResult.ok(result);
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userAuthService.selectUserAuth(uId,authId,page,pageSize);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
     }
 
 

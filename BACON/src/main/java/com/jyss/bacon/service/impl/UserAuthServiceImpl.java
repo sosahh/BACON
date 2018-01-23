@@ -51,7 +51,7 @@ public class UserAuthServiceImpl implements UserAuthService{
      * @return
      */
     @Override
-    public ResponseResult selectUserAuth(Integer authId,Integer page,Integer pageSize) {
+    public ResponseResult selectUserAuth(Integer uId,Integer authId,Integer page,Integer pageSize) {
         List<UserAuth> userAuthList = userAuthMapper.getUserAuthById(authId, 2);
         if(userAuthList != null && userAuthList.size()==1){
             HashMap<String, Object> map = new HashMap<>();
@@ -66,7 +66,11 @@ public class UserAuthServiceImpl implements UserAuthService{
             }
             PageInfo<OrderEvaluate> pageInfo = new PageInfo<>(list);
             Page<OrderEvaluate> result = new Page<>(pageInfo);
-
+            if(uId == null){
+                map.put("uId",0);
+            }else{
+                map.put("uId",uId);
+            }
             map.put("game",userAuth);
             map.put("orders",count1);
             map.put("evaluates",count2);

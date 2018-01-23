@@ -156,6 +156,7 @@ public class UserInfoServiceImpl implements UserInfoService{
         List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(playId);
         if(uId == null){
             result.setType(false);
+            result.setuId(0);
         }else{
             //是否已关注
             List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, playId, 1);
@@ -164,8 +165,8 @@ public class UserInfoServiceImpl implements UserInfoService{
             }else {
                 result.setType(false);
             }
+            result.setuId(uId);
         }
-        result.setuId(uId);
         result.setUser(user);
         result.setCount(count);
         result.setPictures(userDynamicList);
