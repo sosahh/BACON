@@ -79,4 +79,24 @@ public class UserAuthServiceImpl implements UserAuthService{
         }
         return ResponseResult.error("-1","查询失败！");
     }
+
+
+    /**
+     * 我的评价
+     * @param uId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ResponseResult getMyEvaluate(Integer uId, Integer page, Integer pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<OrderEvaluate> list = orderEvaluateMapper.selectMyEvaluate(uId);
+        for (OrderEvaluate orderEvaluate : list) {
+            orderEvaluate.setShowTime(DateFormatUtils.showTimeText(orderEvaluate.getCreated()));
+        }
+        PageInfo<OrderEvaluate> pageInfo = new PageInfo<>(list);
+        Page<OrderEvaluate> result = new Page<>(pageInfo);
+        return ResponseResult.ok(result);
+    }
 }

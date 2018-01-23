@@ -566,4 +566,26 @@ public class UserAction {
         return ResponseResult.error("1","token失效！");
     }
 
+
+
+    /**
+     * 我的评价
+     */
+    @RequestMapping("/getMyEvaluate")
+    @ResponseBody
+    public ResponseResult getMyEvaluate(@RequestParam("token") String token,
+                                        @RequestParam(value = "page", required = true) Integer page,
+                                        @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userAuthService.getMyEvaluate(uId, page, pageSize);
+            return result;
+
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
 }

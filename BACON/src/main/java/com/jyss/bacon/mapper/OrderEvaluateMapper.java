@@ -36,4 +36,11 @@ public interface OrderEvaluateMapper {
      * @return
      */
     List<OrderEvaluate> selectEvaluateBy(@Param("uId")Integer uId, @Param("oId")Integer oId);
+
+    /**
+     * 我的评价
+     * @param uId
+     * @return
+     */
+    List<OrderEvaluate> selectMyEvaluate(@Param("uId")Integer uId);
 }

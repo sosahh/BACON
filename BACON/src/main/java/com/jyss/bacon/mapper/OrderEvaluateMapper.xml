@@ -13,8 +13,9 @@
     <result column="picture_3" property="picture3" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="nick" property="nick" jdbcType="VARCHAR" />
-    <result column="headpic" property="headpic" jdbcType="VARCHAR" />
+    <result column="nick" property="nick"  />
+    <result column="headpic" property="headpic"  />
+    <result column="total" property="total"  />
   </resultMap>
 
   <insert id="insertEvaluate" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
@@ -93,5 +94,17 @@
       and status = 1
     </where>
   </select>
+
+  <!--我的评价-->
+  <select id="selectMyEvaluate" parameterType="int" resultMap="BaseResultMap">
+    select a.content,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic,
+    format(e.total,2) total,e.nick as picture_1,a.created,
+    nullif(CONCAT('${httpUrl}',e.headpic),'${httpUrl}') as picture_2
+    from o_order_evaluate a left join u_user b on a.u_id = b.u_id left join
+    (select c.id,c.total,d.headpic,d.nick from o_order_pw c left join u_user d on c.play_id = d.u_id) e
+    on a.o_id = e.id
+    where a.u_id = #{uId} order by a.created desc
+  </select>
+
 
 </mapper>

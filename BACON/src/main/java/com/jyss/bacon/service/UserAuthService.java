@@ -21,4 +21,7 @@ public interface UserAuthService {
     //游戏详细信息
     ResponseResult selectUserAuth(@Param("uId")Integer uId,@Param("authId")Integer authId,
                                   @Param("page")Integer page,@Param("pageSize")Integer pageSize);
+
+    //我的评价
+    ResponseResult getMyEvaluate(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
 }

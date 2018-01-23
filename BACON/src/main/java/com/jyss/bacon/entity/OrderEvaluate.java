@@ -28,9 +28,11 @@ public class OrderEvaluate implements Serializable{
 
     private Date created;
 
+    private Double total;          //总价
     private String nick;           //昵称
     private String headpic;        //头像
-    private String showTime;     //展示时间
+    private String showTime;       //展示时间
+
 
 
     public Integer getId() {
@@ -144,5 +146,13 @@ public class OrderEvaluate implements Serializable{
 
     public void setPicture3(String picture3) {
         this.picture3 = picture3;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 }
