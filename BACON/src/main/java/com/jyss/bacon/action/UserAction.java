@@ -644,5 +644,29 @@ public class UserAction {
     }
 
 
+    /**
+     * 我的钱包
+     */
+    @RequestMapping("/wallet")
+    @ResponseBody
+    public ResponseResult selectUserWallet(@RequestParam("token") String token){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userService.selectUserWallet(uId);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+    /**
+     * 我的账单
+     */
+
+
+
 
 }

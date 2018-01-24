@@ -31,8 +31,6 @@ public class OrderServiceImpl implements OrderService{
     private OrderEvaluateMapper orderEvaluateMapper;
     @Autowired
     private OrderSfResultMapper orderSfResultMapper;
-    @Autowired
-    private XtclMapper xtclMapper;
 
 
 
@@ -73,7 +71,9 @@ public class OrderServiceImpl implements OrderService{
                             ScoreBalance scoreBalance = new ScoreBalance();
                             scoreBalance.setEnd(1);
                             scoreBalance.setuId(uId);
+                            scoreBalance.setDetail("上分订单支付支出");
                             scoreBalance.setType(2);
+                            scoreBalance.setIncome(0);
                             scoreBalance.setScore(orderSf.getTotal());
                             scoreBalance.setJyScore(jyScore);
                             scoreBalance.setOrderSn(orderSf.getOrderId());
@@ -124,7 +124,9 @@ public class OrderServiceImpl implements OrderService{
                     ScoreBalance scoreBalance = new ScoreBalance();
                     scoreBalance.setEnd(1);
                     scoreBalance.setuId(uId);
+                    scoreBalance.setDetail("上分订单取消收入");
                     scoreBalance.setType(1);
+                    scoreBalance.setIncome(2);
                     scoreBalance.setScore(orderSf.getTotal());
                     scoreBalance.setJyScore(jyScore);
                     scoreBalance.setOrderSn(orderSf.getOrderId());
@@ -205,7 +207,9 @@ public class OrderServiceImpl implements OrderService{
                             ScoreBalance scoreBalance = new ScoreBalance();
                             scoreBalance.setEnd(2);
                             scoreBalance.setuId(uId);
+                            scoreBalance.setDetail("游戏订单支付支出");
                             scoreBalance.setType(2);
+                            scoreBalance.setIncome(0);
                             scoreBalance.setScore(orderPw.getTotal());
                             scoreBalance.setJyScore(jyScore);
                             scoreBalance.setOrderSn(orderPw.getOrderId());
@@ -260,7 +264,9 @@ public class OrderServiceImpl implements OrderService{
                         ScoreBalance scoreBalance = new ScoreBalance();
                         scoreBalance.setEnd(2);
                         scoreBalance.setuId(uId);
+                        scoreBalance.setDetail("游戏订单取消收入");
                         scoreBalance.setType(1);
+                        scoreBalance.setIncome(2);
                         scoreBalance.setScore(orderPw.getTotal());
                         scoreBalance.setJyScore(jyScore);
                         scoreBalance.setOrderSn(orderPw.getOrderId());
@@ -298,8 +304,9 @@ public class OrderServiceImpl implements OrderService{
                         ScoreBalance scoreBalance = new ScoreBalance();
                         scoreBalance.setEnd(2);
                         scoreBalance.setuId(orderPw.getuId());
-                        scoreBalance.setDetail("陪玩方取消订单");
+                        scoreBalance.setDetail("游戏订单对方取消收入");
                         scoreBalance.setType(1);
+                        scoreBalance.setIncome(2);
                         scoreBalance.setScore(orderPw.getTotal());
                         scoreBalance.setJyScore(jyScore);
                         scoreBalance.setOrderSn(orderPw.getOrderId());
@@ -435,7 +442,9 @@ public class OrderServiceImpl implements OrderService{
                     ScoreBalance scoreBalance = new ScoreBalance();
                     scoreBalance.setEnd(2);
                     scoreBalance.setuId(uId);
+                    scoreBalance.setDetail("游戏订单收入");
                     scoreBalance.setType(1);
+                    scoreBalance.setIncome(1);
                     scoreBalance.setScore(orderPw.getTotal());
                     scoreBalance.setJyScore(jyScore);
                     scoreBalance.setOrderSn(orderPw.getOrderId());

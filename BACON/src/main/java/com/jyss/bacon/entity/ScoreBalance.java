@@ -13,6 +13,8 @@ public class ScoreBalance {
 
     private Integer type;        //1=收入 2=支出
 
+    private Integer income;      //0，1=正常收入 2=订单取消收入
+
     private Double score;        //积分数额
 
     private Double jyScore;       //结余数额
@@ -103,5 +105,13 @@ public class ScoreBalance {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getIncome() {
+        return income;
+    }
+
+    public void setIncome(Integer income) {
+        this.income = income;
     }
 }

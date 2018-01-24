@@ -1,12 +1,7 @@
 package com.jyss.bacon.service.impl;
 
-import com.jyss.bacon.entity.MobileLogin;
-import com.jyss.bacon.entity.ResponseResult;
-import com.jyss.bacon.entity.User;
-import com.jyss.bacon.entity.UserAuth;
-import com.jyss.bacon.mapper.MobileLoginMapper;
-import com.jyss.bacon.mapper.UserAuthMapper;
-import com.jyss.bacon.mapper.UserMapper;
+import com.jyss.bacon.entity.*;
+import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.CommTool;
 import com.jyss.bacon.utils.PasswordUtil;
@@ -31,6 +26,10 @@ public class UserServiceImpl implements UserService{
     private MobileLoginMapper mobileLoginMapper;
     @Autowired
     private UserAuthMapper userAuthMapper;
+    @Autowired
+    private ScoreBalanceMapper scoreBalanceMapper;
+    @Autowired
+    private XtclMapper xtclMapper;
 
 
     /**
@@ -142,6 +141,27 @@ public class UserServiceImpl implements UserService{
     }
 
 
+    /**
+     * 我的钱包
+     * @param uId
+     * @return
+     */
+    @Override
+    public ResponseResult selectUserWallet(Integer uId) {
+        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+        User user = userList.get(0);
+        double totalIncome = scoreBalanceMapper.getTotalIncome(uId);
+        double incomeToday = scoreBalanceMapper.getIncomeToday(uId);
+        List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");
+        Xtcl xtcl = xtclList.get(0);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("total",totalIncome);
+        map.put("today",incomeToday);
+        map.put("cash",user.getBalance());
+        map.put("money",xtcl.getBz_value());
+        return ResponseResult.ok(map);
+    }
 
 
 }

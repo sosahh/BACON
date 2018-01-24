@@ -24,4 +24,7 @@ public interface UserService {
     //修用户信息修改
     int updateUser(User user);
 
+    //我的钱包
+    ResponseResult selectUserWallet(@Param("uId")Integer uId);
+
 }
