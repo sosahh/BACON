@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -153,18 +150,27 @@ public class UserServiceImpl implements UserService{
     @Override
     public ResponseResult selectUserWallet(Integer uId) {
         List<User> userList = userMapper.selectUserBy(uId + "", null, null);
-        User user = userList.get(0);
-        String totalIncome = scoreBalanceMapper.getTotalIncome(uId);
-        String incomeToday = scoreBalanceMapper.getIncomeToday(uId);
-        List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");
-        Xtcl xtcl = xtclList.get(0);
+        if(userList != null && userList.size()== 1){
 
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("total",totalIncome);
-        map.put("today",incomeToday);
-        map.put("cash",user.getMoney());
-        map.put("money",xtcl.getBz_value());
-        return ResponseResult.ok(map);
+            User user = userList.get(0);
+            String totalIncome = scoreBalanceMapper.getTotalIncome(uId);
+            String incomeToday = scoreBalanceMapper.getIncomeToday(uId);
+            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");
+            Xtcl xtcl = xtclList.get(0);
+
+            List<Xtcl> xtclList1 = xtclMapper.getClsBy("prop_type", "1");
+            Xtcl xtcl1 = xtclList1.get(0);
+            double prop = Double.parseDouble(xtcl1.getBz_value());
+            float cash = (float) (Math.round((user.getBalance() / prop) * 100)) / 100;
+
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("total",totalIncome);
+            map.put("today",incomeToday);
+            map.put("cash",cash);
+            map.put("money",xtcl.getBz_value());
+            return ResponseResult.ok(map);
+        }
+        return ResponseResult.error("-1","用户信息异常！");
     }
 
 
@@ -201,6 +207,37 @@ public class UserServiceImpl implements UserService{
         Page<MoneyDetail> result = new Page<>(pageInfo);
 
         return ResponseResult.ok(result);
+    }
+
+
+    /**
+     * 我的培根币
+     * @param uId
+     * @return
+     */
+    @Override
+    public ResponseResult selectUserBalance(Integer uId) {
+        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+        if(userList != null && userList.size()== 1){
+            User user = userList.get(0);
+            List<Xtcl> xtclList = xtclMapper.getClsBy("prop_type", "1");
+            Xtcl xtcl = xtclList.get(0);
+            double prop = Double.parseDouble(xtcl.getBz_value());              //比例
+            List<Xtcl> xtclList1 = xtclMapper.getClsBy("money_type", null);
+            List<Object> list = new ArrayList<>();
+            for (Xtcl xtcl1 : xtclList1) {
+                double cash = Double.parseDouble(xtcl1.getBz_value());
+                Map<String, Double> map = new HashMap<>();
+                map.put("cash",cash);
+                map.put("total",cash*prop);
+                list.add(map);
+            }
+            Map<Object, Object> map1 = new LinkedHashMap<>();
+            map1.put("balance",user.getMoney());
+            map1.put("items",list);
+            return ResponseResult.ok(map1);
+        }
+        return ResponseResult.error("-1","用户信息异常！");
     }
 
 

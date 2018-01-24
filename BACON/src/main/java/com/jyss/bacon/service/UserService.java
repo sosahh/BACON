@@ -33,4 +33,7 @@ public interface UserService {
     //查询充值记录
     ResponseResult selectMoneyDetail(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
 
+    //我的培根币
+    ResponseResult selectUserBalance(@Param("uId")Integer uId);
+
 }
