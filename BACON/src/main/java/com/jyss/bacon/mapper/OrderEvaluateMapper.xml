@@ -98,7 +98,7 @@
   <!--我的评价-->
   <select id="selectMyEvaluate" parameterType="int" resultMap="BaseResultMap">
     select a.content,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic,
-    format(e.total,2) total,e.nick as picture_1,a.created,
+    e.total,e.nick as picture_1,a.created,
     nullif(CONCAT('${httpUrl}',e.headpic),'${httpUrl}') as picture_2
     from o_order_evaluate a left join u_user b on a.u_id = b.u_id left join
     (select c.id,c.total,d.headpic,d.nick from o_order_pw c left join u_user d on c.play_id = d.u_id) e

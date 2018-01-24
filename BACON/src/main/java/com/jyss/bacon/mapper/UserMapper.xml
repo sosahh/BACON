@@ -25,6 +25,7 @@
     <result column="balance" property="balance" jdbcType="DECIMAL" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="money" property="money" />
   </resultMap>
 
   <!--添加用户-->
@@ -120,7 +121,7 @@
     select u_id, account, tel, password, salt, pay_pwd, nick,
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
-    popularity, label_desc, balance ,create_time, last_modify_time
+    popularity, label_desc, balance ,create_time, last_modify_time, format(balance,2) money
     from u_user
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId} </if>

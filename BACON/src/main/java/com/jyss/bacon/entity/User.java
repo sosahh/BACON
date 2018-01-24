@@ -54,6 +54,8 @@ public class User implements Serializable {
 
     private Date lastModifyTime;       //修改时间
 
+    private String money;              //金额
+
 
     public Integer getuId() {
         return uId;
@@ -238,5 +240,13 @@ public class User implements Serializable {
 
     public void setPayPwd(String payPwd) {
         this.payPwd = payPwd;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
     }
 }

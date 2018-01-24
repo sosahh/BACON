@@ -60,9 +60,7 @@
 
   <!--条件查询-->
   <select id="getItemCatBy" parameterType="com.jyss.bacon.entity.ItemCat" resultMap="BaseResultMap">
-    select id, category_id, category_name, dw_name, name, format(pw_price,2) pw_price,
-    format(pp_price,2) pp_price, status, sort_order, created
-    from c_item_cat
+    select * from c_item_cat
     <where>
       <if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
       <if test="dwName != null and dwName != ''">and dw_name = #{dwName}</if>
@@ -73,14 +71,12 @@
   
   <!--查询所有大段位-->
   <select id="selectDwNameByCategoryId" parameterType="int" resultMap="BaseResultMap">
-    select id, category_id, category_name, dw_name, name, format(pw_price,2) pw_price,
-    format(pp_price,2) pp_price, status, sort_order, created from c_item_cat
+    select * from c_item_cat
     where category_id = #{categoryId} and status = 1 group by dw_name order by sort_order
   </select>
 
   <!--通过id查询-->
   <select id="getItemCatById" parameterType="int" resultMap="BaseResultMap">
-    select id, category_id, category_name, dw_name, name, format(pw_price,2) pw_price,
-    format(pp_price,2) pp_price, status, sort_order, created from c_item_cat where id = #{id}
+    select * from c_item_cat where id = #{id}
   </select>
 </mapper>

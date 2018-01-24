@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService{
         HashMap<String, Object> map = new HashMap<>();
         map.put("total",totalIncome);
         map.put("today",incomeToday);
-        map.put("cash",user.getBalance());
+        map.put("cash",user.getMoney());
         map.put("money",xtcl.getBz_value());
         return ResponseResult.ok(map);
     }
