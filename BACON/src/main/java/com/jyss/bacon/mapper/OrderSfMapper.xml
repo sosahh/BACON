@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="u_id" property="uId" jdbcType="INTEGER" />
-    <result column="area" property="area" jdbcType="TINYINT" />
-    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="level_id" property="levelId" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DECIMAL" />
@@ -27,7 +27,7 @@
     insert into o_order_sf (id, order_id, u_id, area, type, level_id, count, price, total,
       is_win, account, wx_account, status, created, modify_time )
       values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER},
-      #{area,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{levelId,jdbcType=INTEGER}, 
+      #{area,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{levelId,jdbcType=INTEGER},
       #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
       #{isWin,jdbcType=TINYINT}, #{account,jdbcType=VARCHAR}, #{wxAccount,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
@@ -43,10 +43,10 @@
         u_id = #{uId,jdbcType=INTEGER},
       </if>
       <if test="area != null" >
-        area = #{area,jdbcType=TINYINT},
+        area = #{area,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+        type = #{type,jdbcType=VARCHAR},
       </if>
       <if test="levelId != null" >
         level_id = #{levelId,jdbcType=INTEGER},
@@ -102,7 +102,8 @@
     (select b.*,c.bright_pic from c_item_cat b ,c_item c where b.category_id = c.id) d
     on a.level_id = d.id
     <where>
-      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
+      <if test="id != null and id != ''">and a.id = #{id}</if>
     </where>
     order by a.status,a.created desc
   </select>

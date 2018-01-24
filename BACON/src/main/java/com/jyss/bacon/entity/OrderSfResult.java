@@ -2,6 +2,7 @@ package com.jyss.bacon.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class OrderSfResult implements Serializable {
     private Integer id;
@@ -17,6 +18,8 @@ public class OrderSfResult implements Serializable {
     private String sfStar;       //加星情况
 
     private Date created;
+
+    private List<String> pictures;     //结果图片
 
 
 
@@ -74,5 +77,13 @@ public class OrderSfResult implements Serializable {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 }

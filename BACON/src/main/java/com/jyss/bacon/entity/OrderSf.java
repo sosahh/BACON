@@ -10,9 +10,9 @@ public class OrderSf implements Serializable {
 
     private Integer uId;             //用户id
 
-    private Integer area;            //1微信区，2qq区，3其它区
+    private String area;             //大区名称
 
-    private Integer type;            //1排位赛，2匹配赛
+    private String type;             //赛名
 
     private Integer levelId;          //段位id
 
@@ -64,19 +64,19 @@ public class OrderSf implements Serializable {
         this.uId = uId;
     }
 
-    public Integer getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(Integer area) {
+    public void setArea(String area) {
         this.area = area;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

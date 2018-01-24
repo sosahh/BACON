@@ -2,6 +2,7 @@ package com.jyss.bacon.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.OrderService;
@@ -10,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -31,6 +31,8 @@ public class OrderServiceImpl implements OrderService{
     private OrderEvaluateMapper orderEvaluateMapper;
     @Autowired
     private OrderSfResultMapper orderSfResultMapper;
+    @Autowired
+    private XtclMapper xtclMapper;
 
 
 
@@ -151,7 +153,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public ResponseResult getOrderSfByUid(Integer uId, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<OrderSf> orderSfList = orderSfMapper.getOrderSfByUid(uId);
+        List<OrderSf> orderSfList = orderSfMapper.getOrderSfByUid(uId,null);
         PageInfo<OrderSf> pageInfo = new PageInfo<>(orderSfList);
         Page<OrderSf> result = new Page<>(pageInfo);
 
@@ -506,7 +508,7 @@ public class OrderServiceImpl implements OrderService{
      */
     @Override
     public ResponseResult getOrderSfDetails(Integer uId, Integer oId) {
-        List<OrderSf> orderSfList = orderSfMapper.selectOrderSfBy(null, oId, uId, null);
+        List<OrderSf> orderSfList = orderSfMapper.getOrderSfByUid(uId,oId);
         if(orderSfList != null && orderSfList.size()==1){
             OrderSf orderSf = orderSfList.get(0);
 
@@ -514,6 +516,24 @@ public class OrderServiceImpl implements OrderService{
 
 
 
+            /*List<OrderSfResult> results = orderSfResultMapper.selectOrderSfResult();
+            if(results != null && results.size()>0){
+                OrderSfResult orderSfResult = results.get(0);
+                results.remove(orderSfResult);
+                String picture = orderSfResult.getPicture();
+                if(!StringUtils.isEmpty(picture)){
+                    List<String> list = new ArrayList<>();
+                    String[] pictures = picture.split(",");
+                    for (String pic : pictures) {
+                        list.add(Constant.httpUrl+pic);
+                    }
+                    orderSfResult.setPictures(list);
+                }
+                results.add(orderSfResult);
+            }
+            Map<Object, Object> map = new HashMap<>();
+            map.put("",);
+            map.put("result",results);*/
 
         }
 
