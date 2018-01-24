@@ -120,7 +120,6 @@
     <where>
       <if test="id != null and id != ''">and a.id = #{id}</if>
       <if test="status != null ">and a.status = #{status}</if>
-      and a.is_shelve = 1
     </where>
   </select>
 
