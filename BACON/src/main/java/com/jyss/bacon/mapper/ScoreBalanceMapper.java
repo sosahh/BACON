@@ -13,9 +13,9 @@ public interface ScoreBalanceMapper {
     int updateByPrimaryKeySelective(ScoreBalance scoreBalance);
 
     //查询总收入
-    double getTotalIncome(@Param("uId")Integer uId);
+    String getTotalIncome(@Param("uId")Integer uId);
 
     //查询今日收入
-    double getIncomeToday(@Param("uId")Integer uId);
+    String getIncomeToday(@Param("uId")Integer uId);
 
 }

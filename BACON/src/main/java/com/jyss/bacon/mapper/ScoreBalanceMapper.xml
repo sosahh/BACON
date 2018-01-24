@@ -61,13 +61,13 @@
   </update>
 
   <!--查询总收入-->
-  <select id="getTotalIncome" parameterType="int" resultType="double">
+  <select id="getTotalIncome" parameterType="int" resultType="string">
     select format(ifnull(sum(score),0),2) from u_score_balance
     where end = 2 and type = 1 and income = 1 and u_id = #{uId}
   </select>
 
   <!--查询今日收入-->
-  <select id="getIncomeToday" parameterType="int" resultType="double">
+  <select id="getIncomeToday" parameterType="int" resultType="string">
     select format(ifnull(sum(score),0),2) from u_score_balance
     where end = 2 and type = 1 and income = 1 and u_id = #{uId}
     and to_days(created_at) = to_days(now())

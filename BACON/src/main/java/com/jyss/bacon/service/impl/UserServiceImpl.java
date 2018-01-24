@@ -150,8 +150,8 @@ public class UserServiceImpl implements UserService{
     public ResponseResult selectUserWallet(Integer uId) {
         List<User> userList = userMapper.selectUserBy(uId + "", null, null);
         User user = userList.get(0);
-        double totalIncome = scoreBalanceMapper.getTotalIncome(uId);
-        double incomeToday = scoreBalanceMapper.getIncomeToday(uId);
+        String totalIncome = scoreBalanceMapper.getTotalIncome(uId);
+        String incomeToday = scoreBalanceMapper.getIncomeToday(uId);
         List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");
         Xtcl xtcl = xtclList.get(0);
 
