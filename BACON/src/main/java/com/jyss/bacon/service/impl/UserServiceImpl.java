@@ -1,5 +1,7 @@
 package com.jyss.bacon.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.UserService;
@@ -30,6 +32,8 @@ public class UserServiceImpl implements UserService{
     private ScoreBalanceMapper scoreBalanceMapper;
     @Autowired
     private XtclMapper xtclMapper;
+    @Autowired
+    private MoneyDetailMapper moneyDetailMapper;
 
 
     /**
@@ -161,6 +165,42 @@ public class UserServiceImpl implements UserService{
         map.put("cash",user.getMoney());
         map.put("money",xtcl.getBz_value());
         return ResponseResult.ok(map);
+    }
+
+
+    /**
+     * 我的培根币账单
+     * @param uId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ResponseResult selectScoreBalance(Integer uId, Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<ScoreBalance> list = scoreBalanceMapper.selectMyScoreBalance(uId);
+        PageInfo<ScoreBalance> pageInfo = new PageInfo<>(list);
+        Page<ScoreBalance> result = new Page<>(pageInfo);
+
+        return ResponseResult.ok(result);
+    }
+
+
+    /**
+     * 查询充值记录
+     * @param uId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ResponseResult selectMoneyDetail(Integer uId, Integer page, Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<MoneyDetail> list = moneyDetailMapper.selectMoneyDetail(uId);
+        PageInfo<MoneyDetail> pageInfo = new PageInfo<>(list);
+        Page<MoneyDetail> result = new Page<>(pageInfo);
+
+        return ResponseResult.ok(result);
     }
 
 

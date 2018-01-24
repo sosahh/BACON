@@ -663,10 +663,43 @@ public class UserAction {
 
 
     /**
-     * 我的账单
+     * 我的培根币账单
      */
+    @RequestMapping("/scoreList")
+    @ResponseBody
+    public ResponseResult selectScoreBalance(@RequestParam("token") String token,
+                                             @RequestParam(value = "page", required = true) Integer page,
+                                             @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userService.selectScoreBalance(uId, page, pageSize);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
 
 
+    /**
+     * 查询充值记录
+     */
+    @RequestMapping("/chargeList")
+    @ResponseBody
+    public ResponseResult selectMoneyDetail(@RequestParam("token") String token,
+                                             @RequestParam(value = "page", required = true) Integer page,
+                                             @RequestParam(value = "pageSize", required = true) Integer pageSize){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userService.selectMoneyDetail(uId, page, pageSize);
+            return result;
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
 
 
 }

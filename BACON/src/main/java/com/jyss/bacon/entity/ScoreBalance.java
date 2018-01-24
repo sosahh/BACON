@@ -1,21 +1,23 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ScoreBalance {
     private Integer id;
 
-    private Integer end;         //1=上分 2=陪玩
+    private Integer end;          //1=上分 2=陪玩
 
-    private Integer uId;         //用户id
+    private Integer uId;          //用户id
 
     private String detail;        //补充说明
 
-    private Integer type;        //1=收入 2=支出
+    private Integer type;         //1=收入 2=支出
 
-    private Integer income;      //0，1=正常收入 2=订单取消收入
+    private Integer income;       //0，1=正常收入 2=订单取消收入
 
-    private Double score;        //积分数额
+    private Double score;         //积分数额
 
     private Double jyScore;       //结余数额
 
@@ -91,6 +93,7 @@ public class ScoreBalance {
         this.orderSn = orderSn == null ? null : orderSn.trim();
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreatedAt() {
         return createdAt;
     }

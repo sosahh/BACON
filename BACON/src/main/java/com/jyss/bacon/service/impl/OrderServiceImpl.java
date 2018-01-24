@@ -204,10 +204,12 @@ public class OrderServiceImpl implements OrderService{
                         orderPw1.setModifyTime(new Date());
                         int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
                         if(count1 == 1){
+                            List<User> list = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                            User user2 = list.get(0);
                             ScoreBalance scoreBalance = new ScoreBalance();
                             scoreBalance.setEnd(2);
                             scoreBalance.setuId(uId);
-                            scoreBalance.setDetail("游戏订单支付支出");
+                            scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                             scoreBalance.setType(2);
                             scoreBalance.setIncome(0);
                             scoreBalance.setScore(orderPw.getTotal());
@@ -261,10 +263,12 @@ public class OrderServiceImpl implements OrderService{
                     orderPw1.setModifyTime(new Date());
                     int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
                     if(count1 == 1){
+                        List<User> list = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                        User user2 = list.get(0);
                         ScoreBalance scoreBalance = new ScoreBalance();
                         scoreBalance.setEnd(2);
                         scoreBalance.setuId(uId);
-                        scoreBalance.setDetail("游戏订单取消收入");
+                        scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                         scoreBalance.setType(1);
                         scoreBalance.setIncome(2);
                         scoreBalance.setScore(orderPw.getTotal());
@@ -301,10 +305,12 @@ public class OrderServiceImpl implements OrderService{
                     orderPw1.setModifyTime(new Date());
                     int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
                     if(count1 == 1){
+                        List<User> list = userMapper.selectUserBy(uId + "", null, null);
+                        User user2 = list.get(0);
                         ScoreBalance scoreBalance = new ScoreBalance();
                         scoreBalance.setEnd(2);
                         scoreBalance.setuId(orderPw.getuId());
-                        scoreBalance.setDetail("游戏订单对方取消收入");
+                        scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                         scoreBalance.setType(1);
                         scoreBalance.setIncome(2);
                         scoreBalance.setScore(orderPw.getTotal());
@@ -439,10 +445,12 @@ public class OrderServiceImpl implements OrderService{
                 orderPw1.setModifyTime(new Date());
                 int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
                 if(count1 == 1){
+                    List<User> list = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
+                    User user2 = list.get(0);
                     ScoreBalance scoreBalance = new ScoreBalance();
                     scoreBalance.setEnd(2);
                     scoreBalance.setuId(uId);
-                    scoreBalance.setDetail("游戏订单收入");
+                    scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                     scoreBalance.setType(1);
                     scoreBalance.setIncome(1);
                     scoreBalance.setScore(orderPw.getTotal());

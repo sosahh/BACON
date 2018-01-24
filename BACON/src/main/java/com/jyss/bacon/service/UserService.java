@@ -27,4 +27,10 @@ public interface UserService {
     //我的钱包
     ResponseResult selectUserWallet(@Param("uId")Integer uId);
 
+    //我的培根币账单
+    ResponseResult selectScoreBalance(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
+
+    //查询充值记录
+    ResponseResult selectMoneyDetail(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
+
 }
