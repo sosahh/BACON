@@ -36,7 +36,7 @@ public class OrderAction {
 
 
     /**
-     * 上分订单
+     * 上分订单                IsWin:  0不计胜负，1计胜负
      * @param orderSf
      * @param token
      * @return
@@ -61,7 +61,7 @@ public class OrderAction {
             orderSf.setOrderId((uId+"")+(System.currentTimeMillis()+""));
 
             if(orderSf.getIsWin() == 0){
-                orderSf.setTotal(orderSf.getCount()*orderSf.getPrice()*discount);   //不计胜负
+                orderSf.setTotal(orderSf.getCount()*orderSf.getPrice()*discount);   //不计胜负,享受折扣
             }else if(orderSf.getIsWin() == 1){
                 orderSf.setTotal(orderSf.getCount()*orderSf.getPrice());            //计胜负
             }
@@ -357,8 +357,8 @@ public class OrderAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-
-            return null;
+            ResponseResult result = orderService.getOrderSfDetails(uId, oId);
+            return result;
         }
         return ResponseResult.error("1","token失效！");
     }

@@ -511,12 +511,7 @@ public class OrderServiceImpl implements OrderService{
         List<OrderSf> orderSfList = orderSfMapper.getOrderSfByUid(uId,oId);
         if(orderSfList != null && orderSfList.size()==1){
             OrderSf orderSf = orderSfList.get(0);
-
-
-
-
-
-            /*List<OrderSfResult> results = orderSfResultMapper.selectOrderSfResult();
+            List<OrderSfResult> results = orderSfResultMapper.selectOrderSfResult(orderSf.getOrderId());
             if(results != null && results.size()>0){
                 OrderSfResult orderSfResult = results.get(0);
                 results.remove(orderSfResult);
@@ -532,9 +527,9 @@ public class OrderServiceImpl implements OrderService{
                 results.add(orderSfResult);
             }
             Map<Object, Object> map = new HashMap<>();
-            map.put("",);
-            map.put("result",results);*/
-
+            map.put("order",orderSf);
+            map.put("result",results);
+            return ResponseResult.ok(map);
         }
 
         return ResponseResult.error("-1","订单异常！");
