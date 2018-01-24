@@ -616,4 +616,33 @@ public class UserAction {
     }
 
 
+    /**
+     * 举报
+     */
+    @RequestMapping("/report")
+    @ResponseBody
+    public ResponseResult insertUserReport(@RequestParam("token") String token,UserReport userReport){
+        if((userReport.getContent() == null || userReport.getContent().trim().length()==0)&&
+                StringUtils.isEmpty(userReport.getReportName())){
+            return ResponseResult.error("-1","操作失败！");
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            userReport.setuId(uId);
+            userReport.setStatus(1);
+            userReport.setCreateTime(new Date());
+            int count = itemService.insertUserReport(userReport);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","操作失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+
 }

@@ -128,5 +128,19 @@ public class ItemAction {
     }
 
 
+    /**
+     * 查询所有举报项
+     */
+    @RequestMapping("/reportList")
+    @ResponseBody
+    public ResponseResult getAllReportList(){
+        List<Xtcl> xtclList = itemService.getClsBy("report_type", null);
+        return ResponseResult.ok(xtclList);
+    }
+
+
+
+
+
 
 }

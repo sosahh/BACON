@@ -33,4 +33,7 @@ public interface ItemService {
 
     //根据标识符取得标志对应常量值
     Xtcl getClsValue(@Param("bz_type") String bz_type,@Param("bz_id") String bz_id);
+
+    //举报
+    int insertUserReport(UserReport userReport);
 }

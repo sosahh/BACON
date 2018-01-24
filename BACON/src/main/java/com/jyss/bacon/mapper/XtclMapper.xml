@@ -37,6 +37,7 @@
              <if test="bz_type != null and bz_type !=''">and bz_type = #{bz_type} </if>
              <if test="bz_id != null and bz_id !=''"> and  bz_id = #{bz_id} </if>
          </where>
+        order by bz_id
     </select>
 
     <!--取得标志对应常量值-->

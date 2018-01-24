@@ -26,6 +26,8 @@ public class ItemServiceImpl implements ItemService{
     private UserCommentMapper userCommentMapper;
     @Autowired
     private UserPraiseMapper userPraiseMapper;
+    @Autowired
+    private UserReportMapper userReportMapper;
 
 
     /**
@@ -236,6 +238,17 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Xtcl getClsValue(String bz_type, String bz_id) {
         return xtclMapper.getClsValue(bz_type,bz_id);
+    }
+
+
+    /**
+     * 举报
+     * @param userReport
+     * @return
+     */
+    @Override
+    public int insertUserReport(UserReport userReport) {
+        return userReportMapper.insert(userReport);
     }
 
 
