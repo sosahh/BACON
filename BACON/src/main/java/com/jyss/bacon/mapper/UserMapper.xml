@@ -26,19 +26,23 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
     <result column="money" property="money" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+    <result column="union_id" property="unionId" jdbcType="VARCHAR"/>
   </resultMap>
 
   <!--添加用户-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="uId">
     insert into u_user (u_id, account, tel, password, salt, pay_pwd, nick, headpic, birth_date, sex, age, place,
-      profession, hobby, status, source, is_auth, label_desc, create_time, last_modify_time)
+      profession, hobby, status, source, is_auth, label_desc, create_time, last_modify_time,
+      open_id, union_id)
     values (#{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR},
       #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
       #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR},
-      #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
-      #{source,jdbcType=TINYINT}, #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP})
+      #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},#{source,jdbcType=TINYINT},
+      #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP},
+      #{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR})
   </insert>
 
   <!--用户信息修改-->
@@ -111,6 +115,12 @@
       <if test="lastModifyTime != null" >
         last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
@@ -121,7 +131,8 @@
     select u_id, account, tel, password, salt, pay_pwd, nick,
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
-    popularity, label_desc, balance ,create_time, last_modify_time, format(balance,2) money
+    popularity, label_desc, balance ,create_time, last_modify_time,
+    format(balance,2) money, open_id, union_id
     from u_user
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId} </if>
@@ -129,6 +140,22 @@
       <if test="status != null and status != ''">and status = #{status} </if>
     </where>
   </select>
+
+  <!--第三方登陆查询-->
+  <select id="selectUserByOpenId" resultMap="BaseResultMap" >
+    select u_id, account, tel, password, salt, pay_pwd, nick,
+    nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
+    sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
+    popularity, label_desc, balance ,create_time, last_modify_time,
+    format(balance,2) money, open_id, union_id
+    from u_user
+    <where>
+      <if test="openId != null and openId != ''">and open_id = #{openId} </if>
+      <if test="unionId != null and unionId != ''">and union_id = #{unionId} </if>
+    </where>
+  </select>
+
+
 
   <!--查询我的关注-->
   <!--<select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">

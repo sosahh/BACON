@@ -91,11 +91,39 @@ public class UserServiceImpl implements UserService{
                     map.put("user",user);
                     return ResponseResult.ok(map);
                 }
+                return ResponseResult.error("-4","登陆失败！");
             }
             return ResponseResult.error("-3","密码错误！");
         }
-
         return ResponseResult.error("-2","用户不存在！");
+    }
+
+
+    /**
+     * 用户第三方登陆
+     */
+    @Override
+    public ResponseResult getUserByOpenId(String openId, String unionId) {
+        List<User> userList = userMapper.selectUserByOpenId(openId, unionId);
+        if(userList != null && userList.size()==1){
+            User user = userList.get(0);
+            String token = CommTool.getUUID();
+            //记录登陆信息
+            MobileLogin mobileLogin = new MobileLogin();
+            mobileLogin.setuId(user.getuId());
+            mobileLogin.setToken(token);
+            mobileLogin.setLastAccessTime(System.currentTimeMillis());
+            mobileLogin.setStatus(1);
+            mobileLogin.setCreatedAt(new Date());
+            int count = mobileLoginMapper.insert(mobileLogin);
+            if(count == 1){
+                Map<String, Object> map = new HashMap<>();
+                map.put("token",token);
+                map.put("user",user);
+                return ResponseResult.ok(map);
+            }
+        }
+        return ResponseResult.error("-2","登陆失败！");
     }
 
 

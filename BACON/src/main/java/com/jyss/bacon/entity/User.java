@@ -40,7 +40,7 @@ public class User implements Serializable {
 
     private Integer status;         //0禁用，1普通用户，2陪玩用户，3明星用户
 
-    private Integer source;         //0直接注册，1微信，2微博，3QQ
+    private Integer source;         //0直接注册，1微信，2QQ
 
     private Integer isAuth;         //0未认证，1=已认证
 
@@ -55,6 +55,9 @@ public class User implements Serializable {
     private Date lastModifyTime;       //修改时间
 
     private String money;              //金额
+
+    private String openId;            //扣扣openid
+    private String unionId;           //微信union_id
 
 
     public Integer getuId() {
@@ -248,5 +251,22 @@ public class User implements Serializable {
 
     public void setMoney(String money) {
         this.money = money;
+    }
+
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
     }
 }

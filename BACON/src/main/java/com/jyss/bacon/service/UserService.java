@@ -15,13 +15,16 @@ public interface UserService {
     //用户登陆
     ResponseResult getUser(@Param("tel")String tel, @Param("password")String password);
 
+    //用户第三方登陆
+    ResponseResult getUserByOpenId(@Param("openId")String openId, @Param("unionId")String unionId);
+
     //用户资料查询
     ResponseResult getUserInfo(@Param("uId")String uId);
 
     //条件查询用户
     List<User> selectUserBy(@Param("uId")String uId, @Param("tel")String tel, @Param("status")String status);
 
-    //修用户信息修改
+    //用户信息修改
     int updateUser(User user);
 
     //我的钱包

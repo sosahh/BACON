@@ -161,6 +161,9 @@ public class UserAction {
 
         //设置年龄
         user.setAge(DateFormatUtils.getAge(user.getBirthDate()));
+        user.setPlace("上海");           //默认设置
+        user.setProfession("学生");      //默认设置
+        user.setHobby("玩游戏");         //默认设置
         user.setStatus(1);
         user.setIsAuth(0);
         user.setCreateTime(new Date());
@@ -177,6 +180,18 @@ public class UserAction {
     @ResponseBody
     public ResponseResult userLogin(@RequestParam("tel") String tel,@RequestParam("password") String password){
         ResponseResult result = userService.getUser(tel, password);
+        return result;
+    }
+
+
+    /**
+     * 用户第三方登陆
+     */
+    @RequestMapping("/loginBy")
+    @ResponseBody
+    public ResponseResult userLoginBy(@RequestParam("openId") String openId,
+                                      @RequestParam("unionId") String unionId){
+        ResponseResult result = userService.getUserByOpenId(openId, unionId);
         return result;
     }
 

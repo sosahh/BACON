@@ -18,6 +18,9 @@ public interface UserMapper {
     //条件查询用户
     List<User> selectUserBy(@Param("uId")String uId,@Param("tel")String tel,@Param("status")String status);
 
+    //第三方登陆查询
+    List<User> selectUserByOpenId(@Param("openId")String openId, @Param("unionId")String unionId);
+
     //查询我的关注
     //List<User> getUserFellowByUid(@Param("uId")Integer uId);
 
