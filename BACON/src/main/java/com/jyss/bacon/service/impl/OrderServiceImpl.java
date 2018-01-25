@@ -535,7 +535,7 @@ public class OrderServiceImpl implements OrderService{
                 String picture = orderSfResult.getPicture();
                 if(!StringUtils.isEmpty(picture)){
                     List<String> list = new ArrayList<>();
-                    String[] pictures = picture.split(",");
+                    String[] pictures = picture.split(";");
                     for (String pic : pictures) {
                         list.add(Constant.httpUrl+pic);
                     }
