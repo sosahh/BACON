@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService{
                 return ResponseResult.ok(map);
             }
         }
-        return ResponseResult.error("-2","登陆失败！");
+        return ResponseResult.error("-4","登陆失败！");
     }
 
 

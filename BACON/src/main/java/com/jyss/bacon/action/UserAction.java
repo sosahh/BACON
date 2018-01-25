@@ -191,6 +191,9 @@ public class UserAction {
     @ResponseBody
     public ResponseResult userLoginBy(@RequestParam("openId") String openId,
                                       @RequestParam("unionId") String unionId){
+        if(StringUtils.isEmpty(openId) && StringUtils.isEmpty(unionId)){
+            return ResponseResult.error("-4","登陆失败！");
+        }
         ResponseResult result = userService.getUserByOpenId(openId, unionId);
         return result;
     }
