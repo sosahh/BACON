@@ -194,6 +194,8 @@ public class UserAction {
         if(StringUtils.isEmpty(openId) && StringUtils.isEmpty(unionId)){
             return ResponseResult.error("-4","登陆失败！");
         }
+
+
         ResponseResult result = userService.getUserByOpenId(openId, unionId);
         return result;
     }
