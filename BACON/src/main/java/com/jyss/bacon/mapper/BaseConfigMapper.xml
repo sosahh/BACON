@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.BaseConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.BaseConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="key" property="key" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jyss.bacon.entity.BaseConfig" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+
+  <resultMap id="vsBaseResultMap" type="com.jyss.bacon.entity.Xtgx" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="titles" property="titles" jdbcType="VARCHAR" />
+    <result column="app_version" property="appVersion" jdbcType="VARCHAR" />
+    <result column="src" property="src" jdbcType="VARCHAR" />
+    <result column="byte_size" property="byteSize" jdbcType="BIGINT" />
+    <result column="contents" property="contents" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!--查询协议-->
+  <select id="selectBaseConfig" parameterType="string" resultMap="BaseResultMap">
+    select a.* from p_base_config a where a.key = #{key} and a.status = 1
+  </select>
+
+
+  <!--安卓版本更新-->
+  <select id="selectXtgx" parameterType="int" resultMap="vsBaseResultMap">
+    select id, titles, app_version, nullif(CONCAT('${httpUrl}',src), '${httpUrl}')as src,
+    byte_size, contents, type, created_at, last_modify_time
+    from p_xtgx where type = #{type}
+  </select>
+
+</mapper>
+

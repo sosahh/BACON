@@ -139,5 +139,42 @@ public class ItemAction {
     }
 
 
+    /**
+     *       agType   1=注册协议，2=充值协议
+     */
+    @RequestMapping("/agreement")
+    @ResponseBody
+    public ResponseResult selectBaseConfig(@RequestParam("agType") Integer agType){
+        if(agType == 1){
+            List<BaseConfig> configList = itemService.selectBaseConfig("sign.info");
+            if(configList != null && configList.size()==1){
+                BaseConfig baseConfig = configList.get(0);
+                return ResponseResult.ok(baseConfig);
+            }
+
+        }else if(agType == 2){
+            List<BaseConfig> configList = itemService.selectBaseConfig("czxy.info");
+            if(configList != null && configList.size()==1){
+                BaseConfig baseConfig = configList.get(0);
+                return ResponseResult.ok(baseConfig);
+            }
+        }
+        return ResponseResult.error("-1","查询失败！");
+    }
+
+
+    /**
+     * 安卓版本更新
+     */
+    @RequestMapping("/version")
+    @ResponseBody
+    public ResponseResult selectXtgx(){
+        List<Xtgx> xtgxList = itemService.selectXtgx(1);      //1=android 2=ios
+        if(xtgxList != null && xtgxList.size()==1){
+            Xtgx xtgx = xtgxList.get(0);
+            return ResponseResult.ok(xtgx);
+        }
+        return ResponseResult.error("-1","查询失败！");
+    }
 
 }

@@ -28,6 +28,8 @@ public class ItemServiceImpl implements ItemService{
     private UserPraiseMapper userPraiseMapper;
     @Autowired
     private UserReportMapper userReportMapper;
+    @Autowired
+    private BaseConfigMapper baseConfigMapper;
 
 
     /**
@@ -249,6 +251,28 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public int insertUserReport(UserReport userReport) {
         return userReportMapper.insert(userReport);
+    }
+
+
+    /**
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public List<BaseConfig> selectBaseConfig(String key) {
+        return baseConfigMapper.selectBaseConfig(key);
+    }
+
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Xtgx> selectXtgx(Integer type) {
+        return baseConfigMapper.selectXtgx(type);
     }
 
 

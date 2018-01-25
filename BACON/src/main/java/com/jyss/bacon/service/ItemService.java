@@ -36,4 +36,10 @@ public interface ItemService {
 
     //举报
     int insertUserReport(UserReport userReport);
+
+    //用户协议
+    List<BaseConfig> selectBaseConfig(@Param("key")String key);
+
+    //安卓版本更新
+    List<Xtgx> selectXtgx(@Param("type")Integer type);
 }
