@@ -5,6 +5,11 @@ import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserDynamicService;
 import com.jyss.bacon.utils.Base64Image;
 import com.jyss.bacon.utils.CommTool;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -12,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.tagext.TryCatchFinally;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -319,6 +329,106 @@ public class UserDynamicAction {
             return result;
         }
         return ResponseResult.error("1","token失效！");
+    }
+
+
+
+    /**
+     * 发布动态
+     */
+    @RequestMapping("/sendDynamic")
+    @ResponseBody
+    public ResponseResult insertUserDynamic(UserDynamic userDynamic, @RequestParam("token")String token,
+                                        HttpServletRequest request)
+            throws ServletException, IOException {
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+
+            if(StringUtils.isEmpty(userDynamic.getPicture1())&& StringUtils.isEmpty(userDynamic.getContent())){
+                return ResponseResult.error("-2","内容不能为空！");
+            }
+
+            userDynamic.setuId(uId);
+            userDynamic.setStatus(1);
+            userDynamic.setCreated(new Date());
+
+            //图片上传
+            String filePath = request.getSession().getServletContext().getRealPath("/");
+            int index = filePath.indexOf("BACON");
+            filePath = filePath.substring(0, index) + "uploadDyPic" + "/";
+            File f = new File(filePath);
+            CommTool.judeDirExists(f);
+
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            // 设置缓冲区大小为 5M
+            factory.setSizeThreshold(1024 * 1024 * 5);
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            //解决上传文件名的中文乱码
+            upload.setHeaderEncoding("UTF-8");
+            //设置上传单个文件的大小的最大值，1MB
+            upload.setFileSizeMax(1024*1024);
+            //设置上传文件总量的最大值，最大值=同时上传的多个文件的大小的最大值的和，目前设置为5MB
+            upload.setSizeMax(1024*1024*5);
+            try {
+                List<FileItem> list = upload.parseRequest(request);
+                StringBuilder sb = new StringBuilder();
+                for (FileItem item : list) {
+                    int i = 1;
+                    if (!item.isFormField() && item != null){
+                        String filename = item.getName();
+                        //得到上传文件的扩展名
+                        String fileExtName = filename.substring(filename.lastIndexOf(".")+1);
+                        // 定义图片输出路径
+                        String imgPath = filePath + uId + System.currentTimeMillis() + i + fileExtName;
+                        i++;
+                        sb = sb.append(imgPath.substring(imgPath.indexOf("uploadDyPic"))).append(";");
+
+                        // 定义图片流
+                        InputStream fin = item.getInputStream();
+
+                        // 定义图片输出流
+                        FileOutputStream fout = new FileOutputStream(imgPath);
+                        // 写文件
+                        byte[] b = new byte[1024];
+                        int length = 0;
+                        while ((length = fin.read(b)) > 0) {
+
+                            fout.write(b, 0, length);
+                        }
+
+                        // 关闭数据流
+                        fin.close();
+                        fout.close();
+                    }
+
+                }
+                String[] pics = sb.toString().split(";");
+                userDynamic.setPicture1(pics[0]);
+                userDynamic.setPicture2(pics[1]);
+                userDynamic.setPicture3(pics[2]);
+                userDynamic.setPicture4(pics[3]);
+                userDynamic.setPicture5(pics[4]);
+                userDynamic.setPicture6(pics[5]);
+
+
+            }catch (FileUploadBase.SizeLimitExceededException e) {
+                return ResponseResult.error("-3","图片超过了规定的大小，上传失败！");
+            } catch (FileUploadBase.FileSizeLimitExceededException e) {
+                return ResponseResult.error("-3","图片超过了规定的大小，上传失败！");
+            }catch (Exception e) {
+                return ResponseResult.error("-2","图片上传失败！");
+            }
+
+            int count = userDynamicService.insert(userDynamic);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","发布失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
     }
 
 }

@@ -15,7 +15,7 @@ public class User implements Serializable {
 
     private String password;       //密码
 
-    private String salt;        //加密盐
+    private String salt;         //加密盐
 
     private String payPwd;        //支付密码
 
@@ -252,7 +252,6 @@ public class User implements Serializable {
     public void setMoney(String money) {
         this.money = money;
     }
-
 
     public String getOpenId() {
         return openId;

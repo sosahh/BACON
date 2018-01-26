@@ -22,7 +22,7 @@ public class UserDynamic implements Serializable {
 
     private String picture6;
 
-    private String content;    //发布内容
+    private String content;      //发布内容
 
     private Integer status;     //0禁用，1可用
 
