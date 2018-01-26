@@ -198,7 +198,7 @@ public class UserDynamicAction {
     }
 
     /**
-     * 发布动态
+     * 发布动态(base64上传)
      */
     @RequestMapping("/releaseDynamic")
     @ResponseBody
@@ -336,7 +336,7 @@ public class UserDynamicAction {
 
 
     /**
-     * 发布动态
+     * 发布动态(文件上传)
      */
     @RequestMapping("/sendDynamic")
     @ResponseBody
