@@ -19,8 +19,5 @@
       #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
 
-  <!--查询充值记录-->
-  <select id="selectMoneyDetail" resultType="int" resultMap="BaseResultMap">
-    select * from u_money_detail where u_id = #{uId} and status = 1 order by create_time desc
-  </select>
+
 </mapper>

@@ -7,7 +7,6 @@
     <result column="u_id" property="uId" jdbcType="INTEGER" />
     <result column="detail" property="detail" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="income" property="income" jdbcType="TINYINT" />
     <result column="score" property="score" jdbcType="DECIMAL" />
     <result column="jy_score" property="jyScore" jdbcType="DECIMAL" />
     <result column="order_sn" property="orderSn" jdbcType="CHAR" />
@@ -15,69 +14,65 @@
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
 
+  <resultMap id="eaBaseResultMap" type="com.jyss.bacon.entity.ScoreEarn" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="score" property="score" jdbcType="DECIMAL" />
+    <result column="jy_score" property="jyScore" jdbcType="DECIMAL" />
+    <result column="order_sn" property="orderSn" jdbcType="CHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+
+
+  <!--添加消费记录-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.ScoreBalance" >
-    insert into u_score_balance (id, end, u_id, detail, type, income, score, jy_score, order_sn, created_at, status)
+    insert into u_score_balance (id, end, u_id, detail, type, score, jy_score, order_sn, created_at, status)
     values (#{id,jdbcType=INTEGER}, #{end,jdbcType=TINYINT}, #{uId,jdbcType=INTEGER}, 
-      #{detail,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{income,jdbcType=TINYINT}, #{score,jdbcType=DECIMAL},
+      #{detail,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{score,jdbcType=DECIMAL},
       #{jyScore,jdbcType=DECIMAL}, #{orderSn,jdbcType=CHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT})
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.ScoreBalance" >
-    update u_score_balance
-    <set >
-      <if test="end != null" >
-        end = #{end,jdbcType=TINYINT},
-      </if>
-      <if test="uId != null" >
-        u_id = #{uId,jdbcType=INTEGER},
-      </if>
-      <if test="detail != null" >
-        detail = #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="income != null" >
-        income = #{income,jdbcType=TINYINT},
-      </if>
-      <if test="score != null" >
-        score = #{score,jdbcType=DECIMAL},
-      </if>
-      <if test="jyScore != null" >
-        jy_score = #{jyScore,jdbcType=DECIMAL},
-      </if>
-      <if test="orderSn != null" >
-        order_sn = #{orderSn,jdbcType=CHAR},
-      </if>
-      <if test="createdAt != null" >
-        created_at = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+  <!--添加收入记录-->
+  <insert id="insertScoreEarn" parameterType="com.jyss.bacon.entity.ScoreEarn" >
+    insert into u_score_earn (id, u_id, detail, type, score, jy_score, order_sn, created_at, status)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER},
+    #{detail,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{score,jdbcType=DECIMAL},
+    #{jyScore,jdbcType=DECIMAL}, #{orderSn,jdbcType=CHAR}, #{createdAt,jdbcType=TIMESTAMP},
+    #{status,jdbcType=TINYINT})
+  </insert>
+
+
 
   <!--查询总收入-->
   <select id="getTotalIncome" parameterType="int" resultType="string">
-    select format(ifnull(sum(score),0),2) from u_score_balance
-    where end = 2 and type = 1 and income = 1 and u_id = #{uId} and status = 1
+    select format(ifnull(sum(score),0),2) from u_score_earn
+    where type = 1 and u_id = #{uId} and status = 1
   </select>
 
   <!--查询今日收入-->
   <select id="getIncomeToday" parameterType="int" resultType="string">
-    select format(ifnull(sum(score),0),2) from u_score_balance
-    where end = 2 and type = 1 and income = 1 and u_id = #{uId}
-    and to_days(created_at) = to_days(now()) and status = 1
+    select format(ifnull(sum(score),0),2) from u_score_earn
+    where type = 1 and u_id = #{uId} and status = 1
+    and to_days(created_at) = to_days(now())
   </select>
 
 
-  <!--查询我的账单-->
+  <!--培根币账单-->
   <select id="selectMyScoreBalance" resultType="int" resultMap="BaseResultMap">
     select * from u_score_balance where u_id = #{uId} and status = 1 order by created_at desc
   </select>
+
+
+  <!--收入账单-->
+  <select id="selectScoreEarn" resultType="int" resultMap="eaBaseResultMap">
+    select * from u_score_earn where u_id = #{uId} and status = 1 order by created_at desc
+  </select>
+
 
 
 </mapper>

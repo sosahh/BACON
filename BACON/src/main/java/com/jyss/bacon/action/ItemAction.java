@@ -140,7 +140,7 @@ public class ItemAction {
 
 
     /**
-     *       agType   1=注册协议，2=充值协议
+     * 用户协议      agType   1=注册协议，2=充值协议
      */
     @RequestMapping("/agreement")
     @ResponseBody

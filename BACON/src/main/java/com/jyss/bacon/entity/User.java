@@ -48,13 +48,15 @@ public class User implements Serializable {
 
     private String labelDesc;         //明星描述
 
-    private Float balance;           //余额
+    private Float balance;           //充值培根币金额，只可用于消费
+
+    private Float amount;            //可提现培根币金额，只用于提现
 
     private Date createTime;          //创建时间
 
     private Date lastModifyTime;       //修改时间
 
-    private String money;              //金额
+    private String money;              //显示充值培根币金额
 
     private String openId;            //扣扣openid
     private String unionId;           //微信union_id
@@ -267,5 +269,13 @@ public class User implements Serializable {
 
     public void setUnionId(String unionId) {
         this.unionId = unionId;
+    }
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
     }
 }

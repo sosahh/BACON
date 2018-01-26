@@ -23,6 +23,7 @@
     <result column="popularity" property="popularity" jdbcType="INTEGER" />
     <result column="label_desc" property="labelDesc" jdbcType="VARCHAR" />
     <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
     <result column="money" property="money" />
@@ -109,6 +110,9 @@
       <if test="balance != null" >
         balance = #{balance,jdbcType=DECIMAL},
       </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -131,7 +135,7 @@
     select u_id, account, tel, password, salt, pay_pwd, nick,
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
-    popularity, label_desc, balance ,create_time, last_modify_time,
+    popularity, label_desc, balance ,amount, create_time, last_modify_time,
     format(balance,2) money, open_id, union_id
     from u_user
     <where>
@@ -146,7 +150,7 @@
     select u_id, account, tel, password, salt, pay_pwd, nick,
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
-    popularity, label_desc, balance ,create_time, last_modify_time,
+    popularity, label_desc, balance, amount, create_time, last_modify_time,
     format(balance,2) money, open_id, union_id
     from u_user
     <where>

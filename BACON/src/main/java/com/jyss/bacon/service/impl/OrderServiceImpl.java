@@ -15,6 +15,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
+import static javax.xml.stream.XMLStreamConstants.COMMENT;
+
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService{
@@ -73,7 +75,6 @@ public class OrderServiceImpl implements OrderService{
                             scoreBalance.setuId(uId);
                             scoreBalance.setDetail("上分订单支付支出");
                             scoreBalance.setType(2);
-                            scoreBalance.setIncome(0);
                             scoreBalance.setScore(orderSf.getTotal());
                             scoreBalance.setJyScore(jyScore);
                             scoreBalance.setOrderSn(orderSf.getOrderId());
@@ -126,7 +127,6 @@ public class OrderServiceImpl implements OrderService{
                     scoreBalance.setuId(uId);
                     scoreBalance.setDetail("上分订单取消收入");
                     scoreBalance.setType(1);
-                    scoreBalance.setIncome(2);
                     scoreBalance.setScore(orderSf.getTotal());
                     scoreBalance.setJyScore(jyScore);
                     scoreBalance.setOrderSn(orderSf.getOrderId());
@@ -211,7 +211,6 @@ public class OrderServiceImpl implements OrderService{
                             scoreBalance.setuId(uId);
                             scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                             scoreBalance.setType(2);
-                            scoreBalance.setIncome(0);
                             scoreBalance.setScore(orderPw.getTotal());
                             scoreBalance.setJyScore(jyScore);
                             scoreBalance.setOrderSn(orderPw.getOrderId());
@@ -270,7 +269,6 @@ public class OrderServiceImpl implements OrderService{
                         scoreBalance.setuId(uId);
                         scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                         scoreBalance.setType(1);
-                        scoreBalance.setIncome(2);
                         scoreBalance.setScore(orderPw.getTotal());
                         scoreBalance.setJyScore(jyScore);
                         scoreBalance.setOrderSn(orderPw.getOrderId());
@@ -312,7 +310,6 @@ public class OrderServiceImpl implements OrderService{
                         scoreBalance.setuId(orderPw.getuId());
                         scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
                         scoreBalance.setType(1);
-                        scoreBalance.setIncome(2);
                         scoreBalance.setScore(orderPw.getTotal());
                         scoreBalance.setJyScore(jyScore);
                         scoreBalance.setOrderSn(orderPw.getOrderId());
@@ -432,10 +429,10 @@ public class OrderServiceImpl implements OrderService{
             OrderPw orderPw = orderPwList.get(0);
             List<User> userList = userMapper.selectUserBy(uId + "", null, null);
             User user = userList.get(0);
-            double jyScore = user.getBalance() + orderPw.getTotal();
+            double jyScore = user.getAmount() + orderPw.getTotal();
             User user1 = new User();
             user1.setuId(uId);
-            user1.setBalance((float) jyScore);
+            user1.setAmount((float) jyScore);
             user1.setLastModifyTime(new Date());
             int count = userMapper.updateByPrimaryKeySelective(user1);
             if(count == 1){
@@ -447,18 +444,16 @@ public class OrderServiceImpl implements OrderService{
                 if(count1 == 1){
                     List<User> list = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
                     User user2 = list.get(0);
-                    ScoreBalance scoreBalance = new ScoreBalance();
-                    scoreBalance.setEnd(2);
-                    scoreBalance.setuId(uId);
-                    scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
-                    scoreBalance.setType(1);
-                    scoreBalance.setIncome(1);
-                    scoreBalance.setScore(orderPw.getTotal());
-                    scoreBalance.setJyScore(jyScore);
-                    scoreBalance.setOrderSn(orderPw.getOrderId());
-                    scoreBalance.setStatus(1);
-                    scoreBalance.setCreatedAt(new Date());
-                    int count2 = scoreBalanceMapper.insert(scoreBalance);
+                    ScoreEarn scoreEarn = new ScoreEarn();
+                    scoreEarn.setuId(uId);
+                    scoreEarn.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
+                    scoreEarn.setType(1);
+                    scoreEarn.setScore(orderPw.getTotal());
+                    scoreEarn.setJyScore(jyScore);
+                    scoreEarn.setOrderSn(orderPw.getOrderId());
+                    scoreEarn.setStatus(1);
+                    scoreEarn.setCreatedAt(new Date());
+                    int count2 = scoreBalanceMapper.insertScoreEarn(scoreEarn);
                     if(count2 == 1){
                         return ResponseResult.ok("");
                     }

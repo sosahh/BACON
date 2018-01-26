@@ -27,13 +27,13 @@ public interface UserService {
     //用户信息修改
     int updateUser(User user);
 
-    //我的钱包
+    //我的收入
     ResponseResult selectUserWallet(@Param("uId")Integer uId);
 
     //我的培根币账单
     ResponseResult selectScoreBalance(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
 
-    //查询充值记录
+    //收入账单
     ResponseResult selectMoneyDetail(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
 
     //我的培根币

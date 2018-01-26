@@ -701,7 +701,7 @@ public class UserAction {
 
 
     /**
-     * 查询充值记录
+     * 收入账单
      */
     @RequestMapping("/chargeList")
     @ResponseBody

@@ -29,8 +29,7 @@ public class UserServiceImpl implements UserService{
     private ScoreBalanceMapper scoreBalanceMapper;
     @Autowired
     private XtclMapper xtclMapper;
-    @Autowired
-    private MoneyDetailMapper moneyDetailMapper;
+
 
 
     /**
@@ -171,7 +170,7 @@ public class UserServiceImpl implements UserService{
 
 
     /**
-     * 我的钱包
+     * 我的收入
      * @param uId
      * @return
      */
@@ -189,7 +188,7 @@ public class UserServiceImpl implements UserService{
             List<Xtcl> xtclList1 = xtclMapper.getClsBy("prop_type", "1");
             Xtcl xtcl1 = xtclList1.get(0);
             double prop = Double.parseDouble(xtcl1.getBz_value());
-            float cash = (float) (Math.round((user.getBalance() / prop) * 100)) / 100;
+            float cash = (float) (Math.round((user.getAmount() / prop) * 100)) / 100;
 
             HashMap<String, Object> map = new HashMap<>();
             map.put("total",totalIncome);
@@ -221,7 +220,7 @@ public class UserServiceImpl implements UserService{
 
 
     /**
-     * 查询充值记录
+     * 收入账单
      * @param uId
      * @param page
      * @param pageSize
@@ -230,9 +229,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public ResponseResult selectMoneyDetail(Integer uId, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<MoneyDetail> list = moneyDetailMapper.selectMoneyDetail(uId);
-        PageInfo<MoneyDetail> pageInfo = new PageInfo<>(list);
-        Page<MoneyDetail> result = new Page<>(pageInfo);
+        List<ScoreEarn> list = scoreBalanceMapper.selectScoreEarn(uId);
+        PageInfo<ScoreEarn> pageInfo = new PageInfo<>(list);
+        Page<ScoreEarn> result = new Page<>(pageInfo);
 
         return ResponseResult.ok(result);
     }

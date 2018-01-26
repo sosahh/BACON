@@ -11,8 +11,7 @@ public interface MoneyDetailMapper {
 
     int insert(MoneyDetail moneyDetail);
 
-    //查询充值记录
-    List<MoneyDetail> selectMoneyDetail(@Param("uId")Integer uId);
+
 
 
 }
