@@ -16,7 +16,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.Multipart;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -339,14 +341,15 @@ public class UserDynamicAction {
     @RequestMapping("/sendDynamic")
     @ResponseBody
     public ResponseResult insertUserDynamic(UserDynamic userDynamic, @RequestParam("token")String token,
-                                        HttpServletRequest request)
-            throws ServletException, IOException {
+                                            MultipartFile pic1,MultipartFile pic2,MultipartFile pic3,
+                                            MultipartFile pic4,MultipartFile pic5,MultipartFile pic6,
+                                            HttpServletRequest request) throws Exception {
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
 
-            if(StringUtils.isEmpty(userDynamic.getPicture1())&& StringUtils.isEmpty(userDynamic.getContent())){
+            if(StringUtils.isEmpty(pic1)&& StringUtils.isEmpty(userDynamic.getContent())){
                 return ResponseResult.error("-2","内容不能为空！");
             }
 
@@ -358,68 +361,93 @@ public class UserDynamicAction {
             String filePath = request.getSession().getServletContext().getRealPath("/");
             int index = filePath.indexOf("BACON");
             filePath = filePath.substring(0, index) + "uploadDyPic" + "/";
-            File f = new File(filePath);
-            CommTool.judeDirExists(f);
+            /*File file = new File(filePath);
+            CommTool.judeDirExists(file);*/
 
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            // 设置缓冲区大小为 5M
-            factory.setSizeThreshold(1024 * 1024 * 5);
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            //解决上传文件名的中文乱码
-            upload.setHeaderEncoding("UTF-8");
-            //设置上传单个文件的大小的最大值，1MB
-            upload.setFileSizeMax(1024*1024);
-            //设置上传文件总量的最大值，最大值=同时上传的多个文件的大小的最大值的和，目前设置为5MB
-            upload.setSizeMax(1024*1024*5);
-            try {
-                List<FileItem> list = upload.parseRequest(request);
-                StringBuilder sb = new StringBuilder();
-                for (FileItem item : list) {
-                    int i = 1;
-                    if (!item.isFormField() && item != null){
-                        String filename = item.getName();
-                        //得到上传文件的扩展名
-                        String fileExtName = filename.substring(filename.lastIndexOf(".")+1);
-                        // 定义图片输出路径
-                        String imgPath = filePath + uId + System.currentTimeMillis() + i + fileExtName;
-                        i++;
-                        sb = sb.append(imgPath.substring(imgPath.indexOf("uploadDyPic"))).append(";");
-
-                        // 定义图片流
-                        InputStream fin = item.getInputStream();
-
-                        // 定义图片输出流
-                        FileOutputStream fout = new FileOutputStream(imgPath);
-                        // 写文件
-                        byte[] b = new byte[1024];
-                        int length = 0;
-                        while ((length = fin.read(b)) > 0) {
-
-                            fout.write(b, 0, length);
-                        }
-
-                        // 关闭数据流
-                        fin.close();
-                        fout.close();
-                    }
-
+            if(!StringUtils.isEmpty(pic1)){
+                String filename1 = pic1.getOriginalFilename();
+                String extName1 = filename1.substring(filename1.lastIndexOf("."));
+                String imgPath1 = filePath + uId + System.currentTimeMillis() + "01" + extName1;
+                //上传图片
+                File file = new File(imgPath1);
+                if(!file.exists()){
+                    file.mkdirs();
                 }
-                String[] pics = sb.toString().split(";");
-                userDynamic.setPicture1(pics[0]);
-                userDynamic.setPicture2(pics[1]);
-                userDynamic.setPicture3(pics[2]);
-                userDynamic.setPicture4(pics[3]);
-                userDynamic.setPicture5(pics[4]);
-                userDynamic.setPicture6(pics[5]);
-
-
-            }catch (FileUploadBase.SizeLimitExceededException e) {
-                return ResponseResult.error("-3","图片超过了规定的大小，上传失败！");
-            } catch (FileUploadBase.FileSizeLimitExceededException e) {
-                return ResponseResult.error("-3","图片超过了规定的大小，上传失败！");
-            }catch (Exception e) {
-                return ResponseResult.error("-2","图片上传失败！");
+                //向磁盘写文件
+                pic1.transferTo(file);
+                userDynamic.setPicture1(imgPath1.substring(imgPath1.indexOf("uploadDyPic")));
             }
+
+            if(!StringUtils.isEmpty(pic2)){
+                String filename2 = pic2.getOriginalFilename();
+                String extName2 = filename2.substring(filename2.lastIndexOf("."));
+                String imgPath2 = filePath + uId + System.currentTimeMillis() + "02" + extName2;
+                //上传图片
+                File file = new File(imgPath2);
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                //向磁盘写文件
+                pic2.transferTo(file);
+                userDynamic.setPicture2(imgPath2.substring(imgPath2.indexOf("uploadDyPic")));
+            }
+
+            if(!StringUtils.isEmpty(pic3)){
+                String filename3 = pic3.getOriginalFilename();
+                String extName3 = filename3.substring(filename3.lastIndexOf("."));
+                String imgPath3 = filePath + uId + System.currentTimeMillis() + "03" + extName3;
+                //上传图片
+                File file = new File(imgPath3);
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                //向磁盘写文件
+                pic3.transferTo(file);
+                userDynamic.setPicture3(imgPath3.substring(imgPath3.indexOf("uploadDyPic")));
+            }
+
+            if(!StringUtils.isEmpty(pic4)){
+                String filename4 = pic4.getOriginalFilename();
+                String extName4 = filename4.substring(filename4.lastIndexOf("."));
+                String imgPath4 = filePath + uId + System.currentTimeMillis() + "04" + extName4;
+                //上传图片
+                File file = new File(filename4);
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                //向磁盘写文件
+                pic4.transferTo(file);
+                userDynamic.setPicture4(imgPath4.substring(imgPath4.indexOf("uploadDyPic")));
+            }
+
+            if(!StringUtils.isEmpty(pic5)){
+                String filename5 = pic5.getOriginalFilename();
+                String extName5 = filename5.substring(filename5.lastIndexOf("."));
+                String imgPath5 = filePath + uId + System.currentTimeMillis() + "05" + extName5;
+                //上传图片
+                File file = new File(imgPath5);
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                //向磁盘写文件
+                pic5.transferTo(file);
+                userDynamic.setPicture5(imgPath5.substring(imgPath5.indexOf("uploadDyPic")));
+            }
+
+            if(!StringUtils.isEmpty(pic6)){
+                String filename6 = pic6.getOriginalFilename();
+                String extName6 = filename6.substring(filename6.lastIndexOf("."));
+                String imgPath6 = filePath + uId + System.currentTimeMillis() + "06" + extName6;
+                //上传图片
+                File file = new File(imgPath6);
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                //向磁盘写文件
+                pic6.transferTo(file);
+                userDynamic.setPicture6(imgPath6.substring(imgPath6.indexOf("uploadDyPic")));
+            }
+
 
             int count = userDynamicService.insert(userDynamic);
             if(count == 1){
