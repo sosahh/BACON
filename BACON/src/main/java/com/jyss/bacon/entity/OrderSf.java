@@ -34,6 +34,7 @@ public class OrderSf implements Serializable {
 
     private Date modifyTime;
 
+    private Integer categoryId;        //类目id
     private String categoryName;       //类目名称
     private String name;               //小段位名称
     private String picture;            //类目图片路径
@@ -182,5 +183,13 @@ public class OrderSf implements Serializable {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

@@ -17,6 +17,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="category_id" property="categoryId" />
     <result column="category_name" property="categoryName" />
     <result column="name" property="name" />
     <result column="picture" property="picture" />
@@ -97,7 +98,8 @@
 
   <!--上分订单个人查询-->
   <select id="getOrderSfByUid" parameterType="int" resultMap="BaseResultMap">
-    select a.*,d.category_name,d.name,nullif(CONCAT('${httpUrl}',d.bright_pic),'${httpUrl}') as picture
+    select a.*,d.category_id,d.category_name,d.name,
+    nullif(CONCAT('${httpUrl}',d.bright_pic),'${httpUrl}') as picture
     from o_order_sf a left join
     (select b.*,c.bright_pic from c_item_cat b ,c_item c where b.category_id = c.id) d
     on a.level_id = d.id
