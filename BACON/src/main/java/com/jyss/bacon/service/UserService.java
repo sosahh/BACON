@@ -4,6 +4,7 @@ package com.jyss.bacon.service;
 import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
 import com.jyss.bacon.entity.UserAccount;
+import com.jyss.bacon.entity.UserReport;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -48,5 +49,8 @@ public interface UserService {
 
     //更新账户
     int updateUserAccount(UserAccount userAccount);
+
+    //处理查询
+    List<UserReport> getUserReport(@Param("uId")Integer uId);
 
 }

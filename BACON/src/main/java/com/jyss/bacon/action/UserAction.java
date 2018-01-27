@@ -647,7 +647,8 @@ public class UserAction {
      */
     @RequestMapping("/report")
     @ResponseBody
-    public ResponseResult insertUserReport(@RequestParam("token") String token,UserReport userReport){
+    public ResponseResult insertUserReport(@RequestParam("token") String token,UserReport userReport,
+                                           @RequestParam("playId") Integer playId){
         if((userReport.getContent() == null || userReport.getContent().trim().length()==0)&&
                 StringUtils.isEmpty(userReport.getReportName())){
             return ResponseResult.error("-1","操作失败！");
@@ -656,7 +657,11 @@ public class UserAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
+            List<User> userList = userService.selectUserBy(playId+"", null, null);
+            User user = userList.get(0);
+
             userReport.setuId(uId);
+            userReport.setAccount(user.getAccount());
             userReport.setStatus(1);
             userReport.setCreateTime(new Date());
             int count = itemService.insertUserReport(userReport);
@@ -863,9 +868,20 @@ public class UserAction {
     /**
      * 处理消息
      */
-    /*@RequestMapping("/message")
+    @RequestMapping("/message")
     @ResponseBody
-*/
+    public ResponseResult getUserReport(@RequestParam("token") String token,@RequestParam("aId") Integer aId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserReport> list = userService.getUserReport(uId);
+            return ResponseResult.ok(list);
+
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
 
 
 }

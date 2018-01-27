@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService{
     private XtclMapper xtclMapper;
     @Autowired
     private UserAccountMapper userAccountMapper;
+    @Autowired
+    private UserReportMapper userReportMapper;
 
 
 
@@ -299,6 +301,17 @@ public class UserServiceImpl implements UserService{
     @Override
     public int updateUserAccount(UserAccount userAccount) {
         return userAccountMapper.updateByPrimaryKeySelective(userAccount);
+    }
+
+
+    /**
+     * 处理查询
+     * @param uId
+     * @return
+     */
+    @Override
+    public List<UserReport> getUserReport(Integer uId) {
+        return userReportMapper.getUserReport(uId);
     }
 
 

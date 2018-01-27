@@ -19,4 +19,9 @@
       #{dynamicId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
 
+  <!--处理查询-->
+  <select id="getUserReport" parameterType="int" resultMap="BaseResultMap">
+    select * from u_user_report where u_id = #{uId} and status = 2 order by create_time limit 0,1
+  </select>
+
 </mapper>
