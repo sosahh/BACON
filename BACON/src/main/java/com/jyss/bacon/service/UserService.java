@@ -46,4 +46,7 @@ public interface UserService {
     //查询账户
     List<UserAccount> getUserAccount(@Param("uId")Integer uId);
 
+    //更新账户
+    int updateUserAccount(UserAccount userAccount);
+
 }

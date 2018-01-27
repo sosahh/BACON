@@ -291,4 +291,15 @@ public class UserServiceImpl implements UserService{
     }
 
 
+    /**
+     * 更新账户
+     * @param userAccount
+     * @return
+     */
+    @Override
+    public int updateUserAccount(UserAccount userAccount) {
+        return userAccountMapper.updateByPrimaryKeySelective(userAccount);
+    }
+
+
 }

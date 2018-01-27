@@ -40,7 +40,7 @@ public class UserAction {
 
 
     /**
-     * 发送验证码   bz=1 注册，bz=2 短信修改密码，bz=3 支付宝
+     * 发送验证码   bz=1 注册，bz=2 短信修改密码，bz=3 添加账户
      */
     @RequestMapping("/sendCode")
     @ResponseBody
@@ -684,6 +684,7 @@ public class UserAction {
             Integer uId = mobileLogin.getuId();
             UserReport userReport = new UserReport();
             userReport.setuId(uId);
+            userReport.setContent(content);
             userReport.setStatus(3);
             userReport.setCreateTime(new Date());
             int count = itemService.insertUserReport(userReport);
@@ -778,8 +779,9 @@ public class UserAction {
      */
     @RequestMapping("/account")
     @ResponseBody
-    public ResponseResult insertUserAccount(UserAccount userAccount,@RequestParam("token") String token,@RequestParam("tel") String tel,
-                                            @RequestParam("code") String code,@RequestParam("sessionId") String sessionId){
+    public ResponseResult insertUserAccount(UserAccount userAccount,@RequestParam("token") String token,
+                                            @RequestParam("tel") String tel,@RequestParam("code") String code,
+                                            @RequestParam("sessionId") String sessionId){
         if(StringUtils.isEmpty(sessionId)){
             return ResponseResult.error("-1","请重新获取验证码！");
         }
@@ -831,6 +833,28 @@ public class UserAction {
     }
 
 
+    /**
+     * 删除账户
+     */
+    @RequestMapping("/delAccount")
+    @ResponseBody
+    public ResponseResult getUserAccount(@RequestParam("token") String token,@RequestParam("aId") Integer aId){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            UserAccount userAccount = new UserAccount();
+            userAccount.setId(aId);
+            userAccount.setStatus(0);
+            int count = userService.updateUserAccount(userAccount);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","修改失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
 
     /**
      * 处理消息
