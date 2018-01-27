@@ -14,6 +14,8 @@ public class UserReport implements Serializable{
 
     private String content;       //举报内容
 
+    private Integer dynamicId;    //动态id
+
     private Integer status;
 
     private Date createTime;
@@ -73,5 +75,13 @@ public class UserReport implements Serializable{
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getDynamicId() {
+        return dynamicId;
+    }
+
+    public void setDynamicId(Integer dynamicId) {
+        this.dynamicId = dynamicId;
     }
 }

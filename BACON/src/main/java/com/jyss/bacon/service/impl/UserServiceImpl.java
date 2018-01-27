@@ -193,6 +193,7 @@ public class UserServiceImpl implements UserService{
             HashMap<String, Object> map = new HashMap<>();
             map.put("total",totalIncome);
             map.put("today",incomeToday);
+            map.put("amount",user.getAmount());
             map.put("cash",cash);
             map.put("money",xtcl.getBz_value());
             return ResponseResult.ok(map);

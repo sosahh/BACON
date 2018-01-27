@@ -8,14 +8,15 @@
     <result column="report_name" property="reportName" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="dynamic_id" property="dynamicId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.UserReport" >
-    insert into u_user_report (id, u_id, account, report_name, content, status, create_time)
+    insert into u_user_report (id, u_id, account, report_name, content, status, dynamic_id, create_time)
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR},
-      #{reportName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{reportName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+      #{dynamicId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
 
 </mapper>

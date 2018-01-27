@@ -635,7 +635,7 @@ public class UserAction {
 
 
     /**
-     * 举报
+     * 举报动态
      */
     @RequestMapping("/report")
     @ResponseBody
