@@ -847,19 +847,20 @@ public class UserAction {
      */
     @RequestMapping("/delAccount")
     @ResponseBody
-    public ResponseResult getUserAccount(@RequestParam("token") String token,@RequestParam("aId") Integer aId){
+    public ResponseResult getUserAccount(@RequestParam("token") String token,@RequestParam("aIds") String aIds){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            UserAccount userAccount = new UserAccount();
-            userAccount.setId(aId);
-            userAccount.setStatus(0);
-            int count = userService.updateUserAccount(userAccount);
-            if(count == 1){
-                return ResponseResult.ok("");
+            String[] ids = aIds.split(",");
+            for (String id : ids) {
+                UserAccount userAccount = new UserAccount();
+                userAccount.setId(Integer.parseInt(id));
+                userAccount.setStatus(0);
+                userService.updateUserAccount(userAccount);
+
             }
-            return ResponseResult.error("-1","修改失败！");
+            return ResponseResult.ok("");
         }
         return ResponseResult.error("1","token失效！");
 
