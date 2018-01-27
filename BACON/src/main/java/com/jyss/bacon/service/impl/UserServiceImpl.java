@@ -286,8 +286,8 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    public List<UserAccount> getUserAccount(Integer uId) {
-        return userAccountMapper.getUserAccount(uId);
+    public List<UserAccount> getUserAccount(Integer uId,String account) {
+        return userAccountMapper.getUserAccount(uId,account);
     }
 
 

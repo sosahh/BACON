@@ -19,8 +19,14 @@
   </insert>
 
   <!--查询账户-->
-  <select id="getUserAccount" parameterType="int" resultMap="BaseResultMap">
-    select * from u_user_account where u_id = #{uId} and status = 1 order by type,create_time desc
+  <select id="getUserAccount" resultMap="BaseResultMap">
+    select * from u_user_account
+    <where>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="account != null and account != ''">and account = #{account}</if>
+      and status = 1
+    </where>
+    order by type,create_time desc
   </select>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserAccount" >
@@ -47,5 +53,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 
 </mapper>

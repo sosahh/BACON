@@ -779,25 +779,29 @@ public class UserAction {
      */
     @RequestMapping("/account")
     @ResponseBody
-    public ResponseResult insertUserAccount(UserAccount userAccount,@RequestParam("token") String token,
+    public ResponseResult insertUserAccount(@RequestParam("realName") String realName,@RequestParam("token") String token,
                                             @RequestParam("tel") String tel,@RequestParam("code") String code,
                                             @RequestParam("sessionId") String sessionId){
         if(StringUtils.isEmpty(sessionId)){
             return ResponseResult.error("-1","请重新获取验证码！");
         }
 
-
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-
+            List<UserAccount> list = userService.getUserAccount(null,tel);
+            if(list != null && list.size()>0){
+                return ResponseResult.error("-4","账号已存在！");
+            }
             HttpSession session = MySessionContext.getSession(sessionId);
             String checkTel = (String) session.getAttribute("tel");
             String checkCode = (String) session.getAttribute("code");
             if(tel.equals(checkTel) && code.equals(checkCode)){
-
+                UserAccount userAccount = new UserAccount();
                 userAccount.setuId(uId);
+                userAccount.setRealName(realName);
+                userAccount.setAccount(tel);
                 userAccount.setStatus(1);
                 userAccount.setType(1);
                 userAccount.setCreateTime(new Date());
@@ -825,7 +829,7 @@ public class UserAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            List<UserAccount> list = userService.getUserAccount(uId);
+            List<UserAccount> list = userService.getUserAccount(uId,null);
             return ResponseResult.ok(list);
         }
         return ResponseResult.error("1","token失效！");
