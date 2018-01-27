@@ -140,7 +140,7 @@ public class ItemAction {
 
 
     /**
-     * 用户协议      agType   1=注册协议，2=充值协议
+     * 用户协议      agType   1=注册协议，2=充值协议，3=提现说明
      */
     @RequestMapping("/agreement")
     @ResponseBody
@@ -154,6 +154,12 @@ public class ItemAction {
 
         }else if(agType == 2){
             List<BaseConfig> configList = itemService.selectBaseConfig("czxy.info");
+            if(configList != null && configList.size()==1){
+                BaseConfig baseConfig = configList.get(0);
+                return ResponseResult.ok(baseConfig);
+            }
+        }else if(agType == 3){
+            List<BaseConfig> configList = itemService.selectBaseConfig("take.info");
             if(configList != null && configList.size()==1){
                 BaseConfig baseConfig = configList.get(0);
                 return ResponseResult.ok(baseConfig);
@@ -176,5 +182,20 @@ public class ItemAction {
         }
         return ResponseResult.error("-1","查询失败！");
     }
+
+
+    /**
+     * 帮助与反馈
+     */
+    @RequestMapping("/help")
+    @ResponseBody
+    public ResponseResult selectBaseConfigBy(){
+        List<BaseConfig> list = itemService.selectBaseConfig("help.info");
+        return ResponseResult.ok(list);
+
+    }
+
+
+
 
 }

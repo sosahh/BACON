@@ -3,6 +3,7 @@ package com.jyss.bacon.service;
 
 import com.jyss.bacon.entity.ResponseResult;
 import com.jyss.bacon.entity.User;
+import com.jyss.bacon.entity.UserAccount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -38,5 +39,11 @@ public interface UserService {
 
     //我的培根币
     ResponseResult selectUserBalance(@Param("uId")Integer uId);
+
+    //添加账户
+    int insertUserAccount(UserAccount userAccount);
+
+    //查询账户
+    List<UserAccount> getUserAccount(@Param("uId")Integer uId);
 
 }

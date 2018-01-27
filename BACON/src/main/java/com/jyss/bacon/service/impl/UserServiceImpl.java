@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService{
     private ScoreBalanceMapper scoreBalanceMapper;
     @Autowired
     private XtclMapper xtclMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
 
 
@@ -266,6 +268,26 @@ public class UserServiceImpl implements UserService{
             return ResponseResult.ok(map1);
         }
         return ResponseResult.error("-1","用户信息异常！");
+    }
+
+    /**
+     * 添加账户
+     * @param userAccount
+     * @return
+     */
+    @Override
+    public int insertUserAccount(UserAccount userAccount) {
+        return userAccountMapper.insertUserAccount(userAccount);
+    }
+
+    /**
+     * 查询账户
+     * @param uId
+     * @return
+     */
+    @Override
+    public List<UserAccount> getUserAccount(Integer uId) {
+        return userAccountMapper.getUserAccount(uId);
     }
 
 

@@ -40,7 +40,7 @@ public class UserAction {
 
 
     /**
-     * 发送验证码   bz=1 注册，bz=2 短信修改密码
+     * 发送验证码   bz=1 注册，bz=2 短信修改密码，bz=3 支付宝
      */
     @RequestMapping("/sendCode")
     @ResponseBody
@@ -69,6 +69,14 @@ public class UserAction {
                     return ResponseResult.error("-1","操作失败！");
                 }
                 return ResponseResult.error("-2","用户不存在！");
+            }
+            //支付宝
+            if(bz.equals("3")){
+                Map<String, String> map2 = sendCode(tel, request);
+                if (map2.get("msgDo").equals("1")) {
+                    return ResponseResult.ok(map2);
+                }
+                return ResponseResult.error("-1","操作失败！");
             }
         }
         return ResponseResult.error("-3","手机号不能为空！");
@@ -661,6 +669,33 @@ public class UserAction {
 
     }
 
+    /**
+     * 意见反馈
+     */
+    @RequestMapping("/feedback")
+    @ResponseBody
+    public ResponseResult insertUserReport(@RequestParam("token") String token,@RequestParam("content") String content){
+        if(content == null || content.trim().length()==0){
+            return ResponseResult.error("-1","操作失败！");
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            UserReport userReport = new UserReport();
+            userReport.setuId(uId);
+            userReport.setStatus(3);
+            userReport.setCreateTime(new Date());
+            int count = itemService.insertUserReport(userReport);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","操作失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
 
     /**
      * 我的收入
@@ -736,5 +771,73 @@ public class UserAction {
         return ResponseResult.error("1","token失效！");
 
     }
+
+
+    /**
+     * 添加我的账户
+     */
+    @RequestMapping("/account")
+    @ResponseBody
+    public ResponseResult insertUserAccount(UserAccount userAccount,@RequestParam("token") String token,@RequestParam("tel") String tel,
+                                            @RequestParam("code") String code,@RequestParam("sessionId") String sessionId){
+        if(StringUtils.isEmpty(sessionId)){
+            return ResponseResult.error("-1","请重新获取验证码！");
+        }
+
+
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+
+            HttpSession session = MySessionContext.getSession(sessionId);
+            String checkTel = (String) session.getAttribute("tel");
+            String checkCode = (String) session.getAttribute("code");
+            if(tel.equals(checkTel) && code.equals(checkCode)){
+
+                userAccount.setuId(uId);
+                userAccount.setStatus(1);
+                userAccount.setType(1);
+                userAccount.setCreateTime(new Date());
+                int count = userService.insertUserAccount(userAccount);
+                if(count == 1){
+                    return ResponseResult.ok("");
+                }
+                return ResponseResult.error("-2","添加失败！");
+            }
+            return ResponseResult.error("-3","验证码不正确！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+
+    /**
+     * 查询我的账户
+     */
+    @RequestMapping("/getAccount")
+    @ResponseBody
+    public ResponseResult getUserAccount(@RequestParam("token") String token){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserAccount> list = userService.getUserAccount(uId);
+            return ResponseResult.ok(list);
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+
+    /**
+     * 处理消息
+     */
+    /*@RequestMapping("/message")
+    @ResponseBody
+*/
+
 
 }

@@ -20,4 +20,5 @@ public interface BaseConfigMapper {
     //安卓版本更新
     List<Xtgx> selectXtgx(@Param("type")Integer type);
 
+
 }

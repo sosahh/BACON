@@ -47,12 +47,12 @@
   </insert>
 
 
-
   <!--查询总收入-->
   <select id="getTotalIncome" parameterType="int" resultType="string">
     select format(ifnull(sum(score),0),2) from u_score_earn
     where type = 1 and u_id = #{uId} and status = 1
   </select>
+
 
   <!--查询今日收入-->
   <select id="getIncomeToday" parameterType="int" resultType="string">
