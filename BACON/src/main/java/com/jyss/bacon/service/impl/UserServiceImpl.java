@@ -341,11 +341,15 @@ public class UserServiceImpl implements UserService{
                     Xtcl xtcl3 = xtclList3.get(0);
                     float cash1 = Float.parseFloat(xtcl.getBz_value());
                     float cash2 = Float.parseFloat(xtcl1.getBz_value());
-                    double cash3 = Double.parseDouble(xtcl2.getBz_value());
+                    float cash3 = Float.parseFloat(xtcl2.getBz_value());
                     float prop = Float.parseFloat(xtcl3.getBz_value());
 
                     if(cash >= cash2){
                         if(cash <= cash1){
+
+                            //支付宝提现
+                            float v = cash * cash3;
+
                             float jyScore = user.getAmount() - cash*prop;
                             User user1 = new User();
                             user1.setuId(uId);
