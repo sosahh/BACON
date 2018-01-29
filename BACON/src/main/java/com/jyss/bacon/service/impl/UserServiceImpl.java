@@ -376,7 +376,7 @@ public class UserServiceImpl implements UserService{
                         if(cash <= cash1){
 
                             //支付宝提现
-                            float v = cash * (1 - cash3);
+                            float money = cash * (1 - cash3);
 
 
                             float jyScore = user.getAmount() - cash*prop;
