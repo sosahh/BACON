@@ -1,4 +1,5 @@
 package com.jyss.bacon.utils;
+import com.jyss.bacon.entity.WangyiyunEntity.Info;
 import com.jyss.bacon.entity.WangyiyunEntity.ResultJson;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -11,17 +12,17 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import com.alibaba.fastjson.JSON;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lixh on 2018/1/29.
  */
 public class WangyiyunUtils {
-    public static String signWangyiyun(String  account) {
-        String code ="";
-       // DefaultHttpClient httpClient = new DefaultHttpClient();
+    public static Map<String ,String> signWangyiyun(String  account) {
+        HashMap<String, String> m = new HashMap<>();
+        m.put("code","");
+        m.put("token","");
+        // DefaultHttpClient httpClient = new DefaultHttpClient();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String url = "https://api.netease.im/nimserver/user/create.action";
         HttpPost httpPost = new HttpPost(url);
@@ -52,13 +53,18 @@ public class WangyiyunUtils {
             System.out.println(result);
             ResultJson rj = JSON.parseObject(result, ResultJson.class);
          if (rj!=null){
-             code = rj.getCode();//200成功
+             //200成功
+             m.put("code",rj.getCode());
+             Info info = rj.getInfo();
+             if (info!=null){
+                 m.put("token",info.getToken());
+             }
          }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return code;
+        return m;
     }
     public static void main(String[] args) {
        ///System.out.print(signWangyiyun("12345222566"));

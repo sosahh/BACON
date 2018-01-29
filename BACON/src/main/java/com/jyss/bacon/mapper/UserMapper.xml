@@ -29,21 +29,23 @@
     <result column="money" property="money" />
     <result column="open_id" property="openId" jdbcType="VARCHAR"/>
     <result column="union_id" property="unionId" jdbcType="VARCHAR"/>
+    <result column="account_wy" property="accountWy" jdbcType="VARCHAR"/>
+    <result column="token_wy" property="tokenWy" jdbcType="VARCHAR"/>
   </resultMap>
 
   <!--添加用户-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="uId">
     insert into u_user (u_id, account, tel, password, salt, pay_pwd, nick, headpic, birth_date, sex, age, place,
       profession, hobby, status, source, is_auth, label_desc, create_time, last_modify_time,
-      open_id, union_id)
+      open_id, union_id, account_wy, token_wy)
     values (#{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR},
       #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
       #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR},
       #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},#{source,jdbcType=TINYINT},
-      #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP},
-      #{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR})
+      #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{lastModifyTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR},
+      #{accountWy,jdbcType=VARCHAR}, #{tokenWy,jdbcType=VARCHAR})
   </insert>
 
   <!--用户信息修改-->
@@ -125,6 +127,12 @@
       <if test="unionId != null" >
         union_id = #{unionId,jdbcType=TIMESTAMP},
       </if>
+      <if test="accountWy != null" >
+        account_wy = #{accountWy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tokenWy != null" >
+        token_wy = #{tokenWy,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
@@ -136,7 +144,7 @@
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
     popularity, label_desc, balance ,amount, create_time, last_modify_time,
-    format(balance,2) money, open_id, union_id
+    format(balance,2) money, open_id, union_id, account_wy, token_wy
     from u_user
     <where>
       <if test="uId != null and uId != ''">and u_id = #{uId} </if>
@@ -151,7 +159,7 @@
     nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
     sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
     popularity, label_desc, balance, amount, create_time, last_modify_time,
-    format(balance,2) money, open_id, union_id
+    format(balance,2) money, open_id, union_id, account_wy, token_wy
     from u_user
     <where>
       <if test="openId != null and openId != ''">and open_id = #{openId} </if>

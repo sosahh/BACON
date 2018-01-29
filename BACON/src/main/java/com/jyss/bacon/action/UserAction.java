@@ -911,9 +911,24 @@ public class UserAction {
     }
 
 
+    /**
+     * 充值          czType: 1=支付宝，2=微信
+     */
+    @RequestMapping("/recharge")
+    @ResponseBody
+    public ResponseResult updateUserBalance(@RequestParam("token") String token,@RequestParam("cash") Float cash,
+                                     @RequestParam("czType") Integer czType){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            ResponseResult result = userService.updateUserBalance(uId, cash, czType);
+            return result;
 
+        }
+        return ResponseResult.error("1","token失效！");
 
-
+    }
 
 
 }

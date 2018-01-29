@@ -56,4 +56,6 @@ public interface UserService {
     //用户提现
     ResponseResult insertScoreEarn(@Param("uId")Integer uId,@Param("account")String account,@Param("cash")Float cash,@Param("payPwd")String payPwd);
 
+    //充值
+    ResponseResult updateUserBalance(@Param("uId")Integer uId,@Param("cash")Float cash,@Param("czType")Integer czType);
 }

@@ -61,6 +61,9 @@ public class User implements Serializable {
     private String openId;            //扣扣openid
     private String unionId;           //微信union_id
 
+    private String accountWy;         //网易通讯登陆账号
+    private String tokenWy;           //网易通讯登陆密码
+
 
     public Integer getuId() {
         return uId;
@@ -277,5 +280,21 @@ public class User implements Serializable {
 
     public void setAmount(Float amount) {
         this.amount = amount;
+    }
+
+    public String getAccountWy() {
+        return accountWy;
+    }
+
+    public void setAccountWy(String accountWy) {
+        this.accountWy = accountWy;
+    }
+
+    public String getTokenWy() {
+        return tokenWy;
+    }
+
+    public void setTokenWy(String tokenWy) {
+        this.tokenWy = tokenWy;
     }
 }

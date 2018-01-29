@@ -8,6 +8,7 @@ import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.CommTool;
 import com.jyss.bacon.utils.PasswordUtil;
 import com.jyss.bacon.utils.Utils;
+import com.jyss.bacon.utils.WangyiyunUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,25 +50,33 @@ public class UserServiceImpl implements UserService{
         int insert = userMapper.insert(user);
         if(insert == 1){
             Integer uId = user.getuId();
-            //设置账号
-            User user1 = new User();
-            user1.setuId(uId);
-            user1.setAccount(Utils.getMyId(uId+""));
-            userMapper.updateByPrimaryKeySelective(user1);
-            //记录登陆信息
-            MobileLogin mobileLogin = new MobileLogin();
-            String token = CommTool.getUUID();
-            mobileLogin.setuId(uId);
-            mobileLogin.setToken(token);
-            mobileLogin.setLastAccessTime(System.currentTimeMillis());
-            mobileLogin.setStatus(1);
-            mobileLogin.setCreatedAt(new Date());
-            int count = mobileLoginMapper.insert(mobileLogin);
-            if(count == 1){
-                Map<String, String> map = new HashMap<>();
-                map.put("token",token);
-                return ResponseResult.ok(map);
+            String account = Utils.getMyId(uId + "");
+            Map<String, String> map1 = WangyiyunUtils.signWangyiyun(account);
+            if(map1.get("code").equals("200")){
+                //设置账号
+                User user1 = new User();
+                user1.setuId(uId);
+                user1.setAccount(account);
+                user1.setAccountWy(account);
+                user1.setTokenWy(map1.get("token"));
+                userMapper.updateByPrimaryKeySelective(user1);
+
+                //记录登陆信息
+                MobileLogin mobileLogin = new MobileLogin();
+                String token = CommTool.getUUID();
+                mobileLogin.setuId(uId);
+                mobileLogin.setToken(token);
+                mobileLogin.setLastAccessTime(System.currentTimeMillis());
+                mobileLogin.setStatus(1);
+                mobileLogin.setCreatedAt(new Date());
+                int count = mobileLoginMapper.insert(mobileLogin);
+                if(count == 1){
+                    Map<String, String> map = new HashMap<>();
+                    map.put("token",token);
+                    return ResponseResult.ok(map);
+                }
             }
+
         }
         return ResponseResult.error("-1","注册失败！");
     }
@@ -383,6 +392,7 @@ public class UserServiceImpl implements UserService{
                             User user1 = new User();
                             user1.setuId(uId);
                             user1.setAmount(jyScore);
+                            user1.setLastModifyTime(new Date());
                             int count = userMapper.updateByPrimaryKeySelective(user1);
                             if(count == 1){
                                 ScoreEarn scoreEarn = new ScoreEarn();
@@ -410,6 +420,51 @@ public class UserServiceImpl implements UserService{
                 return ResponseResult.error("-3","提现金额不能超过可提现金额！");
             }
             return ResponseResult.error("-2","支付密码错误！");
+        }
+        return ResponseResult.error("-1","用户信息异常！");
+    }
+
+
+    /**
+     * 充值
+     * @param uId
+     * @param cash
+     * @param czType
+     * @return
+     */
+    @Override
+    public ResponseResult updateUserBalance(Integer uId, Float cash, Integer czType) {
+        List<Xtcl> xtclList = xtclMapper.getClsBy("prop_type", "1");      //比例
+        Xtcl xtcl = xtclList.get(0);
+        float prop = Float.parseFloat(xtcl.getBz_value());
+
+        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+        if(userList != null && userList.size()==1){
+            User user = userList.get(0);
+            float jyScore = user.getBalance() + cash*prop;
+            User user1 = new User();
+            user1.setuId(uId);
+            user1.setBalance(jyScore);
+            user1.setLastModifyTime(new Date());
+            int count = userMapper.updateByPrimaryKeySelective(user1);
+            if(count == 1){
+                ScoreBalance scoreBalance = new ScoreBalance();
+                scoreBalance.setuId(uId);
+                scoreBalance.setEnd(3);
+                scoreBalance.setDetail("充值");
+                scoreBalance.setType(1);
+                scoreBalance.setScore((double) (cash*prop));
+                scoreBalance.setJyScore((double) jyScore);
+                //scoreBalance.setOrderSn();
+                scoreBalance.setStatus(1);
+                scoreBalance.setCreatedAt(new Date());
+                int count1 = scoreBalanceMapper.insert(scoreBalance);
+                if(count1 == 1){
+                    return ResponseResult.ok("");
+                }
+            }
+            return ResponseResult.error("-2","充值失败！");
+
         }
         return ResponseResult.error("-1","用户信息异常！");
     }
