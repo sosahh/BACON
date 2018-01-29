@@ -99,7 +99,7 @@ public class UserReport implements Serializable{
         this.result = result;
     }
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm",timezone = "GMT+8")
+    @JsonFormat(pattern="MM-dd HH:mm",timezone = "GMT+8")
     public Date getModifyTime() {
         return modifyTime;
     }
