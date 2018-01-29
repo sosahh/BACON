@@ -331,18 +331,22 @@ public class UserServiceImpl implements UserService{
             User user = userList.get(0);
             if(DigestUtils.md5DigestAsHex(payPwd.getBytes()).equals(user.getPayPwd())){
                 if(cash <= user.getAmount()){
-                    List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");      //最高提现金额
+                    List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");       //最高提现金额
                     Xtcl xtcl = xtclList.get(0);
                     List<Xtcl> xtclList1 = xtclMapper.getClsBy("cash_type", "1");      //最低提现金额
                     Xtcl xtcl1 = xtclList1.get(0);
                     List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "3");      //手续费
                     Xtcl xtcl2 = xtclList2.get(0);
+                    List<Xtcl> xtclList3 = xtclMapper.getClsBy("prop_type", "1");      //比例
+                    Xtcl xtcl3 = xtclList3.get(0);
                     float cash1 = Float.parseFloat(xtcl.getBz_value());
                     float cash2 = Float.parseFloat(xtcl1.getBz_value());
                     double cash3 = Double.parseDouble(xtcl2.getBz_value());
+                    float prop = Float.parseFloat(xtcl3.getBz_value());
+
                     if(cash >= cash2){
                         if(cash <= cash1){
-                            float jyScore = user.getAmount() - cash;
+                            float jyScore = user.getAmount() - cash*prop;
                             User user1 = new User();
                             user1.setuId(uId);
                             user1.setAmount(jyScore);
@@ -352,7 +356,7 @@ public class UserServiceImpl implements UserService{
                                 scoreEarn.setuId(uId);
                                 scoreEarn.setDetail("提现");
                                 scoreEarn.setType(2);
-                                scoreEarn.setScore((double)cash);
+                                scoreEarn.setScore((double)cash*prop);
                                 scoreEarn.setJyScore((double) jyScore);
                                 //scoreEarn.setOrderSn();
                                 scoreEarn.setStatus(1);
