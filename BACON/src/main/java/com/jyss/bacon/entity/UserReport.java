@@ -1,5 +1,7 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,9 +18,13 @@ public class UserReport implements Serializable{
 
     private Integer dynamicId;    //动态id
 
-    private Integer status;
+    private Integer status;       //0，1==提交举报 2==平台意见反馈
 
-    private Date createTime;
+    private Integer result;       //0==未处理，1==审核确认处理  2审核不用处理
+
+    private Date createTime;      //
+
+    private Date modifyTime;      //投诉处理时间
 
 
     public Integer getId() {
@@ -83,5 +89,22 @@ public class UserReport implements Serializable{
 
     public void setDynamicId(Integer dynamicId) {
         this.dynamicId = dynamicId;
+    }
+
+    public Integer getResult() {
+        return result;
+    }
+
+    public void setResult(Integer result) {
+        this.result = result;
+    }
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }

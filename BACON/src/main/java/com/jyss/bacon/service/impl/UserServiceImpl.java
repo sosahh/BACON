@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService{
     private UserAccountMapper userAccountMapper;
     @Autowired
     private UserReportMapper userReportMapper;
+    @Autowired
+    private UserDynamicMapper userDynamicMapper;
 
 
 
@@ -312,9 +315,31 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    public List<UserReport> getUserReport(Integer uId) {
-        return userReportMapper.getUserReport(uId);
+    public ResponseResult getUserReport(Integer uId,Integer page,Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<UserReport> reports = userReportMapper.getUserReport(uId);
+        for (UserReport report : reports) {
+            if(report.getStatus() == 1){           //举报
+                List<UserDynamic> dynamicList = userDynamicMapper.getUserDynamicById(report.getDynamicId());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                String date = sdf.format(report.getCreateTime());
+                if(dynamicList != null && dynamicList.size()==1){
+                    UserDynamic userDynamic = dynamicList.get(0);
+                    report.setReportName("您在"+date+"对"
+                            +userDynamic.getNick()+"的动态举报，我们已经处理，感谢您的支持~");
+                }else{
+                    report.setReportName("您在"+date+"提出的举报，我们已经处理，感谢您的支持~");
+                }
+            }else if(report.getStatus() == 2){      //意见
+                report.setReportName("您的意见与反馈已受理，感谢您的支持~");
+            }
+        }
+
+        PageInfo<UserReport> pageInfo = new PageInfo<>(reports);
+        Page<UserReport> result = new Page<>(pageInfo);
+        return ResponseResult.ok(result);
     }
+
 
 
     /**

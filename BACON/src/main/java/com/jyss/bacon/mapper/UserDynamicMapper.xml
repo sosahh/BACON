@@ -117,4 +117,12 @@
     where picture_1 <![CDATA[ <> ]]> "" and u_id = #{uId} and status = 1
     order by created desc limit 0,8
   </select>
+
+  <!--举报动态查询-->
+  <select id="getUserDynamicById" parameterType="int" resultMap="BaseResultMap">
+    select a.content,a.status,a.created,b.nick
+    from u_user_dynamic a left join u_user b on a.u_id = b.u_id
+    where a.id = #{dynamicId}
+    and a.status = 1
+  </select>
 </mapper>

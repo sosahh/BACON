@@ -27,4 +27,7 @@ public interface UserDynamicMapper {
     //查询8张图片
     List<UserDynamic> getPicture(@Param("uId")Integer uId);
 
+    //举报动态查询
+    List<UserDynamic> getUserDynamicById(@Param("dynamicId")Integer dynamicId);
+
 }

@@ -50,8 +50,8 @@ public interface UserService {
     //更新账户
     int updateUserAccount(UserAccount userAccount);
 
-    //处理查询
-    List<UserReport> getUserReport(@Param("uId")Integer uId);
+    //系统消息
+    ResponseResult getUserReport(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
 
     //用户提现
     ResponseResult insertScoreEarn(@Param("uId")Integer uId,@Param("account")String account,@Param("cash")Float cash,@Param("payPwd")String payPwd);

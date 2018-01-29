@@ -6,7 +6,7 @@
     <result column="key" property="key" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="create_time" property="createTime"  />
+    <result column="modify_time" property="modifyTime"  />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.jyss.bacon.entity.BaseConfig" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -27,7 +27,7 @@
 
   <!--查询协议-->
   <select id="selectBaseConfig" parameterType="string" resultMap="BaseResultMap">
-    select a.* from p_base_config a where a.key = #{key} and a.status = 1 order by a.create_time desc
+    select a.* from p_base_config a where a.key = #{key} and a.status = 1
   </select>
 
 

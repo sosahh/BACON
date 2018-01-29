@@ -1,5 +1,7 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ public class BaseConfig implements Serializable{
 
     private String content;     //内容
 
-    private Date createTime;
+    private Date modifyTime;
 
 
     public Integer getId() {
@@ -57,11 +59,12 @@ public class BaseConfig implements Serializable{
         this.content = content == null ? null : content.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getModifyTime() {
+        return modifyTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }

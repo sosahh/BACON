@@ -663,7 +663,9 @@ public class UserAction {
             userReport.setuId(uId);
             userReport.setAccount(user.getAccount());
             userReport.setStatus(1);
+            userReport.setResult(0);
             userReport.setCreateTime(new Date());
+            userReport.setModifyTime(new Date());
             int count = itemService.insertUserReport(userReport);
             if(count == 1){
                 return ResponseResult.ok("");
@@ -691,7 +693,9 @@ public class UserAction {
             userReport.setuId(uId);
             userReport.setContent(content);
             userReport.setStatus(2);
+            userReport.setResult(0);
             userReport.setCreateTime(new Date());
+            userReport.setModifyTime(new Date());
             int count = itemService.insertUserReport(userReport);
             if(count == 1){
                 return ResponseResult.ok("");
@@ -867,17 +871,19 @@ public class UserAction {
     }
 
     /**
-     * 处理消息
+     * 系统消息
      */
     @RequestMapping("/message")
     @ResponseBody
-    public ResponseResult getUserReport(@RequestParam("token") String token,@RequestParam("aId") Integer aId){
+    public ResponseResult getUserReport(@RequestParam("token") String token,
+                                        @RequestParam(value = "page", required = true) Integer page,
+                                        @RequestParam(value = "pageSize", required = true) Integer pageSize){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            List<UserReport> list = userService.getUserReport(uId);
-            return ResponseResult.ok(list);
+            ResponseResult result = userService.getUserReport(uId, page, pageSize);
+            return result;
 
         }
         return ResponseResult.error("1","token失效！");
