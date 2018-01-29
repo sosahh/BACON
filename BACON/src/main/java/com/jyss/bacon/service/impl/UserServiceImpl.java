@@ -350,6 +350,7 @@ public class UserServiceImpl implements UserService{
                             //支付宝提现
                             float v = cash * cash3;
 
+
                             float jyScore = user.getAmount() - cash*prop;
                             User user1 = new User();
                             user1.setuId(uId);
