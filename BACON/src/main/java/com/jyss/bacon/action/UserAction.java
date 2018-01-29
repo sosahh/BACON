@@ -690,7 +690,7 @@ public class UserAction {
             UserReport userReport = new UserReport();
             userReport.setuId(uId);
             userReport.setContent(content);
-            userReport.setStatus(3);
+            userReport.setStatus(2);
             userReport.setCreateTime(new Date());
             int count = itemService.insertUserReport(userReport);
             if(count == 1){
@@ -883,6 +883,32 @@ public class UserAction {
         return ResponseResult.error("1","token失效！");
 
     }
+
+
+    /**
+     * 提现
+     */
+    @RequestMapping("/withdrawals")
+    @ResponseBody
+    public ResponseResult insertScoreEarn(@RequestParam("token") String token,@RequestParam("account") String account,
+                                          @RequestParam("cash") Float cash,@RequestParam("payPwd") String payPwd){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+
+
+
+
+
+
+        }
+        return ResponseResult.error("1","token失效！");
+
+
+    }
+
+
 
 
 }

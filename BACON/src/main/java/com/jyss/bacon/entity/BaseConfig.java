@@ -1,6 +1,7 @@
 package com.jyss.bacon.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BaseConfig implements Serializable{
     private Integer id;
@@ -12,6 +13,8 @@ public class BaseConfig implements Serializable{
     private Integer status;
 
     private String content;     //内容
+
+    private Date createTime;
 
 
     public Integer getId() {
@@ -52,5 +55,13 @@ public class BaseConfig implements Serializable{
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

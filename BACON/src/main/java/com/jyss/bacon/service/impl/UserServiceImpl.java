@@ -11,6 +11,7 @@ import com.jyss.bacon.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService{
     private UserAccountMapper userAccountMapper;
     @Autowired
     private UserReportMapper userReportMapper;
+
 
 
 
@@ -186,10 +188,10 @@ public class UserServiceImpl implements UserService{
             User user = userList.get(0);
             String totalIncome = scoreBalanceMapper.getTotalIncome(uId);
             String incomeToday = scoreBalanceMapper.getIncomeToday(uId);
-            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");
+            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");       //最低提现金额
             Xtcl xtcl = xtclList.get(0);
 
-            List<Xtcl> xtclList1 = xtclMapper.getClsBy("prop_type", "1");
+            List<Xtcl> xtclList1 = xtclMapper.getClsBy("prop_type", "1");      //比例
             Xtcl xtcl1 = xtclList1.get(0);
             double prop = Double.parseDouble(xtcl1.getBz_value());
             float cash = (float) (Math.round((user.getAmount() / prop) * 100)) / 100;
@@ -312,6 +314,67 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserReport> getUserReport(Integer uId) {
         return userReportMapper.getUserReport(uId);
+    }
+
+
+    /**
+     * 用户提现
+     * @param uId
+     * @param account
+     * @param cash
+     * @return
+     */
+    @Override
+    public ResponseResult insertScoreEarn(Integer uId, String account, Float cash,String payPwd) {
+        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+        if(userList != null && userList.size()==1){
+            User user = userList.get(0);
+            if(DigestUtils.md5DigestAsHex(payPwd.getBytes()).equals(user.getPayPwd())){
+                if(cash <= user.getAmount()){
+                    List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");      //最高提现金额
+                    Xtcl xtcl = xtclList.get(0);
+                    List<Xtcl> xtclList1 = xtclMapper.getClsBy("cash_type", "1");      //最低提现金额
+                    Xtcl xtcl1 = xtclList1.get(0);
+                    List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "3");      //手续费
+                    Xtcl xtcl2 = xtclList2.get(0);
+                    float cash1 = Float.parseFloat(xtcl.getBz_value());
+                    float cash2 = Float.parseFloat(xtcl1.getBz_value());
+                    double cash3 = Double.parseDouble(xtcl2.getBz_value());
+                    if(cash >= cash2){
+                        if(cash <= cash1){
+                            float jyScore = user.getAmount() - cash;
+                            User user1 = new User();
+                            user1.setuId(uId);
+                            user1.setAmount(jyScore);
+                            int count = userMapper.updateByPrimaryKeySelective(user1);
+                            if(count == 1){
+                                ScoreEarn scoreEarn = new ScoreEarn();
+                                scoreEarn.setuId(uId);
+                                scoreEarn.setDetail("提现");
+                                scoreEarn.setType(2);
+                                scoreEarn.setScore((double)cash);
+                                scoreEarn.setJyScore((double) jyScore);
+                                //scoreEarn.setOrderSn();
+                                scoreEarn.setStatus(1);
+                                scoreEarn.setCreatedAt(new Date());
+                                int count1 = scoreBalanceMapper.insertScoreEarn(scoreEarn);
+                                if(count1 == 1){
+                                    return ResponseResult.ok("");
+                                }
+
+                            }
+                            return ResponseResult.error("-6","提现失败！");
+
+                        }
+                        return ResponseResult.error("-5","提现失败，提现金额不能超过每笔最高提现金额！");
+                    }
+                    return ResponseResult.error("-4","提现失败，提现金额不能低于每笔最低提现金额！");
+                }
+                return ResponseResult.error("-3","提现失败，提现金额不能超过可提现金额！");
+            }
+            return ResponseResult.error("-2","支付密码错误！");
+        }
+        return ResponseResult.error("-1","用户信息异常！");
     }
 
 
