@@ -896,11 +896,8 @@ public class UserAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-
-
-
-
-
+            ResponseResult result = userService.insertScoreEarn(uId, account, cash, payPwd);
+            return result;
 
         }
         return ResponseResult.error("1","token失效！");
