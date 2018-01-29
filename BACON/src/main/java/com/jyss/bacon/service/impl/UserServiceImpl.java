@@ -358,25 +358,25 @@ public class UserServiceImpl implements UserService{
         if(userList != null && userList.size()==1){
             User user = userList.get(0);
             if(DigestUtils.md5DigestAsHex(payPwd.getBytes()).equals(user.getPayPwd())){
-                if(cash <= user.getAmount()){
-                    List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");       //最高提现金额
-                    Xtcl xtcl = xtclList.get(0);
-                    List<Xtcl> xtclList1 = xtclMapper.getClsBy("cash_type", "1");      //最低提现金额
-                    Xtcl xtcl1 = xtclList1.get(0);
-                    List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "3");      //手续费
-                    Xtcl xtcl2 = xtclList2.get(0);
-                    List<Xtcl> xtclList3 = xtclMapper.getClsBy("prop_type", "1");      //比例
-                    Xtcl xtcl3 = xtclList3.get(0);
-                    float cash1 = Float.parseFloat(xtcl.getBz_value());
-                    float cash2 = Float.parseFloat(xtcl1.getBz_value());
-                    float cash3 = Float.parseFloat(xtcl2.getBz_value());
-                    float prop = Float.parseFloat(xtcl3.getBz_value());
+                List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");       //最高提现金额
+                Xtcl xtcl = xtclList.get(0);
+                List<Xtcl> xtclList1 = xtclMapper.getClsBy("cash_type", "1");      //最低提现金额
+                Xtcl xtcl1 = xtclList1.get(0);
+                List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "3");      //手续费
+                Xtcl xtcl2 = xtclList2.get(0);
+                List<Xtcl> xtclList3 = xtclMapper.getClsBy("prop_type", "1");      //比例
+                Xtcl xtcl3 = xtclList3.get(0);
+                float cash1 = Float.parseFloat(xtcl.getBz_value());
+                float cash2 = Float.parseFloat(xtcl1.getBz_value());
+                float cash3 = Float.parseFloat(xtcl2.getBz_value());
+                float prop = Float.parseFloat(xtcl3.getBz_value());
+                if(cash*prop <= user.getAmount()){
 
                     if(cash >= cash2){
                         if(cash <= cash1){
 
                             //支付宝提现
-                            float v = cash * cash3;
+                            float v = cash * (1 - cash3);
 
 
                             float jyScore = user.getAmount() - cash*prop;
