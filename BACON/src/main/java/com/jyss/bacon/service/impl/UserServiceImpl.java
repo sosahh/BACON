@@ -191,8 +191,10 @@ public class UserServiceImpl implements UserService{
             User user = userList.get(0);
             String totalIncome = scoreBalanceMapper.getTotalIncome(uId);
             String incomeToday = scoreBalanceMapper.getIncomeToday(uId);
-            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");       //最低提现金额
+            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");       //单笔最低提现金额
             Xtcl xtcl = xtclList.get(0);
+            List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "2");       //单笔最高提现金额
+            Xtcl xtcl2 = xtclList2.get(0);
 
             List<Xtcl> xtclList1 = xtclMapper.getClsBy("prop_type", "1");      //比例
             Xtcl xtcl1 = xtclList1.get(0);
@@ -205,6 +207,7 @@ public class UserServiceImpl implements UserService{
             map.put("amount",user.getAmount());
             map.put("cash",cash);
             map.put("money",xtcl.getBz_value());
+            map.put("hmoney",xtcl2.getBz_value());
             return ResponseResult.ok(map);
         }
         return ResponseResult.error("-1","用户信息异常！");
@@ -310,7 +313,7 @@ public class UserServiceImpl implements UserService{
 
 
     /**
-     * 处理查询
+     * 系统消息
      * @param uId
      * @return
      */
