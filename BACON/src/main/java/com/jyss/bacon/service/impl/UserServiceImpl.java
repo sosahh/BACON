@@ -191,8 +191,10 @@ public class UserServiceImpl implements UserService{
             User user = userList.get(0);
             String totalIncome = scoreBalanceMapper.getTotalIncome(uId);
             String incomeToday = scoreBalanceMapper.getIncomeToday(uId);
-            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");       //最低提现金额
+            List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "1");       //单笔最低提现金额
             Xtcl xtcl = xtclList.get(0);
+            List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "2");       //单笔最高提现金额
+            Xtcl xtcl2 = xtclList2.get(0);
 
             List<Xtcl> xtclList1 = xtclMapper.getClsBy("prop_type", "1");      //比例
             Xtcl xtcl1 = xtclList1.get(0);
@@ -205,6 +207,7 @@ public class UserServiceImpl implements UserService{
             map.put("amount",user.getAmount());
             map.put("cash",cash);
             map.put("money",xtcl.getBz_value());
+            map.put("hmoney",xtcl2.getBz_value());
             return ResponseResult.ok(map);
         }
         return ResponseResult.error("-1","用户信息异常！");
@@ -310,7 +313,7 @@ public class UserServiceImpl implements UserService{
 
 
     /**
-     * 处理查询
+     * 系统消息
      * @param uId
      * @return
      */
@@ -319,19 +322,19 @@ public class UserServiceImpl implements UserService{
         PageHelper.startPage(page,pageSize);
         List<UserReport> reports = userReportMapper.getUserReport(uId);
         for (UserReport report : reports) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String date = sdf.format(report.getCreateTime());
             if(report.getStatus() == 1){           //举报
                 List<UserDynamic> dynamicList = userDynamicMapper.getUserDynamicById(report.getDynamicId());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                String date = sdf.format(report.getCreateTime());
                 if(dynamicList != null && dynamicList.size()==1){
                     UserDynamic userDynamic = dynamicList.get(0);
-                    report.setReportName("您在"+date+"对"
-                            +userDynamic.getNick()+"的动态举报，我们已经处理，感谢您的支持~");
+                    report.setReportName("您于"+date+"对"
+                            +userDynamic.getNick()+"的举报，我们已经处理，感谢您的支持~");
                 }else{
-                    report.setReportName("您在"+date+"提出的举报，我们已经处理，感谢您的支持~");
+                    report.setReportName("您于"+date+"提出的举报，我们已经处理，感谢您的支持~");
                 }
             }else if(report.getStatus() == 2){      //意见
-                report.setReportName("您的意见与反馈已受理，感谢您的支持~");
+                report.setReportName("您于"+date+"提出的意见与反馈，我们已受理，感谢您的支持~");
             }
         }
 
@@ -355,25 +358,25 @@ public class UserServiceImpl implements UserService{
         if(userList != null && userList.size()==1){
             User user = userList.get(0);
             if(DigestUtils.md5DigestAsHex(payPwd.getBytes()).equals(user.getPayPwd())){
-                if(cash <= user.getAmount()){
-                    List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");       //最高提现金额
-                    Xtcl xtcl = xtclList.get(0);
-                    List<Xtcl> xtclList1 = xtclMapper.getClsBy("cash_type", "1");      //最低提现金额
-                    Xtcl xtcl1 = xtclList1.get(0);
-                    List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "3");      //手续费
-                    Xtcl xtcl2 = xtclList2.get(0);
-                    List<Xtcl> xtclList3 = xtclMapper.getClsBy("prop_type", "1");      //比例
-                    Xtcl xtcl3 = xtclList3.get(0);
-                    float cash1 = Float.parseFloat(xtcl.getBz_value());
-                    float cash2 = Float.parseFloat(xtcl1.getBz_value());
-                    float cash3 = Float.parseFloat(xtcl2.getBz_value());
-                    float prop = Float.parseFloat(xtcl3.getBz_value());
+                List<Xtcl> xtclList = xtclMapper.getClsBy("cash_type", "2");       //最高提现金额
+                Xtcl xtcl = xtclList.get(0);
+                List<Xtcl> xtclList1 = xtclMapper.getClsBy("cash_type", "1");      //最低提现金额
+                Xtcl xtcl1 = xtclList1.get(0);
+                List<Xtcl> xtclList2 = xtclMapper.getClsBy("cash_type", "3");      //手续费
+                Xtcl xtcl2 = xtclList2.get(0);
+                List<Xtcl> xtclList3 = xtclMapper.getClsBy("prop_type", "1");      //比例
+                Xtcl xtcl3 = xtclList3.get(0);
+                float cash1 = Float.parseFloat(xtcl.getBz_value());
+                float cash2 = Float.parseFloat(xtcl1.getBz_value());
+                float cash3 = Float.parseFloat(xtcl2.getBz_value());
+                float prop = Float.parseFloat(xtcl3.getBz_value());
+                if(cash*prop <= user.getAmount()){
 
                     if(cash >= cash2){
                         if(cash <= cash1){
 
                             //支付宝提现
-                            float v = cash * cash3;
+                            float v = cash * (1 - cash3);
 
 
                             float jyScore = user.getAmount() - cash*prop;
