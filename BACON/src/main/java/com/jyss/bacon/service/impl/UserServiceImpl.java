@@ -319,19 +319,19 @@ public class UserServiceImpl implements UserService{
         PageHelper.startPage(page,pageSize);
         List<UserReport> reports = userReportMapper.getUserReport(uId);
         for (UserReport report : reports) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String date = sdf.format(report.getCreateTime());
             if(report.getStatus() == 1){           //举报
                 List<UserDynamic> dynamicList = userDynamicMapper.getUserDynamicById(report.getDynamicId());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                String date = sdf.format(report.getCreateTime());
                 if(dynamicList != null && dynamicList.size()==1){
                     UserDynamic userDynamic = dynamicList.get(0);
-                    report.setReportName("您在"+date+"对"
-                            +userDynamic.getNick()+"的动态举报，我们已经处理，感谢您的支持~");
+                    report.setReportName("您于"+date+"对"
+                            +userDynamic.getNick()+"的举报，我们已经处理，感谢您的支持~");
                 }else{
-                    report.setReportName("您在"+date+"提出的举报，我们已经处理，感谢您的支持~");
+                    report.setReportName("您于"+date+"提出的举报，我们已经处理，感谢您的支持~");
                 }
             }else if(report.getStatus() == 2){      //意见
-                report.setReportName("您的意见与反馈已受理，感谢您的支持~");
+                report.setReportName("您于"+date+"提出的意见与反馈，我们已受理，感谢您的支持~");
             }
         }
 
