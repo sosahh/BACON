@@ -14,11 +14,9 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.*;
 
-/**
- * Created by lixh on 2018/1/29.
- */
+
 public class WangyiyunUtils {
-    public static Map<String ,String> signWangyiyun(String  account) {
+    public static Map<String ,String> signWangyiyun(String  account,String  nick,String  headpic) {
         HashMap<String, String> m = new HashMap<>();
         m.put("code","");
         m.put("token","");
@@ -43,6 +41,8 @@ public class WangyiyunUtils {
         // 设置请求的参数
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
         nvps.add(new BasicNameValuePair("accid", account));
+        nvps.add(new BasicNameValuePair("name", nick));
+        nvps.add(new BasicNameValuePair("icon", headpic));
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nvps, "utf-8"));
 

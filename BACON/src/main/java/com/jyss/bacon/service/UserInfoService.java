@@ -32,6 +32,8 @@ public interface UserInfoService {
     //查询详细信息
     UserDetailResult findUserDetailInfo(@Param("uId")Integer uId,@Param("playId")Integer playId);
 
+    //查询详细信息(网易账号查找)
+    UserDetailResult findUserDetailInfoBy(@Param("uId")Integer uId,@Param("accountWy")String accountWy);
 
 
 }

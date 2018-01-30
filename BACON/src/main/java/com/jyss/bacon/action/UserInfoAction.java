@@ -105,6 +105,27 @@ public class UserInfoAction {
 
 
     /**
+     * 查询详细信息(网易账号查找)
+     */
+    @RequestMapping("/getInfoBy")
+    @ResponseBody
+    public ResponseResult findUserDetailInfoBy(@RequestParam("token") String token,@RequestParam("accountWy") String accountWy){
+        if(StringUtils.isEmpty(token)){
+            UserDetailResult result = userInfoService.findUserDetailInfoBy(null, accountWy);
+            return ResponseResult.ok(result);
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            UserDetailResult result = userInfoService.findUserDetailInfoBy(uId, accountWy);
+            return ResponseResult.ok(result);
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+    /**
      * 游戏详细信息
      */
     @RequestMapping("/getUserAuth")

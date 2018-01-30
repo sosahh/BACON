@@ -175,4 +175,40 @@ public class UserInfoServiceImpl implements UserInfoService{
     }
 
 
+    /**
+     * 查询详细信息(网易账号查找)
+     */
+    @Override
+    public UserDetailResult findUserDetailInfoBy(Integer uId, String accountWy) {
+        UserDetailResult result = new UserDetailResult();
+        List<User> userList = userMapper.selectUserByAccountWy(accountWy);
+
+        User user = userList.get(0);
+        //关注数
+        int count = userFollowMapper.getUserFellowCount(user.getuId());
+        //认证游戏
+        List<UserAuth> userAuthList = userAuthMapper.getUserAuthByIsShelve(user.getuId(), null, 2);
+        //动态
+        List<UserDynamic> userDynamicList = userDynamicMapper.getPicture(user.getuId());
+        if(uId == null){
+            result.setType(false);
+            result.setuId(0);
+        }else{
+            //是否已关注
+            List<UserFollow> fellowList = userFollowMapper.getUserFellowBy(uId, user.getuId(), 1);
+            if(fellowList != null && fellowList.size()>0){
+                result.setType(true);
+            }else {
+                result.setType(false);
+            }
+            result.setuId(uId);
+        }
+        result.setUser(user);
+        result.setCount(count);
+        result.setPictures(userDynamicList);
+        result.setGames(userAuthList);
+        return result;
+    }
+
+
 }

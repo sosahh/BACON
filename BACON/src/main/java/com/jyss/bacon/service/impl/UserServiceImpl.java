@@ -2,6 +2,7 @@ package com.jyss.bacon.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.UserService;
@@ -51,7 +52,8 @@ public class UserServiceImpl implements UserService{
         if(insert == 1){
             Integer uId = user.getuId();
             String account = Utils.getMyId(uId + "");
-            Map<String, String> map1 = WangyiyunUtils.signWangyiyun(account);
+            Map<String, String> map1 = WangyiyunUtils.signWangyiyun(account,
+                    user.getNick(),Constant.httpUrl+user.getHeadpic());
             if(map1.get("code").equals("200")){
                 //设置账号
                 User user1 = new User();
@@ -73,6 +75,8 @@ public class UserServiceImpl implements UserService{
                 if(count == 1){
                     Map<String, String> map = new HashMap<>();
                     map.put("token",token);
+                    map.put("accountWy",account);
+                    map.put("tokenWy",map1.get("token"));
                     return ResponseResult.ok(map);
                 }
             }
@@ -93,7 +97,8 @@ public class UserServiceImpl implements UserService{
         if(userList != null && userList.size()>0){
             User user = userList.get(0);
             if(StringUtils.isEmpty(user.getAccountWy())&& StringUtils.isEmpty(user.getTokenWy())){
-                Map<String, String> map1 = WangyiyunUtils.signWangyiyun(user.getAccount());
+                Map<String, String> map1 = WangyiyunUtils.signWangyiyun(user.getAccount(),
+                        user.getNick(), Constant.httpUrl+user.getHeadpic());
                 if(map1.get("code").equals("200")){
                     //设置账号
                     User user1 = new User();

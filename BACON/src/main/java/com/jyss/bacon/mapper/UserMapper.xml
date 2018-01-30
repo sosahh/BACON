@@ -153,6 +153,20 @@
     </where>
   </select>
 
+  <!--网页账号查询用户-->
+  <select id="selectUserByAccountWy" resultMap="BaseResultMap" >
+    select u_id, account, tel, password, salt, pay_pwd, nick,
+    nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
+    sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
+    popularity, label_desc, balance ,amount, create_time, last_modify_time,
+    format(balance,2) money, open_id, union_id, account_wy, token_wy
+    from u_user
+    <where>
+      <if test="accountWy != null and accountWy != ''">and account_wy = #{accountWy} </if>
+    </where>
+  </select>
+
+
   <!--第三方登陆查询-->
   <select id="selectUserByOpenId" resultMap="BaseResultMap" >
     select u_id, account, tel, password, salt, pay_pwd, nick,
