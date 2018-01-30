@@ -409,7 +409,6 @@ public class UserServiceImpl implements UserService{
 
                             }
                             return ResponseResult.error("-6","提现失败！");
-
                         }
                         return ResponseResult.error("-5","提现金额不能超过每笔最高提现金额！");
                     }
