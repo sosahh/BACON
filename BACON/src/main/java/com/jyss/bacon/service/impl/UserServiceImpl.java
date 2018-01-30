@@ -362,7 +362,7 @@ public class UserServiceImpl implements UserService{
      * @return
      */
     @Override
-    public ResponseResult insertScoreEarn(Integer uId, String account, Float cash,String payPwd) {
+    public ResponseResult insertScoreEarn(Integer uId, String account, Float cash, String payPwd, String realName) {
         List<User> userList = userMapper.selectUserBy(uId + "", null, null);
         if(userList != null && userList.size()==1){
             User user = userList.get(0);
@@ -384,10 +384,6 @@ public class UserServiceImpl implements UserService{
                     if(cash >= cash2){
                         if(cash <= cash1){
 
-                            //支付宝提现
-                            float money = cash * (1 - cash3);
-
-
                             float jyScore = user.getAmount() - cash*prop;
                             User user1 = new User();
                             user1.setuId(uId);
@@ -400,9 +396,11 @@ public class UserServiceImpl implements UserService{
                                 scoreEarn.setDetail("提现");
                                 scoreEarn.setType(2);
                                 scoreEarn.setScore((double)cash*prop);
-                                scoreEarn.setJyScore((double) jyScore);
+                                scoreEarn.setJyScore((double)jyScore);
                                 //scoreEarn.setOrderSn();
-                                scoreEarn.setStatus(1);
+                                scoreEarn.setRealName(realName);
+                                scoreEarn.setAccount(account);
+                                scoreEarn.setStatus(0);
                                 scoreEarn.setCreatedAt(new Date());
                                 int count1 = scoreBalanceMapper.insertScoreEarn(scoreEarn);
                                 if(count1 == 1){

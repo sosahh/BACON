@@ -22,6 +22,8 @@
     <result column="score" property="score" jdbcType="DECIMAL" />
     <result column="jy_score" property="jyScore" jdbcType="DECIMAL" />
     <result column="order_sn" property="orderSn" jdbcType="CHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
     <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
@@ -39,11 +41,12 @@
 
   <!--添加收入记录-->
   <insert id="insertScoreEarn" parameterType="com.jyss.bacon.entity.ScoreEarn" >
-    insert into u_score_earn (id, u_id, detail, type, score, jy_score, order_sn, created_at, status)
+    insert into u_score_earn (id, u_id, detail, type, score, jy_score, order_sn,
+    real_name, account, created_at, status)
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER},
     #{detail,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{score,jdbcType=DECIMAL},
-    #{jyScore,jdbcType=DECIMAL}, #{orderSn,jdbcType=CHAR}, #{createdAt,jdbcType=TIMESTAMP},
-    #{status,jdbcType=TINYINT})
+    #{jyScore,jdbcType=DECIMAL}, #{orderSn,jdbcType=CHAR},  #{realName,jdbcType=VARCHAR},
+    #{account,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
   </insert>
 
 
@@ -70,7 +73,7 @@
 
   <!--收入账单-->
   <select id="selectScoreEarn" resultType="int" resultMap="eaBaseResultMap">
-    select * from u_score_earn where u_id = #{uId} and status = 1 order by created_at desc
+    select * from u_score_earn where u_id = #{uId} order by created_at desc
   </select>
 
 

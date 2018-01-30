@@ -897,12 +897,13 @@ public class UserAction {
     @RequestMapping("/withdrawals")
     @ResponseBody
     public ResponseResult insertScoreEarn(@RequestParam("token") String token,@RequestParam("account") String account,
-                                          @RequestParam("cash") Float cash,@RequestParam("payPwd") String payPwd){
+                                          @RequestParam("cash") Float cash,@RequestParam("payPwd") String payPwd,
+                                          @RequestParam("realName") String realName){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            ResponseResult result = userService.insertScoreEarn(uId, account, cash, payPwd);
+            ResponseResult result = userService.insertScoreEarn(uId, account, cash, payPwd, realName);
             return result;
 
         }

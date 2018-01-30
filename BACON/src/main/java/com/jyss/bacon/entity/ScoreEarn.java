@@ -20,7 +20,11 @@ public class ScoreEarn implements Serializable{
 
     private String orderSn;       //订单号
 
-    private Integer status;      //1=正常
+    private String realName;      //真实姓名
+
+    private String account;       //账号
+
+    private Integer status;       //1=正常
 
     private Date createdAt;
 
@@ -98,4 +102,19 @@ public class ScoreEarn implements Serializable{
         this.createdAt = createdAt;
     }
 
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
 }

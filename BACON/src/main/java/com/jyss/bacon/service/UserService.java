@@ -54,7 +54,8 @@ public interface UserService {
     ResponseResult getUserReport(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
 
     //用户提现
-    ResponseResult insertScoreEarn(@Param("uId")Integer uId,@Param("account")String account,@Param("cash")Float cash,@Param("payPwd")String payPwd);
+    ResponseResult insertScoreEarn(@Param("uId")Integer uId,@Param("account")String account,@Param("cash")Float cash,
+                                   @Param("payPwd")String payPwd,@Param("realName")String realName);
 
     //充值
     ResponseResult updateUserBalance(@Param("uId")Integer uId,@Param("cash")Float cash,@Param("czType")Integer czType);
