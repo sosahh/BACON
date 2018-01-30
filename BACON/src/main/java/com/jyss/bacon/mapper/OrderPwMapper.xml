@@ -21,6 +21,8 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="nick" property="nick"  />
     <result column="headpic" property="headpic"  />
+    <result column="account_wy" property="accountWy" jdbcType="VARCHAR" />
+    <result column="token_wy" property="tokenWy" jdbcType="VARCHAR" />
   </resultMap>
 
   <!--添加陪玩订单-->
@@ -104,7 +106,8 @@
 
   <!--查询个人订单-->
   <select id="selectOrderPwByUid" parameterType="int" resultMap="BaseResultMap">
-    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic,
+    b.account_wy, b.token_wy
     from o_order_pw a left join u_user b on a.play_id = b.u_id
     <where>
       <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
@@ -114,7 +117,8 @@
 
   <!--查询陪玩订单-->
   <select id="selectOrderPwByPlayId" parameterType="int" resultMap="BaseResultMap">
-    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    select a.*,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic,
+    b.account_wy, b.token_wy
     from o_order_pw a left join u_user b on a.u_id = b.u_id
     <where>
       <if test="playId != null and playId != ''">and a.play_id = #{playId}</if>

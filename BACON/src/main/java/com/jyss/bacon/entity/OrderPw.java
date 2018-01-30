@@ -45,7 +45,8 @@ public class OrderPw implements Serializable {
     private Integer isPj;           //是否评价   0未评价，1已评价
     private String nick;            //昵称
     private String headpic;         //头像
-
+    private String accountWy;       //网易通讯登陆账号
+    private String tokenWy;         //网易通讯登陆密码
 
 
     public Integer getId() {
@@ -207,5 +208,21 @@ public class OrderPw implements Serializable {
 
     public void setIsPj(Integer isPj) {
         this.isPj = isPj;
+    }
+
+    public String getAccountWy() {
+        return accountWy;
+    }
+
+    public void setAccountWy(String accountWy) {
+        this.accountWy = accountWy;
+    }
+
+    public String getTokenWy() {
+        return tokenWy;
+    }
+
+    public void setTokenWy(String tokenWy) {
+        this.tokenWy = tokenWy;
     }
 }

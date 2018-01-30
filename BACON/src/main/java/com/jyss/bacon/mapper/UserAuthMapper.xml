@@ -18,6 +18,8 @@
     <result column="is_shelve" property="isShelve" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="bright_pic" property="brightPic" jdbcType="VARCHAR" />
+    <result column="account_wy" property="accountWy" jdbcType="VARCHAR" />
+    <result column="token_wy" property="tokenWy" jdbcType="VARCHAR" />
   </resultMap>
 
   <!--添加认证-->
@@ -115,7 +117,7 @@
     nullif(CONCAT('${httpUrl}',a.picture_1),'${httpUrl}') as picture_1,
     nullif(CONCAT('${httpUrl}',a.picture_2),'${httpUrl}') as picture_2,
     nullif(CONCAT('${httpUrl}',a.picture_3),'${httpUrl}') as picture_3,
-    b.nick as bright_pic
+    b.nick as bright_pic, b.account_wy, b.token_wy
     from u_user_auth a left join u_user b on a.u_id = b.u_id
     <where>
       <if test="id != null and id != ''">and a.id = #{id}</if>

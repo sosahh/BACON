@@ -92,11 +92,24 @@ public class UserServiceImpl implements UserService{
         List<User> userList = userMapper.selectUserBy(null, tel, "");
         if(userList != null && userList.size()>0){
             User user = userList.get(0);
-            if (PasswordUtil.generate(password, user.getSalt()).equals(user.getPassword())){
+            if(StringUtils.isEmpty(user.getAccountWy())&& StringUtils.isEmpty(user.getTokenWy())){
+                Map<String, String> map1 = WangyiyunUtils.signWangyiyun(user.getAccount());
+                if(map1.get("code").equals("200")){
+                    //设置账号
+                    User user1 = new User();
+                    user1.setuId(user.getuId());
+                    user1.setAccountWy(user.getAccount());
+                    user1.setTokenWy(map1.get("token"));
+                    userMapper.updateByPrimaryKeySelective(user1);
+                }
+            }
+            List<User> userList1 = userMapper.selectUserBy(null, tel, "");
+            User user1 = userList1.get(0);
+            if (PasswordUtil.generate(password, user1.getSalt()).equals(user1.getPassword())){
                 String token = CommTool.getUUID();
                 //记录登陆信息
                 MobileLogin mobileLogin = new MobileLogin();
-                mobileLogin.setuId(user.getuId());
+                mobileLogin.setuId(user1.getuId());
                 mobileLogin.setToken(token);
                 mobileLogin.setLastAccessTime(System.currentTimeMillis());
                 mobileLogin.setStatus(1);
@@ -105,7 +118,7 @@ public class UserServiceImpl implements UserService{
                 if(count == 1){
                     Map<String, Object> map = new HashMap<>();
                     map.put("token",token);
-                    map.put("user",user);
+                    map.put("user",user1);
                     return ResponseResult.ok(map);
                 }
                 return ResponseResult.error("-4","登陆失败！");

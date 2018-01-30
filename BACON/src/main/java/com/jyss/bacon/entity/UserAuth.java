@@ -35,6 +35,8 @@ public class UserAuth implements Serializable {
     private Date created;
 
     private String brightPic;       //类目图片
+    private String accountWy;       //网易通讯登陆账号
+    private String tokenWy;         //网易通讯登陆密码
 
 
     public Integer getId() {
@@ -163,5 +165,21 @@ public class UserAuth implements Serializable {
 
     public void setIsShelve(Integer isShelve) {
         this.isShelve = isShelve;
+    }
+
+    public String getAccountWy() {
+        return accountWy;
+    }
+
+    public void setAccountWy(String accountWy) {
+        this.accountWy = accountWy;
+    }
+
+    public String getTokenWy() {
+        return tokenWy;
+    }
+
+    public void setTokenWy(String tokenWy) {
+        this.tokenWy = tokenWy;
     }
 }
