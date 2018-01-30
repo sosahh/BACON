@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
             Integer uId = user.getuId();
             String account = Utils.getMyId(uId + "");
             Map<String, String> map1 = WangyiyunUtils.signWangyiyun(account,
-                    user.getNick(),Constant.httpUrl+user.getHeadpic());
+                    user.getNick(),user.getHeadpic());
             if(map1.get("code").equals("200")){
                 //设置账号
                 User user1 = new User();
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService{
             User user = userList.get(0);
             if(StringUtils.isEmpty(user.getAccountWy())&& StringUtils.isEmpty(user.getTokenWy())){
                 Map<String, String> map1 = WangyiyunUtils.signWangyiyun(user.getAccount(),
-                        user.getNick(), Constant.httpUrl+user.getHeadpic());
+                        user.getNick(), user.getHeadpic());
                 if(map1.get("code").equals("200")){
                     //设置账号
                     User user1 = new User();
