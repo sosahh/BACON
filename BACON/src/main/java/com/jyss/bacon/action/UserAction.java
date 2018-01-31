@@ -263,10 +263,16 @@ public class UserAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
+            List<User> userList = userService.selectUserBy(uId+"", null, null);
+            User user1 = userList.get(0);
             user.setuId(uId);
             user.setLastModifyTime(new Date());
-
-
+            if(!user1.getNick().equals(user.getNick()) && !StringUtils.isEmpty(user.getNick())){
+                String status = WangyiyunUtils.updateWangyiyun(user1.getAccountWy(), user.getNick(), null);
+                if(!status.equals("200")){
+                    return ResponseResult.error("-1","修改失败！");
+                }
+            }
             int count = userService.updateUser(user);
             if(count == 1){
                 return ResponseResult.ok("");
@@ -293,9 +299,10 @@ public class UserAction {
 
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
+            List<User> userList = userService.selectUserBy(uId+"", null, null);
+            User user1 = userList.get(0);
             User user = new User();
             user.setuId(uId);
-            user.setLastModifyTime(new Date());
 
             // Base64.decode(photo);
             request.setCharacterEncoding("utf-8");
@@ -311,11 +318,15 @@ public class UserAction {
             boolean isOk = false;
             isOk = Base64Image.GenerateImage(headPic, filePath);
             if (isOk) {
+                user.setLastModifyTime(new Date());
                 user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
-            }
-            int count = userService.updateUser(user);
-            if(count == 1){
-                return ResponseResult.ok("");
+                String status = WangyiyunUtils.updateWangyiyun(user1.getAccountWy(), null, filePath);
+                if(status.equals("200")){
+                    int count = userService.updateUser(user);
+                    if(count == 1){
+                        return ResponseResult.ok("");
+                    }
+                }
             }
             return ResponseResult.error("-1","修改失败！");
         }
