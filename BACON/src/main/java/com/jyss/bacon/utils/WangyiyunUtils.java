@@ -108,7 +108,7 @@ public class WangyiyunUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "414";
+        return "400";
     }
     public static void main(String[] args) {
        ///System.out.print(signWangyiyun("12345222566"));
