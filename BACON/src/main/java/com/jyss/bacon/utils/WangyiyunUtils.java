@@ -108,11 +108,11 @@ public class WangyiyunUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "400";
+        return "414";
     }
     public static void main(String[] args) {
        ///System.out.print(signWangyiyun("12345222566"));
-       System.out.print(updateWangyiyun("2238000025","abc",null));
+       //System.out.print(updateWangyiyun("223800002","abcd",null));
     }
 
 }

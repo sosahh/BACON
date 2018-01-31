@@ -1,5 +1,6 @@
 package com.jyss.bacon.action;
 
+import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.filter.MySessionContext;
 import com.jyss.bacon.service.ItemService;
@@ -319,8 +320,9 @@ public class UserAction {
             isOk = Base64Image.GenerateImage(headPic, filePath);
             if (isOk) {
                 user.setLastModifyTime(new Date());
-                user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
-                String status = WangyiyunUtils.updateWangyiyun(user1.getAccountWy(), null, filePath);
+                String pic = filePath.substring(filePath.indexOf("uploadHeadPic"));
+                user.setHeadpic(pic);
+                String status = WangyiyunUtils.updateWangyiyun(user1.getAccountWy(), null, Constant.httpUrl+pic);
                 if(status.equals("200")){
                     int count = userService.updateUser(user);
                     if(count == 1){
