@@ -1,10 +1,7 @@
 package com.jyss.bacon.service;
 
 
-import com.jyss.bacon.entity.ResponseResult;
-import com.jyss.bacon.entity.User;
-import com.jyss.bacon.entity.UserAccount;
-import com.jyss.bacon.entity.UserReport;
+import com.jyss.bacon.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -52,6 +49,9 @@ public interface UserService {
 
     //系统消息
     ResponseResult getUserReport(@Param("uId")Integer uId,@Param("page")Integer page,@Param("pageSize")Integer pageSize);
+
+    //添加已读消息
+    int insertUserMessage(UserMessage userMessage);
 
     //用户提现
     ResponseResult insertScoreEarn(@Param("uId")Integer uId,@Param("account")String account,@Param("cash")Float cash,

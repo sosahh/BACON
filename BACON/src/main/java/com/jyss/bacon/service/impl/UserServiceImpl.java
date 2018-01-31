@@ -363,13 +363,28 @@ public class UserServiceImpl implements UserService{
             }else if(report.getStatus() == 2){      //意见
                 report.setReportName("您于"+date+"提出的意见与反馈，我们已受理，感谢您的支持~");
             }
+            List<UserMessage> messages = userReportMapper.selectUserMessageBy(uId, report.getId(), report.getStatus());
+            if(messages != null && messages.size()>0){
+                report.setResult(1);            //已读
+            }else{
+                report.setResult(0);            //未读
+            }
         }
-
         PageInfo<UserReport> pageInfo = new PageInfo<>(reports);
         Page<UserReport> result = new Page<>(pageInfo);
         return ResponseResult.ok(result);
     }
 
+
+    /**
+     * 添加已读消息
+     * @param userMessage
+     * @return
+     */
+    @Override
+    public int insertUserMessage(UserMessage userMessage) {
+        return userReportMapper.insertUserMessage(userMessage);
+    }
 
 
     /**

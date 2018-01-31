@@ -903,6 +903,38 @@ public class UserAction {
 
     }
 
+    /**
+     * 读取系统消息
+     */
+    @RequestMapping("/readMsg")
+    @ResponseBody
+    public ResponseResult insertUserMessage(@RequestParam("token") String token,@RequestParam("ids")String ids,
+                                            @RequestParam("types")String types){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            String[] newIds = ids.split(",");
+            String[] types1 = types.split(",");
+            int i = 0;
+            for (String newId : newIds) {
+                UserMessage userMessage = new UserMessage();
+                userMessage.setNewId(Integer.parseInt(newId));
+                userMessage.setuId(uId);
+                userMessage.setType(Integer.parseInt(types1[i]));
+                userMessage.setStatus(1);
+                userMessage.setCreateTime(new Date());
+                userService.insertUserMessage(userMessage);
+                i++;
+            }
+
+            return ResponseResult.ok("");
+
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
 
     /**
      * 提现
