@@ -225,7 +225,7 @@ public class HttpClientUtil {
 	/**
 	 * 发送Get请求
 	 * 
-	 * @param httpPost
+	 * @param httpGet
 	 * @return
 	 */
 	private String sendHttpGet(HttpGet httpGet) {
@@ -262,7 +262,7 @@ public class HttpClientUtil {
 	/**
 	 * 发送Get请求Https
 	 * 
-	 * @param httpPost
+	 * @param httpGet
 	 * @return
 	 */
 	private String sendHttpsGet(HttpGet httpGet) {
