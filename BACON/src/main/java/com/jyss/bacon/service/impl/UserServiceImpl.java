@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
             Integer uId = user.getuId();
             String account = Utils.getMyId(uId + "");
             Map<String, String> map1 = WangyiyunUtils.signWangyiyun(account,
-                    user.getNick(),Constant.httpUrl+user.getHeadpic());
+                    user.getNick(),Constant.httpsUrl+user.getHeadpic());
             if(map1.get("code").equals("200")){
                 //设置账号
                 User user1 = new User();
