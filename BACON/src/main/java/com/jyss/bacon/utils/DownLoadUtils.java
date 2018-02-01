@@ -1,16 +1,14 @@
 package com.jyss.bacon.utils;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class DownLoadUtils {
 	/**
 	 * @功能 下载临时素材接口
-	 * @param filePath
+	 * @param fileName
 	 *            文件将要保存的目录
 	 * @param method
 	 *            请求方法，包括POST和GET
@@ -81,6 +79,44 @@ public class DownLoadUtils {
 
 	}
 
+
+
+	public static Boolean download(String urlPath,String path){
+		try {
+			// 构造URL
+			URL url = new URL(urlPath);
+			// 打开连接
+			URLConnection con = url.openConnection();
+			//设置请求超时为5s
+			con.setConnectTimeout(5*1000);
+			// 输入流
+			InputStream is = con.getInputStream();
+
+			// 1K的数据缓冲
+			byte[] bs = new byte[1024];
+			// 读取到的数据长度
+			int len;
+			// 输出的文件流
+			File sf = new File(path);
+
+			OutputStream os = new FileOutputStream(sf);
+			// 开始读取
+			while ((len = is.read(bs)) != -1) {
+				os.write(bs, 0, len);
+			}
+			// 完毕，关闭所有链接
+			os.close();
+			is.close();
+			return true;
+
+		} catch (IOException e) {
+			return false;
+
+		}
+	}
+
+
+
 	// public static void main(String[] args) {
 	// String photoUrl = "http://192.168.0.26:8080/uploadVedio/11.mp4";
 	// String fileName = photoUrl.substring(photoUrl.lastIndexOf("/") + 1);
@@ -92,4 +128,9 @@ public class DownLoadUtils {
 	// + fileName);
 	//
 	// }
+
+	public static void main(String[] args) {
+		System.out.println(DownLoadUtils.download("http://img.zcool.cn/community/018d4e554967920000019ae9df1533.jpg@900w_1l_2o_100sh.jpg",
+				"E://apache-tomcat-7.0.83//webapps//uploadAuthPic//123.png"));
+	}
 }

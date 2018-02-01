@@ -134,7 +134,7 @@ public class UserAction {
 
 
     /**
-     * 用户注册
+     * 用户注册            source: 0直接注册，1微信，2QQ
      */
     @RequestMapping(value = "/regist",method = RequestMethod.POST)
     @ResponseBody
@@ -151,7 +151,6 @@ public class UserAction {
 
         //设置头像
         // Base64.decode(photo);
-        String photo = user.getHeadpic();
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html");
@@ -162,10 +161,21 @@ public class UserAction {
         File f = new File(filePath);
         CommTool.judeDirExists(f);
         filePath = filePath + Utils.getSaltFour() + System.currentTimeMillis()+ ".png";
-        boolean isOk = false;
-        isOk = Base64Image.GenerateImage(photo, filePath);
-        if (isOk) {
-            user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
+        if(user.getSource() == 0){
+            String photo = user.getHeadpic();
+            boolean isOk = false;
+            isOk = Base64Image.GenerateImage(photo, filePath);
+            if (isOk) {
+                user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
+            }
+
+        }else if(user.getSource() == 1 || user.getSource() == 2){
+            String photo = user.getHeadpic();
+            boolean isOk = false;
+            isOk = DownLoadUtils.download(photo, filePath);
+            if(isOk){
+                user.setHeadpic(filePath.substring(filePath.indexOf("uploadHeadPic")));
+            }
         }
 
         //设置年龄
@@ -181,6 +191,7 @@ public class UserAction {
         ResponseResult result = userService.insert(user);
         return result;
     }
+
 
     /**
      * 用户登陆
