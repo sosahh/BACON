@@ -366,6 +366,7 @@ public class UserDynamicAction {
 
             if(!StringUtils.isEmpty(pic1)){
                 String filename1 = pic1.getOriginalFilename();
+                filename1 = new String(filename1.getBytes("iso8859-1"), "utf-8");
                 String extName1 = filename1.substring(filename1.lastIndexOf("."));
                 String imgPath1 = filePath + uId + System.currentTimeMillis() + "01" + extName1;
                 //上传图片
@@ -380,6 +381,7 @@ public class UserDynamicAction {
 
             if(!StringUtils.isEmpty(pic2)){
                 String filename2 = pic2.getOriginalFilename();
+                filename2 = new String(filename2.getBytes("iso8859-1"), "utf-8");
                 String extName2 = filename2.substring(filename2.lastIndexOf("."));
                 String imgPath2 = filePath + uId + System.currentTimeMillis() + "02" + extName2;
                 //上传图片
@@ -394,6 +396,7 @@ public class UserDynamicAction {
 
             if(!StringUtils.isEmpty(pic3)){
                 String filename3 = pic3.getOriginalFilename();
+                filename3 = new String(filename3.getBytes("iso8859-1"), "utf-8");
                 String extName3 = filename3.substring(filename3.lastIndexOf("."));
                 String imgPath3 = filePath + uId + System.currentTimeMillis() + "03" + extName3;
                 //上传图片
@@ -408,6 +411,7 @@ public class UserDynamicAction {
 
             if(!StringUtils.isEmpty(pic4)){
                 String filename4 = pic4.getOriginalFilename();
+                filename4 = new String(filename4.getBytes("iso8859-1"), "utf-8");
                 String extName4 = filename4.substring(filename4.lastIndexOf("."));
                 String imgPath4 = filePath + uId + System.currentTimeMillis() + "04" + extName4;
                 //上传图片
@@ -422,6 +426,7 @@ public class UserDynamicAction {
 
             if(!StringUtils.isEmpty(pic5)){
                 String filename5 = pic5.getOriginalFilename();
+                filename5 = new String(filename5.getBytes("iso8859-1"), "utf-8");
                 String extName5 = filename5.substring(filename5.lastIndexOf("."));
                 String imgPath5 = filePath + uId + System.currentTimeMillis() + "05" + extName5;
                 //上传图片
@@ -436,6 +441,7 @@ public class UserDynamicAction {
 
             if(!StringUtils.isEmpty(pic6)){
                 String filename6 = pic6.getOriginalFilename();
+                filename6 = new String(filename6.getBytes("iso8859-1"), "utf-8");
                 String extName6 = filename6.substring(filename6.lastIndexOf("."));
                 String imgPath6 = filePath + uId + System.currentTimeMillis() + "06" + extName6;
                 //上传图片
