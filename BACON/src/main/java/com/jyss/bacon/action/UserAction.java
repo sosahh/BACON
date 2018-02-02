@@ -212,7 +212,7 @@ public class UserAction {
     public ResponseResult userLoginBy(@RequestParam("openId") String openId,
                                       @RequestParam("unionId") String unionId){
         if(StringUtils.isEmpty(openId) && StringUtils.isEmpty(unionId)){
-            return ResponseResult.error("-4","登陆失败！");
+            return ResponseResult.error("-1","用户不存在！");
         }
         ResponseResult result = userService.getUserByOpenId(openId, unionId);
         return result;
