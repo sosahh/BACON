@@ -196,7 +196,7 @@ public class ItemAction {
     @RequestMapping("/help")
     @ResponseBody
     public ResponseResult selectBaseConfigBy(){
-        List<BaseConfig> list = itemService.selectBaseConfig("share.info");
+        List<BaseConfig> list = itemService.selectBaseConfig("help.info");
         return ResponseResult.ok(list);
 
     }
@@ -207,7 +207,7 @@ public class ItemAction {
     @RequestMapping("/share")
     @ResponseBody
     public ResponseResult getBaseConfigBy(){
-        List<BaseConfig> configList = itemService.selectBaseConfig("help.info");
+        List<BaseConfig> configList = itemService.selectBaseConfig("share.info");
         if(configList != null && configList.size()==1){
             BaseConfig baseConfig = configList.get(0);
             return ResponseResult.ok(baseConfig);
