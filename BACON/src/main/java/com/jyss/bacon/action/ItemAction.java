@@ -196,7 +196,7 @@ public class ItemAction {
     @RequestMapping("/help")
     @ResponseBody
     public ResponseResult selectBaseConfigBy(){
-        List<BaseConfig> list = itemService.selectBaseConfig("help.info");
+        List<BaseConfig> list = itemService.selectBaseConfig("share.info");
         return ResponseResult.ok(list);
 
     }
