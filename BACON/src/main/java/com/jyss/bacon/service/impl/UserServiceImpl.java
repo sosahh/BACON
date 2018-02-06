@@ -1,15 +1,19 @@
 package com.jyss.bacon.service.impl;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jyss.bacon.constant.AliConfig;
 import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.UserService;
-import com.jyss.bacon.utils.CommTool;
-import com.jyss.bacon.utils.PasswordUtil;
-import com.jyss.bacon.utils.Utils;
-import com.jyss.bacon.utils.WangyiyunUtils;
+import com.jyss.bacon.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,8 @@ import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.alipay.api.AlipayConstants.CHARSET;
 
 @Service
 @Transactional
@@ -456,7 +462,7 @@ public class UserServiceImpl implements UserService{
 
 
     /**
-     * 充值
+     * 充值结果异步处理
      * @param uId
      * @param cash
      * @param czType
@@ -498,6 +504,69 @@ public class UserServiceImpl implements UserService{
         }
         return ResponseResult.error("-1","用户信息异常！");
     }
+
+
+
+    /**
+     * 支付宝充值
+     */
+    @Override
+    public ResponseResult getALiPayResult(Integer uId, Float cash) {
+        List<Xtcl> xtclList = xtclMapper.getClsBy("prop_type", "1");      //比例
+        Xtcl xtcl = xtclList.get(0);
+        float prop = Float.parseFloat(xtcl.getBz_value());
+
+        String outTradeNo = DateFormatUtils.getNowDateText("yyMMdd") + "O" + uId
+                + "r" + (long) (Math.random() * 1000L);
+        String subject = "虚拟货币消费";
+        String totalAmount = cash + "";
+        // 订单描述，可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
+        String body = "购买培根币消费 " + cash + "元";
+
+        String timeoutExpress = "30m";   // 支付超时，定义为30分钟
+        String notifyUrl = Constant.httpUrl + "BACON/DlrAliNotify.action";
+
+
+        //实例化客户端
+        AlipayClient alipayClient = new DefaultAlipayClient(AliConfig.URL,AliConfig.APP_ID , AliConfig.APP_PRIVATE_KEY,
+                "json", "UTF-8", AliConfig.ALIPAY_PUBLIC_KEY, AliConfig.SIGN_TYPE);
+
+        //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+        AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+        //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+        AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+        model.setBody(body);
+        model.setSubject(subject);
+        model.setOutTradeNo(outTradeNo);
+        model.setTimeoutExpress(timeoutExpress);
+        model.setTotalAmount(totalAmount);
+        model.setProductCode("QUICK_MSECURITY_PAY");
+        request.setBizModel(model);
+        request.setNotifyUrl(notifyUrl);
+        try {
+            //这里和普通的接口调用不同，使用的是sdkExecute
+            AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
+            //System.out.println(response.getBody());//就是orderString 可以直接给客户端请求，无需再做处理。
+
+            //创建订单
+            ScoreBalance scoreBalance = new ScoreBalance();
+            scoreBalance.setuId(uId);
+            scoreBalance.setEnd(3);
+            scoreBalance.setDetail("充值");
+            scoreBalance.setType(1);
+            scoreBalance.setScore((double) (cash*prop));
+            scoreBalance.setOrderSn(outTradeNo);
+            scoreBalance.setStatus(0);
+            scoreBalance.setCreatedAt(new Date());
+            scoreBalanceMapper.insert(scoreBalance);
+
+            return ResponseResult.ok(response.getBody());
+        } catch (AlipayApiException e) {
+            return ResponseResult.error("-1","支付异常！");
+        }
+
+    }
+
 
 
 }

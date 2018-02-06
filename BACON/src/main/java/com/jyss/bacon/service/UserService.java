@@ -57,6 +57,11 @@ public interface UserService {
     ResponseResult insertScoreEarn(@Param("uId")Integer uId,@Param("account")String account,@Param("cash")Float cash,
                                    @Param("payPwd")String payPwd,@Param("realName")String realName);
 
-    //充值
+    //充值结果异步处理
     ResponseResult updateUserBalance(@Param("uId")Integer uId,@Param("cash")Float cash,@Param("czType")Integer czType);
+
+
+    //支付宝支付
+    ResponseResult getALiPayResult(@Param("uId")Integer uId,@Param("cash")Float cash);
+
 }

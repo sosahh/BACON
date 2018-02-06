@@ -435,7 +435,7 @@ public class UserAction {
 
             List<UserAuth> userAuthList1 = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 1);
             if(userAuthList1 != null && userAuthList1.size()>0){
-                return ResponseResult.error("-3","正在审核中，请等待！");
+                return ResponseResult.error("-3","正在审核中，请勿重复提交！");
             }
 
             ItemCat itemCat = itemService.getItemCatById(userAuth.getTitleId());
@@ -979,13 +979,19 @@ public class UserAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            ResponseResult result = userService.updateUserBalance(uId, cash, czType);
-            return result;
+            if(czType == 1){
+                ResponseResult result = userService.getALiPayResult(uId, cash);
+                return result;
+            }
+            /*ResponseResult result = userService.updateUserBalance(uId, cash, czType);
+            return result;*/
 
         }
         return ResponseResult.error("1","token失效！");
 
     }
+
+
 
 
 }

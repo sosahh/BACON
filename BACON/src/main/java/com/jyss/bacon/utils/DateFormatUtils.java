@@ -157,8 +157,9 @@ public class DateFormatUtils {
     public static void main(String[] args) throws Exception {
         Date start = DateFormatUtils.getDate("2018-01-07 15:30:02", DateFormatUtils.YMDHMS_BREAK);
         Date birthDay = DateFormatUtils.getDate("2010-10-20", DateFormatUtils.YMD_BREAK);
-        System.out.println(DateFormatUtils.showTimeText(start));
-        System.out.println(System.currentTimeMillis());
-        System.out.println(DateFormatUtils.getAge(birthDay));
+        //System.out.println(DateFormatUtils.showTimeText(start));
+        //System.out.println(System.currentTimeMillis());
+        //System.out.println(DateFormatUtils.getAge(birthDay));
+        System.out.println(DateFormatUtils.getNowDateText("yyMMdd"));
     }
 }
