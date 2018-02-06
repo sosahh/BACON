@@ -39,6 +39,30 @@
   </insert>
 
 
+  <!--查询支付-->
+  <select id="selectScoreBalance" parameterType="string" resultMap="BaseResultMap">
+    select * from u_score_balance where orderSn = #{orderSn} and status = 0
+  </select>
+
+  <!--更新支付订单-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.ScoreBalance">
+    update u_score_balance
+    <set>
+      <if test="end != null">end = #{end},</if>
+      <if test="uId != null">u_id = #{uId},</if>
+      <if test="detail != null">detail = #{detail},</if>
+      <if test="type != null">type = #{type},</if>
+      <if test="score != null">score = #{score},</if>
+      <if test="jyScore != null">jy_score = #{jyScore},</if>
+      <if test="orderSn != null">order_sn = #{orderSn},</if>
+      <if test="createdAt != null">created_at = #{createdAt},</if>
+      <if test="status != null">status = #{status},</if>
+    </set>
+    where id = #{id}
+  </update>
+
+
+
   <!--添加收入记录-->
   <insert id="insertScoreEarn" parameterType="com.jyss.bacon.entity.ScoreEarn" >
     insert into u_score_earn (id, u_id, detail, type, score, jy_score, order_sn,

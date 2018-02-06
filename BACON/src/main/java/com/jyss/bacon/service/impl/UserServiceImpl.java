@@ -8,7 +8,7 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jyss.bacon.constant.AliConfig;
+import com.jyss.bacon.config.AliConfig;
 import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
@@ -23,7 +23,6 @@ import org.springframework.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.alipay.api.AlipayConstants.CHARSET;
 
 @Service
 @Transactional
@@ -461,48 +460,50 @@ public class UserServiceImpl implements UserService{
     }
 
 
+
     /**
      * 充值结果异步处理
-     * @param uId
-     * @param cash
-     * @param czType
+     * @param totalAmount
+     * @param orderSn
      * @return
      */
     @Override
-    public ResponseResult updateUserBalance(Integer uId, Float cash, Integer czType) {
+    public Boolean updateUserBalance(String totalAmount, String orderSn) {
         List<Xtcl> xtclList = xtclMapper.getClsBy("prop_type", "1");      //比例
         Xtcl xtcl = xtclList.get(0);
         float prop = Float.parseFloat(xtcl.getBz_value());
 
-        List<User> userList = userMapper.selectUserBy(uId + "", null, null);
-        if(userList != null && userList.size()==1){
-            User user = userList.get(0);
-            float jyScore = user.getBalance() + cash*prop;
-            User user1 = new User();
-            user1.setuId(uId);
-            user1.setBalance(jyScore);
-            user1.setLastModifyTime(new Date());
-            int count = userMapper.updateByPrimaryKeySelective(user1);
-            if(count == 1){
-                ScoreBalance scoreBalance = new ScoreBalance();
-                scoreBalance.setuId(uId);
-                scoreBalance.setEnd(3);
-                scoreBalance.setDetail("充值");
-                scoreBalance.setType(1);
-                scoreBalance.setScore((double) (cash*prop));
-                scoreBalance.setJyScore((double) jyScore);
-                //scoreBalance.setOrderSn();
-                scoreBalance.setStatus(1);
-                scoreBalance.setCreatedAt(new Date());
-                int count1 = scoreBalanceMapper.insert(scoreBalance);
-                if(count1 == 1){
-                    return ResponseResult.ok("");
+        List<ScoreBalance> balanceList = scoreBalanceMapper.selectScoreBalance(orderSn);
+        if(balanceList != null && balanceList.size()==1){
+            ScoreBalance scoreBalance1 = balanceList.get(0);
+            Integer uId = scoreBalance1.getuId();
+            Double cash = scoreBalance1.getScore();
+            if(cash == Double.parseDouble(totalAmount)*prop){
+                List<User> userList = userMapper.selectUserBy(uId + "", null, null);
+                if(userList != null && userList.size()==1){
+                    User user = userList.get(0);
+                    double jyScore = user.getBalance() + cash * prop;
+                    User user1 = new User();
+                    user1.setuId(uId);
+                    user1.setBalance((float) jyScore);
+                    user1.setLastModifyTime(new Date());
+                    int count = userMapper.updateByPrimaryKeySelective(user1);
+                    if(count == 1){
+                        ScoreBalance scoreBalance = new ScoreBalance();
+                        scoreBalance.setId(scoreBalance1.getId());
+                        scoreBalance.setJyScore( jyScore);
+                        scoreBalance.setStatus(1);
+                        int count1 = scoreBalanceMapper.updateByPrimaryKeySelective(scoreBalance);
+                        if(count1 == 1){
+                            return true;
+                        }
+                    }
+                    return false;
                 }
             }
-            return ResponseResult.error("-2","充值失败！");
-
         }
-        return ResponseResult.error("-1","用户信息异常！");
+
+        return false;
     }
 
 
@@ -526,10 +527,11 @@ public class UserServiceImpl implements UserService{
         String timeoutExpress = "30m";   // 支付超时，定义为30分钟
         String notifyUrl = Constant.httpUrl + "BACON/DlrAliNotify.action";
 
+        AliConfig config = new AliConfig();
 
         //实例化客户端
-        AlipayClient alipayClient = new DefaultAlipayClient(AliConfig.URL,AliConfig.APP_ID , AliConfig.APP_PRIVATE_KEY,
-                "json", "UTF-8", AliConfig.ALIPAY_PUBLIC_KEY, AliConfig.SIGN_TYPE);
+        AlipayClient alipayClient = new DefaultAlipayClient(config.getURL(), config.getAPP_ID() , config.getAPP_PRIVATE_KEY(),
+                "json", "UTF-8", config.getALIPAY_PUBLIC_KEY(), config.getSIGN_TYPE());
 
         //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();

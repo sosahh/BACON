@@ -58,7 +58,7 @@ public interface UserService {
                                    @Param("payPwd")String payPwd,@Param("realName")String realName);
 
     //充值结果异步处理
-    ResponseResult updateUserBalance(@Param("uId")Integer uId,@Param("cash")Float cash,@Param("czType")Integer czType);
+    Boolean updateUserBalance(@Param("totalAmount")String totalAmount,@Param("czType")String orderSn);
 
 
     //支付宝支付

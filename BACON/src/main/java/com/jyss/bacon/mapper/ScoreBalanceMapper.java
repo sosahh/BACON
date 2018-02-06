@@ -13,6 +13,12 @@ public interface ScoreBalanceMapper {
     //添加消费记录
     int insert(ScoreBalance scoreBalance);
 
+    //查询支付
+    List<ScoreBalance> selectScoreBalance(@Param("orderSn")String orderSn);
+
+    //更新支付订单
+    int updateByPrimaryKeySelective(ScoreBalance scoreBalance);
+
     //添加收入记录
     int insertScoreEarn(ScoreEarn scoreEarn);
 

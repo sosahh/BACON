@@ -2,7 +2,7 @@ package com.jyss.bacon.action;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.jyss.bacon.constant.AliConfig;
+import com.jyss.bacon.config.AliConfig;
 import com.jyss.bacon.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -48,25 +47,25 @@ public class PayAction {
         //切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
         //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
         try {
-            boolean flag = AlipaySignature.rsaCheckV1(params, AliConfig.ALIPAY_PUBLIC_KEY, "utf-8","RSA2");
+            AliConfig config = new AliConfig();
+            boolean flag = AlipaySignature.rsaCheckV1(params, config.getALIPAY_PUBLIC_KEY(), "utf-8","RSA2");
             if(flag){
                 String outTradeNo = request.getParameter("out_trade_no");
                 String totalAmount = request.getParameter("total_amount");
                 String sellerId = request.getParameter("seller_id");
                 String appId = request.getParameter("app_id");
-
-                if(){
-
+                if(config.getAPP_ID().equals(appId)&&config.getSELLER_ID().equals(sellerId)){
+                    Boolean balance = userService.updateUserBalance(totalAmount, outTradeNo);
+                    if(balance){
+                        return "success";
+                    }
                 }
-
             }
             return "failure";          // 验签失败
-
 
         } catch (AlipayApiException e) {
             return "failure";          // 验签发生异常,则直接返回失败
         }
-
 
     }
 
