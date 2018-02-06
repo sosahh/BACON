@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.Id;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -299,7 +300,8 @@ public class UserServiceImpl implements UserService{
             List<Object> list = new ArrayList<>();
             for (Xtcl xtcl1 : xtclList1) {
                 double cash = Double.parseDouble(xtcl1.getBz_value());
-                Map<String, Double> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>();
+                map.put("id",xtcl1.getBz_id());
                 map.put("cash",cash);
                 map.put("total",cash*prop);
                 list.add(map);

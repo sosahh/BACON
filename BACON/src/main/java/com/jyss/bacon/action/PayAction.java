@@ -58,6 +58,7 @@ public class PayAction {
                 if(config.getAPP_ID().equals(appId)&&config.getSELLER_ID().equals(sellerId)){
                     Boolean balance = userService.updateUserBalance(totalAmount, outTradeNo);
                     if(balance){
+                        logger.info("支付宝服务端验证异步通知信息成功");
                         return "success";
                     }
                 }
