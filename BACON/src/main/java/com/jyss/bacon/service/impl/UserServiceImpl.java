@@ -484,7 +484,7 @@ public class UserServiceImpl implements UserService{
                 List<User> userList = userMapper.selectUserBy(uId + "", null, null);
                 if(userList != null && userList.size()==1){
                     User user = userList.get(0);
-                    double jyScore = user.getBalance() + cash * prop;
+                    double jyScore = user.getBalance() + cash;
                     User user1 = new User();
                     user1.setuId(uId);
                     user1.setBalance((float) jyScore);
@@ -519,7 +519,7 @@ public class UserServiceImpl implements UserService{
         Xtcl xtcl = xtclList.get(0);
         float prop = Float.parseFloat(xtcl.getBz_value());
 
-        String outTradeNo = DateFormatUtils.getNowDateText("yyMMdd") + "O" + uId
+        String outTradeNo = DateFormatUtils.getNowDateText("yyMMddHHmmss") + "O" + uId
                 + "r" + (long) (Math.random() * 1000L);
         String subject = "虚拟货币消费";
         String totalAmount = cash + "";
@@ -527,7 +527,7 @@ public class UserServiceImpl implements UserService{
         String body = "购买培根币消费 " + cash + "元";
 
         String timeoutExpress = "30m";   // 支付超时，定义为30分钟
-        String notifyUrl = Constant.httpUrl + "BACON/DlrAliNotify.action";
+        String notifyUrl = Constant.httpUrl + "BACON/AliNotify.action";
 
         AliConfig config = new AliConfig();
 

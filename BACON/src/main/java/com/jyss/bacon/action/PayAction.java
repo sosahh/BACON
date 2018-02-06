@@ -27,7 +27,7 @@ public class PayAction {
     /**
      * 支付宝充值,服务端验证异步通知信息
      */
-    @RequestMapping(value = "/DlrAliNotify",method = RequestMethod.POST)
+    @RequestMapping(value = "/AliNotify",method = RequestMethod.POST)
     public String updateUserBalance(HttpServletRequest request){
         //获取支付宝POST过来反馈信息
         Map<String,String> params = new HashMap<String,String>();

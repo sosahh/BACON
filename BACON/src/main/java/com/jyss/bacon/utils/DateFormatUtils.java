@@ -160,6 +160,6 @@ public class DateFormatUtils {
         //System.out.println(DateFormatUtils.showTimeText(start));
         //System.out.println(System.currentTimeMillis());
         //System.out.println(DateFormatUtils.getAge(birthDay));
-        System.out.println(DateFormatUtils.getNowDateText("yyMMdd"));
+        System.out.println(DateFormatUtils.getNowDateText("yyMMddHHmmss"));
     }
 }

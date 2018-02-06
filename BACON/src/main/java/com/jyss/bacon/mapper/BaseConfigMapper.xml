@@ -25,6 +25,30 @@
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
+
+  <!--<resultMap id="bsBaseResultMap" type="com.jyss.bacon.entity.BaseShare" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="app_version" property="appVersion" jdbcType="VARCHAR" />
+    <result column="src" property="src" jdbcType="VARCHAR" />
+    <result column="byte_size" property="byteSize" jdbcType="BIGINT" />
+    <result column="contents" property="contents" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(64) NOT NULL COMMENT '标题',
+  `content` varchar(100) NOT NULL COMMENT '分享文字内容',
+  `link_url` varchar(100) NOT NULL COMMENT '分享网址链接',
+  `link_pic` varchar(100) NOT NULL COMMENT '链接图片',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL,-->
+
+
+
+
   <!--查询协议-->
   <select id="selectBaseConfig" parameterType="string" resultMap="BaseResultMap">
     select a.* from p_base_config a where a.key = #{key} and a.status = 1
@@ -37,6 +61,9 @@
     byte_size, contents, type, created_at, last_modify_time
     from p_xtgx where type = #{type}
   </select>
+
+  <!---->
+
 
 
 </mapper>

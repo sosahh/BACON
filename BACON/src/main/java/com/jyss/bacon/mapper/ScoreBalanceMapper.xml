@@ -41,7 +41,7 @@
 
   <!--查询支付-->
   <select id="selectScoreBalance" parameterType="string" resultMap="BaseResultMap">
-    select * from u_score_balance where orderSn = #{orderSn} and status = 0
+    select * from u_score_balance where order_sn = #{orderSn} and status = 0
   </select>
 
   <!--更新支付订单-->

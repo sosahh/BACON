@@ -166,10 +166,7 @@ public class ItemAction {
             }
         }else if(agType == 4){
             List<BaseConfig> configList = itemService.selectBaseConfig("tel.info");
-            if(configList != null && configList.size()==1){
-                BaseConfig baseConfig = configList.get(0);
-                return ResponseResult.ok(baseConfig);
-            }
+            return ResponseResult.ok(configList);
         }
         return ResponseResult.error("-1","查询失败！");
     }
