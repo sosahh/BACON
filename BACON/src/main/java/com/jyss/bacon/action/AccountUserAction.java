@@ -76,6 +76,7 @@ public class AccountUserAction {
 		return "login";
 	}
 
+
 	@RequestMapping("/shiro-getLogin")
 	public ModelAndView getLogin(@RequestParam("logName") String logName,
 			@RequestParam("logPass") String logPass,

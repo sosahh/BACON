@@ -55,9 +55,7 @@ public class PayAction {
                 String sellerId = request.getParameter("seller_id");
                 String appId = request.getParameter("app_id");
 
-                if(){
 
-                }
 
             }
             return "failure";          // 验签失败
