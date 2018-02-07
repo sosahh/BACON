@@ -205,7 +205,7 @@ public class ItemAction {
     @ResponseBody
     public ResponseResult getBaseConfigBy(){
 
-        List<BaseShare> shares = itemService.getBaseShare();
+        List<BaseShare> shares = itemService.getBaseShare("app.download");
         if(shares != null && shares.size()==1){
             BaseShare baseShare = shares.get(0);
             return ResponseResult.ok(baseShare);

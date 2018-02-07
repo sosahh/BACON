@@ -281,8 +281,8 @@ public class ItemServiceImpl implements ItemService{
      * @return
      */
     @Override
-    public List<BaseShare> getBaseShare() {
-        return baseConfigMapper.getBaseShare();
+    public List<BaseShare> getBaseShare(String shareKey) {
+        return baseConfigMapper.getBaseShare(shareKey);
     }
 
 
