@@ -7,6 +7,8 @@ import java.util.Date;
 public class BaseNew {
     private Integer id;
 
+    private String bannerPic;   //首页背景图
+
     private String newPic;     //新闻图片
 
     private String headTitle;   //大标题
@@ -96,5 +98,13 @@ public class BaseNew {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getBannerPic() {
+        return bannerPic;
+    }
+
+    public void setBannerPic(String bannerPic) {
+        this.bannerPic = bannerPic;
     }
 }
