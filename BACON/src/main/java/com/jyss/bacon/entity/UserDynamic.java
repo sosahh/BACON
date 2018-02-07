@@ -31,6 +31,7 @@ public class UserDynamic implements Serializable {
     private String nick;        //昵称
     private String headpic;     //头像
     private Long count;         //点赞数
+    private Long number;        //评论数
     private String showTime;     //展示时间
 
     public Integer getId() {
@@ -152,5 +153,13 @@ public class UserDynamic implements Serializable {
 
     public void setShowTime(String showTime) {
         this.showTime = showTime;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
     }
 }

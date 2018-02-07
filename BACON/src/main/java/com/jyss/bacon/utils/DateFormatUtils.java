@@ -69,6 +69,21 @@ public class DateFormatUtils {
         return date.getTime();
     }
 
+
+    /**
+     * 获取之后的日期
+     * @param date
+     * @param num
+     * @return
+     */
+    public static Date getNewDate(Date date,int num){
+        long time = date.getTime();
+        time += num * 30 * 60 * 1000;
+        Date newDate = new Date(time);
+        return newDate;
+    }
+
+
     /**
      * 计算时间差
      * @param startDate
@@ -160,6 +175,7 @@ public class DateFormatUtils {
         //System.out.println(DateFormatUtils.showTimeText(start));
         //System.out.println(System.currentTimeMillis());
         //System.out.println(DateFormatUtils.getAge(birthDay));
-        System.out.println(DateFormatUtils.getNowDateText("yyMMddHHmmss"));
+        //System.out.println(DateFormatUtils.getNowDateText("yyMMddHHmmss"));
+        System.out.println(DateFormatUtils.getNewDate(new Date(),2));
     }
 }

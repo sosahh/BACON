@@ -95,8 +95,10 @@ public class UserDynamicServiceImpl implements UserDynamicService {
                     userDynamic.setStatus(0);
                 }
             }
-            long count = userPraiseMapper.getCountPraise(userDynamic.getId());
+            long count = userPraiseMapper.getCountPraise(userDynamic.getId());          //点赞数
+            long number = userCommentMapper.getCountComment(userDynamic.getId(), 1);   //查询评论数
             userDynamic.setCount(count);
+            userDynamic.setNumber(number);
             userDynamic.setShowTime(DateFormatUtils.showTimeText(userDynamic.getCreated()));
         }
         PageInfo<UserDynamic> pageInfo = new PageInfo<>(dynamicList);
@@ -120,8 +122,10 @@ public class UserDynamicServiceImpl implements UserDynamicService {
             }else{
                 userDynamic.setStatus(0);
             }
-            long count = userPraiseMapper.getCountPraise(userDynamic.getId());
+            long number = userCommentMapper.getCountComment(userDynamic.getId(), 1);   //查询评论数
+            long count = userPraiseMapper.getCountPraise(userDynamic.getId());       //点赞数
             userDynamic.setCount(count);
+            userDynamic.setNumber(number);
         }
         PageInfo<UserDynamic> pageInfo = new PageInfo<>(list);
         return new Page<UserDynamic>(pageInfo);
@@ -142,7 +146,9 @@ public class UserDynamicServiceImpl implements UserDynamicService {
                 userDynamic.setStatus(0);
             }
             long count = userPraiseMapper.getCountPraise(userDynamic.getId());
+            long number = userCommentMapper.getCountComment(userDynamic.getId(), 1);   //查询评论数
             userDynamic.setCount(count);
+            userDynamic.setNumber(number);
             userDynamic.setShowTime(DateFormatUtils.showTimeText(userDynamic.getCreated()));
         }
         PageInfo<UserDynamic> pageInfo = new PageInfo<>(dynamicList);
@@ -170,6 +176,8 @@ public class UserDynamicServiceImpl implements UserDynamicService {
             }
 
             long count = userPraiseMapper.getCountPraise(userDynamic.getId());
+            long number = userCommentMapper.getCountComment(userDynamic.getId(), 1);   //查询评论数
+            userDynamic.setNumber(number);
             userDynamic.setCount(count);
             userDynamic.setShowTime(DateFormatUtils.showTimeText(userDynamic.getCreated()));
         }

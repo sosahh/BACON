@@ -17,6 +17,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="accept_time" property="acceptTime" jdbcType="TIMESTAMP" />
     <result column="category_id" property="categoryId" />
     <result column="category_name" property="categoryName" />
     <result column="name" property="name" />
@@ -26,12 +27,13 @@
   <!--添加上分订单-->
   <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSf" useGeneratedKeys="true" keyProperty="id">
     insert into o_order_sf (id, order_id, u_id, area, type, level_id, count, price, total,
-      is_win, account, wx_account, status, created, modify_time )
+      is_win, account, wx_account, status, created, modify_time, accept_time )
       values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER},
       #{area,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{levelId,jdbcType=INTEGER},
       #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
       #{isWin,jdbcType=TINYINT}, #{account,jdbcType=VARCHAR}, #{wxAccount,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{acceptTime,jdbcType=TIMESTAMP})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSf" >
@@ -78,6 +80,9 @@
       </if>
       <if test="modifyTime != null" >
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null" >
+        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

@@ -40,7 +40,7 @@
 
   <!--查询协议-->
   <select id="selectBaseConfig" parameterType="string" resultMap="BaseResultMap">
-    select a.* from p_base_config a where a.key = #{key} and a.status = 1
+    select a.* from p_base_config a where a.key = #{key} and a.status = 1 limit 0,1
   </select>
 
 

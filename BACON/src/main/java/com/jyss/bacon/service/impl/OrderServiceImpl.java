@@ -6,6 +6,7 @@ import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.OrderService;
+import com.jyss.bacon.utils.DateFormatUtils;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
                         OrderSf orderSf1 = new OrderSf();
                         orderSf1.setId(oId);
                         orderSf1.setStatus(1);
-                        orderSf1.setModifyTime(new Date());
+                        orderSf1.setModifyTime(DateFormatUtils.getNewDate(new Date(),orderSf.getCount()));
                         int count1 = orderSfMapper.updateByPrimaryKeySelective(orderSf1);
                         if(count1 == 1){
                             ScoreBalance scoreBalance = new ScoreBalance();

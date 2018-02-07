@@ -1,5 +1,7 @@
 package com.jyss.bacon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -30,9 +32,11 @@ public class OrderSf implements Serializable {
 
     private Integer status;           //0未支付，1已支付，2已接单，3完成，4取消订单
 
-    private Date created;
+    private Date created;         //下单时间
 
-    private Date modifyTime;
+    private Date modifyTime;      //预计完成时间
+
+    private Date acceptTime;      //接单时间
 
     private Integer categoryId;        //类目id
     private String categoryName;       //类目名称
@@ -145,6 +149,7 @@ public class OrderSf implements Serializable {
         this.status = status;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreated() {
         return created;
     }
@@ -153,6 +158,7 @@ public class OrderSf implements Serializable {
         this.created = created;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getModifyTime() {
         return modifyTime;
     }
@@ -191,5 +197,14 @@ public class OrderSf implements Serializable {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getAcceptTime() {
+        return acceptTime;
+    }
+
+    public void setAcceptTime(Date acceptTime) {
+        this.acceptTime = acceptTime;
     }
 }
