@@ -51,15 +51,18 @@ public class PayAction {
             AliConfig config = new AliConfig();
             boolean flag = AlipaySignature.rsaCheckV1(params, config.getALIPAY_PUBLIC_KEY(), "utf-8","RSA2");
             if(flag){
-                String outTradeNo = request.getParameter("out_trade_no");
-                String totalAmount = request.getParameter("total_amount");
-                String sellerId = request.getParameter("seller_id");
-                String appId = request.getParameter("app_id");
-                if(config.getAPP_ID().equals(appId)&&config.getSELLER_ID().equals(sellerId)){
-                    Boolean balance = userService.updateUserBalance(totalAmount, outTradeNo);
-                    if(balance){
-                        logger.info("支付宝服务端验证异步通知信息成功");
-                        return "success";
+                String tradeStatus = request.getParameter("trade_status");
+                if(tradeStatus.equals("TRADE_SUCCESS") || tradeStatus.equals("TRADE_FINISHED") ){
+                    String outTradeNo = request.getParameter("out_trade_no");
+                    String totalAmount = request.getParameter("total_amount");
+                    String sellerId = request.getParameter("seller_id");
+                    String appId = request.getParameter("app_id");
+                    if(config.getAPP_ID().equals(appId)&&config.getSELLER_ID().equals(sellerId)){
+                        Boolean balance = userService.updateUserBalance(totalAmount, outTradeNo);
+                        if(balance){
+                            logger.info("支付宝服务端验证异步通知信息成功");
+                            return "success";
+                        }
                     }
                 }
             }
