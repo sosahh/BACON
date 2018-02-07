@@ -50,6 +50,7 @@
     from p_xtgx where type = #{type}
   </select>
 
+
   <!--查询分享-->
   <select id="getBaseShare" resultMap="bsBaseResultMap">
     select id,title,content,link_url,
