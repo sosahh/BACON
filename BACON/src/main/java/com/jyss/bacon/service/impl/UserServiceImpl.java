@@ -473,7 +473,7 @@ public class UserServiceImpl implements UserService{
     public Boolean updateUserBalance(String totalAmount, String orderSn) {
         List<Xtcl> xtclList = xtclMapper.getClsBy("prop_type", "1");      //比例
         Xtcl xtcl = xtclList.get(0);
-        float prop = Float.parseFloat(xtcl.getBz_value());
+        double prop = Double.parseDouble(xtcl.getBz_value());
 
         List<ScoreBalance> balanceList = scoreBalanceMapper.selectScoreBalance(orderSn);
         if(balanceList != null && balanceList.size()==1){

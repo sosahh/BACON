@@ -255,7 +255,7 @@ public class ItemServiceImpl implements ItemService{
 
 
     /**
-     *
+     * 用户协议
      * @param key
      * @return
      */
@@ -266,13 +266,23 @@ public class ItemServiceImpl implements ItemService{
 
 
     /**
-     *
+     * 安卓版本更新
      * @param type
      * @return
      */
     @Override
     public List<Xtgx> selectXtgx(Integer type) {
         return baseConfigMapper.selectXtgx(type);
+    }
+
+
+    /**
+     * 查询分享
+     * @return
+     */
+    @Override
+    public List<BaseShare> getBaseShare() {
+        return baseConfigMapper.getBaseShare();
     }
 
 

@@ -204,10 +204,11 @@ public class ItemAction {
     @RequestMapping("/share")
     @ResponseBody
     public ResponseResult getBaseConfigBy(){
-        List<BaseConfig> configList = itemService.selectBaseConfig("share.info");
-        if(configList != null && configList.size()==1){
-            BaseConfig baseConfig = configList.get(0);
-            return ResponseResult.ok(baseConfig);
+
+        List<BaseShare> shares = itemService.getBaseShare();
+        if(shares != null && shares.size()==1){
+            BaseShare baseShare = shares.get(0);
+            return ResponseResult.ok(baseShare);
         }
         return ResponseResult.error("-1","查询失败！");
 

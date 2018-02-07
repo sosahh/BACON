@@ -26,27 +26,15 @@
   </resultMap>
 
 
-  <!--<resultMap id="bsBaseResultMap" type="com.jyss.bacon.entity.BaseShare" >
+  <resultMap id="bsBaseResultMap" type="com.jyss.bacon.entity.BaseShare" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="app_version" property="appVersion" jdbcType="VARCHAR" />
-    <result column="src" property="src" jdbcType="VARCHAR" />
-    <result column="byte_size" property="byteSize" jdbcType="BIGINT" />
-    <result column="contents" property="contents" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
-    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+    <result column="link_pic" property="linkPic" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
-
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(64) NOT NULL COMMENT '标题',
-  `content` varchar(100) NOT NULL COMMENT '分享文字内容',
-  `link_url` varchar(100) NOT NULL COMMENT '分享网址链接',
-  `link_pic` varchar(100) NOT NULL COMMENT '链接图片',
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  `create_time` datetime NOT NULL,-->
-
-
 
 
   <!--查询协议-->
@@ -62,7 +50,12 @@
     from p_xtgx where type = #{type}
   </select>
 
-  <!---->
+  <!--查询分享-->
+  <select id="getBaseShare" resultMap="bsBaseResultMap">
+    select id,title,content,link_url,
+    nullif(CONCAT('${httpUrl}',link_pic), '${httpUrl}')as link_pic,status,create_time
+    from p_base_share where status = 1 limit 0,1
+  </select>
 
 
 

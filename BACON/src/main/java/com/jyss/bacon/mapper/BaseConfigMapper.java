@@ -2,6 +2,7 @@ package com.jyss.bacon.mapper;
 
 
 import com.jyss.bacon.entity.BaseConfig;
+import com.jyss.bacon.entity.BaseShare;
 import com.jyss.bacon.entity.Xtgx;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,10 @@ public interface BaseConfigMapper {
 
     //安卓版本更新
     List<Xtgx> selectXtgx(@Param("type")Integer type);
+
+
+    //查询分享
+    List<BaseShare> getBaseShare();
 
 
 }

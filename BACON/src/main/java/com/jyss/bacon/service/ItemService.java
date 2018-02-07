@@ -42,4 +42,7 @@ public interface ItemService {
 
     //安卓版本更新
     List<Xtgx> selectXtgx(@Param("type")Integer type);
+
+    //查询分享
+    List<BaseShare> getBaseShare();
 }
