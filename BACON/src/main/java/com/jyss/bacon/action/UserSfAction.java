@@ -34,6 +34,8 @@ public class UserSfAction {
     private UserService userService;
     @Autowired
     private MobileLoginService mobileLoginService;
+    @Autowired
+    private ItemService itemService;
 
     /**
      * 发送验证码
@@ -193,6 +195,7 @@ public class UserSfAction {
                 }
                 return ResponseResult.error("-1","原密码不正确！");
             }
+            return ResponseResult.error("-2","用户信息错误！");
         }
         return ResponseResult.error("1","token失效！");
 
@@ -294,7 +297,7 @@ public class UserSfAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,null);
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
             if(userList != null && userList.size()==1){
                 UserSf user = userList.get(0);
                 if(PasswordUtil.generatePayPwd(password).equals(user.getZfPassword())){
@@ -311,10 +314,98 @@ public class UserSfAction {
                 }
                 return ResponseResult.error("-1","原密码不正确！");
             }
+            return ResponseResult.error("-1","原密码不正确！");
+        }
+        return ResponseResult.error("-2","用户信息错误！");
+
+    }
+
+
+    /**
+     * 添加支付宝账号
+     */
+    @RequestMapping("/sf/setMyZfAccount")
+    @ResponseBody
+    public ResponseResult setMyZfAccount(@RequestParam("zfAccount") String zfAccount,@RequestParam("zfName") String zfName,
+                                              @RequestParam("token") String token){
+
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            if(userList != null && userList.size()==1){
+                    UserSf user1 = new UserSf();
+                    user1.setId(uId);
+                    user1.setZfAccount(zfAccount);
+                    user1.setZfName(zfName);
+                    int count = userService.upUserSf(user1);
+                    if(count == 1){
+                        return ResponseResult.ok("");
+                    }
+                    return ResponseResult.error("-4","修改失败！");
+            }
+            return ResponseResult.error("-2","用户信息错误！");
         }
         return ResponseResult.error("1","token失效！");
 
     }
+
+    /**
+     * 个人中心
+     */
+    @RequestMapping("/sf/getMyInfo")
+    @ResponseBody
+    public Map<String ,Object> getMyInfo(@RequestParam("token") String token){
+        Map<String ,Object> m = new HashMap<String ,Object>();
+        Map<String ,String> mm = new HashMap<String ,String>();
+        m.put("errCode","-1");
+        m.put("status","0");
+        m.put("errorMsg","token失效！");
+        m.put("data","");
+        mm.put("zfCode","1");//0=没有支付密码，1=有支付密码
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            if(userList != null && userList.size()==1){
+                UserSf  us = userList.get(0);
+                if (us.getZfPassword()==null||us.getZfPassword().equals("")){
+                    mm.put("zfCode","0");//0=没有支付密码，1=有支付密码
+                }
+                mm.put("uname",us.getUname());
+                mm.put("balance",us.getBalance()+"");
+                ////////累计订单总额
+                double orderTotal = 100;
+                //////代练订单分成//////
+                String fcPercent = "0.7";
+                Xtcl cl =  itemService.getClsValue("dlfc_type","1");
+                if (cl!=null&&cl.getBz_value()!=null&cl.getBz_value().equals("")){
+                    fcPercent = cl.getBz_value();
+                }
+                double fcBl = Double.parseDouble(fcPercent);
+                double mytotalBalance = fcBl*orderTotal;
+                String orderTotal2 = "100";
+                m.put("errCode","0");
+                m.put("status","1");
+                m.put("errorMsg","获取信息成功！");
+                m.put("data",mm);
+                mm.put("orderBalance",orderTotal+"");////订单总额
+                mm.put("totalBalance",mytotalBalance+"");////共获得的订单总额
+                return  m;
+
+            }else{
+                m.put("errCode","-2");
+                m.put("errorMsg","用户信息错误！");
+                return m;
+            }
+        }
+        return m;
+
+    }
+
+
 
 
 
