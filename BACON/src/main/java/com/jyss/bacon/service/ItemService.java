@@ -13,6 +13,10 @@ public interface ItemService {
     //查询所有大段位
     List<ItemCat> selectDwNameByCategoryId(@Param("categoryId")Integer categoryId);
 
+    //条件查询段位
+    List<ItemCat> getItemCatBy(@Param("categoryId")Integer categoryId,@Param("dwName")String dwName,
+                               @Param("status")Integer status);
+
     //查询所有新闻
     List<BaseNew> getAllNews();
 
@@ -22,7 +26,7 @@ public interface ItemService {
     //条件筛选
     ResponseResult getCondition(@Param("categoryId")Integer categoryId);
 
-    //查询所有小段位
+    //上分查询所有小段位
     ResponseResult getAllItemCat(@Param("categoryId")Integer categoryId);
 
     //通过id查询小段位

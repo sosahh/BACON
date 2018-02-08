@@ -25,12 +25,12 @@ public class ItemAction {
 
 
     /**
-     * 查询所有大段位
+     * 价目表，小段位
      */
     @RequestMapping("/dwList")
     @ResponseBody
     public ResponseResult selectDwNameByCategoryId(@RequestParam("categoryId") Integer categoryId){
-        List<ItemCat> list = itemService.selectDwNameByCategoryId(categoryId);
+        List<ItemCat> list = itemService.getItemCatBy(categoryId,null,1);
         if(list != null && list.size()>0){
             List<Xtcl> xtclList = itemService.getClsBy("discount", "1");
             if(xtclList != null && xtclList.size()>0){
@@ -118,7 +118,7 @@ public class ItemAction {
     }
 
     /**
-     * 查询所有小段位
+     * 上分查询所有小段位
      */
     @RequestMapping("/xdwList")
     @ResponseBody

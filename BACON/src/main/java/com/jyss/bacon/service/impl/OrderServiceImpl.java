@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
                         OrderSf orderSf1 = new OrderSf();
                         orderSf1.setId(oId);
                         orderSf1.setStatus(1);
-                        orderSf1.setModifyTime(DateFormatUtils.getNewDate(new Date(),orderSf.getCount()));
+                        orderSf1.setModifyTime(new Date());
                         int count1 = orderSfMapper.updateByPrimaryKeySelective(orderSf1);
                         if(count1 == 1){
                             ScoreBalance scoreBalance = new ScoreBalance();

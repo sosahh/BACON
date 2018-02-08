@@ -49,6 +49,14 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
+     * 条件查询段位
+     */
+    @Override
+    public List<ItemCat> getItemCatBy(Integer categoryId, String dwName, Integer status) {
+        return itemCatMapper.getItemCatBy(categoryId,dwName,status);
+    }
+
+    /**
      * 查询所有新闻
      */
     @Override
@@ -177,34 +185,23 @@ public class ItemServiceImpl implements ItemService{
         return ResponseResult.ok(map);
     }
 
+
     /**
-     * 查询所有小段位
+     * 上分查询所有小段位
      */
     @Override
     public ResponseResult getAllItemCat(Integer categoryId) {
         Map<String, Object> map = new HashMap<>();
-        List<ItemCat> itemCats = itemCatMapper.selectDwNameByCategoryId(categoryId);
-        List<Category> list = new ArrayList<>();
-        for (ItemCat itemCat : itemCats) {
-            Category category = new Category();
-            List<ItemCat> catList = itemCatMapper.getItemCatBy(categoryId, itemCat.getDwName(), 1);
-            category.setDwName(itemCat.getDwName());
-            category.setNames(catList);
-            list.add(category);
-        }
-        if(list !=null && list.size()>0){
-            map.put("cats",list);
-            List<Xtcl> list2 = xtclMapper.getClsBy("gameArea_type", null);
-            List<Xtcl> xtclList = xtclMapper.getClsBy("game_type", null);
-            List<Xtcl> list1 = xtclMapper.getClsBy("discount", "1");
-            Xtcl xtcl = list1.get(0);
-            map.put("areas",list2);
-            map.put("types",xtclList);
-            map.put("value",xtcl.getBz_value());
-
-            return ResponseResult.ok(map);
-        }
-        return ResponseResult.error("-1","查询失败");
+        List<ItemCat> list = itemCatMapper.getItemCatBy(categoryId, null, 1);
+        List<Xtcl> list2 = xtclMapper.getClsBy("gameArea_type", null);
+        List<Xtcl> xtclList = xtclMapper.getClsBy("game_type", null);
+        List<Xtcl> list1 = xtclMapper.getClsBy("discount", "1");
+        Xtcl xtcl = list1.get(0);
+        map.put("cats",list);
+        map.put("areas",list2);
+        map.put("types",xtclList);
+        map.put("value",xtcl.getBz_value());
+        return ResponseResult.ok(map);
     }
 
 

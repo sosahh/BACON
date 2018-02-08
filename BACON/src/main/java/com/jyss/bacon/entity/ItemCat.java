@@ -11,11 +11,11 @@ public class ItemCat {
 
     private String dwName;       //大段位名称
 
-    private String name;        //小段位名称
+    private String name;         //小段位名称
 
     private Double pwPrice;      //排位价格
 
-    private Double ppPrice;      //匹配价格
+    private String yjTime;       //一局时间，单位分钟
 
     private Integer status;      //0禁用，1可用
 
@@ -71,12 +71,12 @@ public class ItemCat {
         this.pwPrice = pwPrice;
     }
 
-    public Double getPpPrice() {
-        return ppPrice;
+    public String getYjTime() {
+        return yjTime;
     }
 
-    public void setPpPrice(Double ppPrice) {
-        this.ppPrice = ppPrice;
+    public void setYjTime(String yjTime) {
+        this.yjTime = yjTime;
     }
 
     public Integer getStatus() {

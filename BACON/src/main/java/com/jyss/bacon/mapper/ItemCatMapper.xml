@@ -8,7 +8,7 @@
     <result column="dw_name" property="dwName" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="pw_price" property="pwPrice" jdbcType="DECIMAL" />
-    <result column="pp_price" property="ppPrice" jdbcType="DECIMAL" />
+    <result column="yj_time" property="yjTime" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
@@ -16,10 +16,10 @@
 
   <insert id="insert" parameterType="com.jyss.bacon.entity.ItemCat" >
     insert into c_item_cat (id, category_id, category_name,
-    dw_name, name, pw_price,pp_price, status, sort_order, created)
+    dw_name, name, pw_price, yj_time, status, sort_order, created)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
     #{dwName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{pwPrice,jdbcType=DECIMAL},
-    #{ppPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER},
+    #{yjTime,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER},
     #{created,jdbcType=TIMESTAMP})
   </insert>
 
@@ -41,8 +41,8 @@
       <if test="pwPrice != null" >
         pw_price = #{pwPrice,jdbcType=DECIMAL},
       </if>
-      <if test="ppPrice != null" >
-        pp_price = #{ppPrice,jdbcType=DECIMAL},
+      <if test="yjTime != null" >
+        yj_time = #{yjTime,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
