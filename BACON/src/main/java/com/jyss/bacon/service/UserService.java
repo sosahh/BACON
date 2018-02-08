@@ -64,4 +64,15 @@ public interface UserService {
     //支付宝支付
     ResponseResult getALiPayResult(@Param("uId")Integer uId,@Param("cash")Float cash);
 
+    //上分人员查询
+    List<UserSf> selectUserSfBy(@Param("id")String id, @Param("account")String account, @Param("status")String status);
+
+    //上分人员信息修改
+    int upUserSf(UserSf userSf);
+
+    //用户登陆
+    ResponseResult getUserSf(@Param("tel")String tel, @Param("password")String password);
+
+
+
 }

@@ -121,6 +121,9 @@ public class UserAction {
         List<User> userList = userService.selectUserBy(null, tel, null);
         if(userList == null || userList.size() == 0){
             HttpSession session = MySessionContext.getSession(sessionId);
+            if (session==null){
+                return ResponseResult.error("-1","请重新获取验证码！");
+            }
             String checkTel = (String) session.getAttribute("tel");
             String checkCode = (String) session.getAttribute("code");
 
@@ -361,6 +364,9 @@ public class UserAction {
             return ResponseResult.error("-2","新密码不能为空！");
         }
         HttpSession session = MySessionContext.getSession(sessionId);
+        if (session==null){
+            return ResponseResult.error("-1","请重新获取验证码！");
+        }
         String checkTel = (String) session.getAttribute("tel");
         String checkCode = (String) session.getAttribute("code");
         if(tel.equals(checkTel) && code.equals(checkCode)){
@@ -575,6 +581,9 @@ public class UserAction {
             return ResponseResult.error("-2","支付密码需为6位！");
         }
         HttpSession session = MySessionContext.getSession(sessionId);
+        if (session==null){
+            return ResponseResult.error("-1","请重新获取验证码！");
+        }
         String checkTel = (String) session.getAttribute("tel");
         String checkCode = (String) session.getAttribute("code");
         if(tel.equals(checkTel) && code.equals(checkCode)){
@@ -828,6 +837,9 @@ public class UserAction {
                 return ResponseResult.error("-4","账号已存在！");
             }
             HttpSession session = MySessionContext.getSession(sessionId);
+            if (session==null){
+                return ResponseResult.error("-1","请重新获取验证码！");
+            }
             String checkTel = (String) session.getAttribute("tel");
             String checkCode = (String) session.getAttribute("code");
             if(tel.equals(checkTel) && code.equals(checkCode)){

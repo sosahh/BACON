@@ -1,6 +1,7 @@
 package com.jyss.bacon.mapper;
 
 import com.jyss.bacon.entity.User;
+import com.jyss.bacon.entity.UserSf;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -29,5 +30,12 @@ public interface UserMapper {
 
     //查询关注我的
     //List<User> getUserFellowByFellowId(@Param("followId")Integer followId);
+
+    //上分人员查询
+    List<UserSf> selectUserSfBy(@Param("id")String id, @Param("account")String account, @Param("status")String status);
+
+    //上分人员信息修改
+    int upUserSf(UserSf userSf);
+
 
 }

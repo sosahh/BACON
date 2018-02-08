@@ -3,6 +3,7 @@ package com.jyss.bacon.service.impl;
 import com.jyss.bacon.entity.MobileLogin;
 import com.jyss.bacon.mapper.MobileLoginMapper;
 import com.jyss.bacon.service.MobileLoginService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,15 @@ public class MobileLoginServiceImpl implements MobileLoginService {
         return loginList;
     }
 
+    @Override
+    public int insertSfLogin(MobileLogin mobileLogin) {
+        return mobileLoginMapper.insertSfLogin(mobileLogin);
+    }
 
+    @Override
+    public List<MobileLogin> findUserByTokenBySf(@Param("token") String token) {
+        return mobileLoginMapper.findUserByTokenBySf(token);
+    }
 
 
 }

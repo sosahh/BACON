@@ -14,6 +14,7 @@ import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,9 +97,7 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public ResponseResult getUser(String tel, String password) {
-        if(StringUtils.isEmpty(tel)){
-            return ResponseResult.error("-1","手机号不能为空！");
-        }
+        if(StringUtils.isEmpty(tel)) return ResponseResult.error("-1", "手机号不能为空！");
         List<User> userList = userMapper.selectUserBy(null, tel, "");
         if(userList != null && userList.size()>0){
             User user = userList.get(0);
@@ -571,6 +570,51 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    ////////////上分人员信息表////////////
+    @Override
+    public List<UserSf> selectUserSfBy(@Param("id") String id, @Param("account") String account, @Param("status") String status) {
+        return userMapper.selectUserSfBy(id,account,status);
+    }
+
+    @Override
+    public int upUserSf(UserSf userSf) {
+        return userMapper.upUserSf(userSf);
+    }
+
+    @Override
+    public ResponseResult getUserSf(@Param("tel") String tel, @Param("password") String password) {
+        if(StringUtils.isEmpty(tel)) return ResponseResult.error("-1", "手机号不能为空！");
+        List<UserSf> userList = userMapper.selectUserSfBy(null,tel,"1");
+        if(userList != null && userList.size()>0){
+            UserSf usersf = userList.get(0);
+            if (usersf!=null){
+                if (PasswordUtil.generatePayPwd(password).equals(usersf.getPassword())){
+                    String token = CommTool.getUUID();
+                    //记录登陆信息
+                    MobileLogin mobileLogin = new MobileLogin();
+                    mobileLogin.setuId(usersf.getId());
+                    mobileLogin.setToken(token);
+                    mobileLogin.setLastAccessTime(System.currentTimeMillis());
+                    mobileLogin.setStatus(1);
+                    mobileLogin.setCreatedAt(new Date());
+                    int count = mobileLoginMapper.insertSfLogin(mobileLogin);
+                    if(count == 1){
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("token",token);
+                        map.put("user",usersf);
+                        return ResponseResult.ok(map);
+                    }
+                    return ResponseResult.error("-4","登陆失败！");
+                }else{
+                    return ResponseResult.error("-3","密码错误！");
+                }
+            }else{
+                return ResponseResult.error("-2","用户不存在！");
+            }
+
+        }
+        return ResponseResult.error("-2","用户不存在！");
+    }
 
 
 }

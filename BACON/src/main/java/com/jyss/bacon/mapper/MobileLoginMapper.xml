@@ -20,6 +20,15 @@
       #{status,jdbcType=TINYINT})
   </insert>
 
+  <insert id="insertSfLogin" parameterType="com.jyss.bacon.entity.MobileLogin" useGeneratedKeys="true" keyProperty="id">
+    insert into u_mobile_login_sf (id, u_id, token,
+    created_at, last_access_time, push_info,
+    status)
+    values (#{id,jdbcType=BIGINT}, #{uId,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR},
+    #{createdAt,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=BIGINT}, #{pushInfo,jdbcType=VARCHAR},
+    #{status,jdbcType=TINYINT})
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.MobileLogin" >
     update u_mobile_login
     <set >
@@ -50,6 +59,20 @@
   <select id="findUserByToken" parameterType="String" resultMap="BaseResultMap">
     select * from u_mobile_login where u_id in(
     select u_id from u_mobile_login
+    <where>
+      <if test="token != null and token != ''">and token = #{token}</if>
+    </where>
+    )
+    order by created_at desc
+    limit 1
+  </select>
+
+
+
+  <!-- 上分人员==根据token查询用户 -->
+  <select id="findUserByTokenBySf" parameterType="String" resultMap="BaseResultMap">
+    select * from u_mobile_login_sf where u_id in(
+    select u_id from u_mobile_login_sf
     <where>
       <if test="token != null and token != ''">and token = #{token}</if>
     </where>

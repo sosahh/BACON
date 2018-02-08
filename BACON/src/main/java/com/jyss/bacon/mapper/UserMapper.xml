@@ -206,5 +206,66 @@
     where u_id in (select u_id from u_user_follow where follow_id = #{followId} order by created desc)
     and status &gt; 0
   </select>-->
+  <resultMap id="usResultMap" type="com.jyss.bacon.entity.UserSf" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="wx_account" property="wxAccount" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="TINYINT" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="TINYINT" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="zf_account" property="zfAccount" jdbcType="VARCHAR" />
+    <result column="zf_name" property="zfName" jdbcType="VARCHAR" />
+    <result column="zf_password" property="zfPassword" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result property="cjsj" column="cjsj"  />
+  </resultMap>
+
+
+
+  <!--上分用户-->
+  <select id="selectUserSfBy" resultMap="usResultMap" >
+    select * from u_user_sf
+    <where>
+      <if test="id != null and id != ''">and id = #{id} </if>
+      <if test="account != null and account != ''">and account = #{account} </if>
+      <if test="status != null and status != ''">and status = #{status} </if>
+    </where>
+  </select>
+
+  <!--上分用户信息修改-->
+  <update id="upUserSf" parameterType="com.jyss.bacon.entity.UserSf" >
+    update u_user_sf
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="zfAccount != null" >
+        zf_account = #{zfAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="zfName != null" >
+        ,zf_name = #{zfName,jdbcType=VARCHAR}
+      </if>
+      <if test="zfPassword != null" >
+        zf_password = #{zfPassword,jdbcType=VARCHAR}
+      </if>
+    <!--  <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL}
+      </if>-->
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+
 
 </mapper>
