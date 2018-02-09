@@ -43,7 +43,7 @@ public class OrderAction {
      */
     @RequestMapping(value = "/sfOrder",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult insertOrderSf(OrderSf orderSf,@RequestParam("token") String token){
+    public ResponseResult insertOrderSf(OrderSf orderSf,@RequestParam("mjTime")Double mjTime,@RequestParam("token") String token){
         if(StringUtils.isEmpty(orderSf.getCount()) ||
                 orderSf.getAccount()== null || orderSf.getAccount().trim().length()== 0 ||
                 orderSf.getWxAccount()== null || orderSf.getWxAccount().trim().length()== 0){
@@ -68,6 +68,7 @@ public class OrderAction {
             orderSf.setStatus(0);
             orderSf.setCreated(new Date());
             orderSf.setModifyTime(new Date());
+            orderSf.setAcceptTime(orderSf.getCount()* mjTime);
             int count = orderService.insert(orderSf);
             if(count == 1){
                 Map<String, Object> map = new HashMap<>();

@@ -8,7 +8,7 @@
     <result column="dw_name" property="dwName" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="pw_price" property="pwPrice" jdbcType="DECIMAL" />
-    <result column="yj_time" property="yjTime" jdbcType="VARCHAR" />
+    <result column="yj_time" property="yjTime" jdbcType="DOUBLE" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
@@ -19,7 +19,7 @@
     dw_name, name, pw_price, yj_time, status, sort_order, created)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
     #{dwName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{pwPrice,jdbcType=DECIMAL},
-    #{yjTime,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER},
+    #{yjTime,jdbcType=DOUBLE}, #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER},
     #{created,jdbcType=TIMESTAMP})
   </insert>
 
@@ -42,7 +42,7 @@
         pw_price = #{pwPrice,jdbcType=DECIMAL},
       </if>
       <if test="yjTime != null" >
-        yj_time = #{yjTime,jdbcType=DECIMAL},
+        yj_time = #{yjTime,jdbcType=DOUBLE},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},

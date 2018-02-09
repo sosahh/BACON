@@ -32,11 +32,11 @@ public class OrderSf implements Serializable {
 
     private Integer status;           //0未支付，1已支付，2已接单，3完成，4取消订单
 
-    private Date created;         //下单时间
+    private Date created;           //下单时间
 
-    private Date modifyTime;      //预计完成时间
+    private Date modifyTime;        //
 
-    private Date acceptTime;      //接单时间
+    private Double acceptTime;      //接单时间
 
     private Integer categoryId;        //类目id
     private String categoryName;       //类目名称
@@ -199,12 +199,11 @@ public class OrderSf implements Serializable {
         this.categoryId = categoryId;
     }
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    public Date getAcceptTime() {
+    public Double getAcceptTime() {
         return acceptTime;
     }
 
-    public void setAcceptTime(Date acceptTime) {
+    public void setAcceptTime(Double acceptTime) {
         this.acceptTime = acceptTime;
     }
 }

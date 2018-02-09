@@ -140,7 +140,7 @@ public class ItemAction {
 
 
     /**
-     * 用户协议      agType   1=注册协议，2=充值协议，3=提现说明，4=联系方式
+     * 用户协议      agType   1=注册协议，2=充值协议，3=提现说明，4=联系方式，5=服务与隐私
      */
     @RequestMapping("/agreement")
     @ResponseBody
@@ -166,6 +166,12 @@ public class ItemAction {
             }
         }else if(agType == 4){
             List<BaseConfig> configList = itemService.selectBaseConfig("tel.info");
+            if(configList != null && configList.size()==1){
+                BaseConfig baseConfig = configList.get(0);
+                return ResponseResult.ok(baseConfig);
+            }
+        }else if(agType == 5){
+            List<BaseConfig> configList = itemService.selectBaseConfig("service.info");
             if(configList != null && configList.size()==1){
                 BaseConfig baseConfig = configList.get(0);
                 return ResponseResult.ok(baseConfig);

@@ -17,7 +17,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="accept_time" property="acceptTime" jdbcType="TIMESTAMP" />
+    <result column="accept_time" property="acceptTime" jdbcType="DOUBLE" />
     <result column="category_id" property="categoryId" />
     <result column="category_name" property="categoryName" />
     <result column="name" property="name" />
@@ -33,7 +33,7 @@
       #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
       #{isWin,jdbcType=TINYINT}, #{account,jdbcType=VARCHAR}, #{wxAccount,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
-      #{acceptTime,jdbcType=TIMESTAMP})
+      #{acceptTime,jdbcType=DOUBLE})
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSf" >
@@ -82,7 +82,7 @@
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
       <if test="acceptTime != null" >
-        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+        accept_time = #{acceptTime,jdbcType=DOUBLE},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

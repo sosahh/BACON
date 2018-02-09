@@ -15,7 +15,7 @@ public class ItemCat {
 
     private Double pwPrice;      //排位价格
 
-    private String yjTime;       //一局时间，单位分钟
+    private Double yjTime;       //一局时间，单位小时
 
     private Integer status;      //0禁用，1可用
 
@@ -71,11 +71,11 @@ public class ItemCat {
         this.pwPrice = pwPrice;
     }
 
-    public String getYjTime() {
+    public Double getYjTime() {
         return yjTime;
     }
 
-    public void setYjTime(String yjTime) {
+    public void setYjTime(Double yjTime) {
         this.yjTime = yjTime;
     }
 
