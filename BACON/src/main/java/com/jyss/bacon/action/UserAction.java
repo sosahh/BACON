@@ -485,6 +485,7 @@ public class UserAction {
             List<UserAuth> userAuthList = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 2);
             if(userAuthList != null && userAuthList.size()>0){
                 UserAuth userAuth1 = userAuthList.get(0);
+                userAuth.setStatus(2);                 //不需要再审核
                 userAuth.setId(userAuth1.getId());
                 int count = userAuthService.updateByPrimaryKeySelective(userAuth);
                 if(count == 1){
