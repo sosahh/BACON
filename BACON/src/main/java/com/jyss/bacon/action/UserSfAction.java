@@ -382,7 +382,7 @@ public class UserSfAction {
 
     }
     /**
-     * 获取支付宝账号
+     * 获取支付宝账号ww
      */
     @RequestMapping("/sf/getMyZfAccount")
     @ResponseBody
