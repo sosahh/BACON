@@ -182,6 +182,31 @@ public class ItemAction {
 
 
     /**
+     * 代练端提现说明        agType   1=提现说明，2=联系方式
+     */
+    @RequestMapping("/contactInfo ")
+    @ResponseBody
+    public ResponseResult selectBaseConfigDl(@RequestParam("agType") Integer agType){
+        if(agType == 1){
+            List<BaseConfig> configList = itemService.selectBaseConfig("phone.info");
+            if(configList != null && configList.size()==1){
+                BaseConfig baseConfig = configList.get(0);
+                return ResponseResult.ok(baseConfig);
+            }
+
+        }else if(agType == 2){
+            List<BaseConfig> configList = itemService.selectBaseConfig("withdraw.info");
+            if(configList != null && configList.size()==1){
+                BaseConfig baseConfig = configList.get(0);
+                return ResponseResult.ok(baseConfig);
+            }
+        }
+        return ResponseResult.error("-1","查询失败！");
+    }
+
+
+
+    /**
      * 安卓版本更新
      */
     @RequestMapping("/version")
