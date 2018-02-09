@@ -1,11 +1,14 @@
 package com.jyss.bacon.action;
 
+import com.github.pagehelper.PageInfo;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.service.ItemService;
 import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.OrderService;
+import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.Base64Image;
 import com.jyss.bacon.utils.CommTool;
+import com.jyss.bacon.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +36,8 @@ public class OrderAction {
     private OrderService orderService;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private UserService userService;
 
 
 
@@ -383,6 +389,183 @@ public class OrderAction {
         return ResponseResult.error("1","token失效！");
     }
 
+
+
+    /////////////////代练端APP///////////////////////
+//     *  上分订单结果获得总金额[订单金额，实得金额]
+//     *status = 0未支付，1已支付，2已接单，3完成，4订单取消
+//     *reStatus=1 =分配订单 2=完成订单 3=取消订单
+    /////未完成订单
+    @RequestMapping("/sf/getSfOrderJdInfo")
+    @ResponseBody
+    public ResponseResult getSfOrderJdInfo(@RequestParam("token") String token,@RequestParam(value = "page", required = true) int page,
+                                           @RequestParam(value = "limit", required = true) int limit){
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<OrderSfView> infoList = orderService.getSfOrderResultInfo(uId.toString(),"2","1");
+            PageInfo<OrderSfView> pageInfoOrder = new PageInfo<OrderSfView>(infoList);
+            return ResponseResult.ok(new Page<OrderSfView>(pageInfoOrder));
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+    /////已经完成订单
+    @RequestMapping("/sf/getSfOrderFinishInfo")
+    @ResponseBody
+    public ResponseResult getSfOrderFinishInfo(@RequestParam("token") String token,@RequestParam(value = "page", required = true) int page,
+                                           @RequestParam(value = "limit", required = true) int limit){
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<OrderSfView> infoList1 = orderService.getSfOrderResultInfo(uId.toString(),"3","2");
+            PageInfo<OrderSfView> pageInfoOrder = new PageInfo<OrderSfView>(infoList1);
+            return ResponseResult.ok(new Page<OrderSfView>(pageInfoOrder));
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+    //////完成订单，上传结果///////
+    /**
+     * /完成订单，上传结果（文件上传)
+     */
+    @RequestMapping("/sf/finishOrder")
+    @ResponseBody
+    public ResponseResult finishOrder(OrderSfResult osResult, @RequestParam("token")String token,
+                                            MultipartFile pic1, MultipartFile pic2, MultipartFile pic3,
+                                            MultipartFile pic4, MultipartFile pic5, MultipartFile pic6,
+                                            HttpServletRequest request) throws Exception {
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+
+            //图片上传
+            String pictures ="";
+            String filePath = request.getSession().getServletContext().getRealPath("/");
+            int index = filePath.indexOf("BACON");
+            filePath = filePath.substring(0, index) + "uploadResultImg" + "/";
+            if(!StringUtils.isEmpty(pic1)){
+                String filename1 = pic1.getOriginalFilename();
+                filename1 = new String(filename1.getBytes("iso8859-1"), "utf-8");
+                String extName1 = filename1.substring(filename1.lastIndexOf("."));
+                String imgPath1 = filePath + uId + System.currentTimeMillis() + "01" + extName1;
+                if (!Utils.saveUpload(pic1, imgPath1)) {
+                   return ResponseResult.error("-2","文件上传失败");
+                }
+                imgPath1 = imgPath1.substring(imgPath1.indexOf("uploadResultImg"));
+                pictures = pictures+imgPath1+";";
+            }
+            if(!StringUtils.isEmpty(pic2)){
+                String filename2 = pic2.getOriginalFilename();
+                filename2 = new String(filename2.getBytes("iso8859-1"), "utf-8");
+                String extName2 = filename2.substring(filename2.lastIndexOf("."));
+                String imgPath2 = filePath + uId + System.currentTimeMillis() + "02" + extName2;
+                if (!Utils.saveUpload(pic2, imgPath2)) {
+                    return ResponseResult.error("-2","文件上传失败");
+                }
+                imgPath2 = imgPath2.substring(imgPath2.indexOf("uploadResultImg"));
+                pictures = pictures+imgPath2+";";
+            }
+            if(!StringUtils.isEmpty(pic3)){
+                String filename3 = pic3.getOriginalFilename();
+                filename3 = new String(filename3.getBytes("iso8859-1"), "utf-8");
+                String extName3 = filename3.substring(filename3.lastIndexOf("."));
+                String imgPath3 = filePath + uId + System.currentTimeMillis() + "03" + extName3;
+                if (!Utils.saveUpload(pic3, imgPath3)) {
+                    return ResponseResult.error("-2","文件上传失败");
+                }
+                imgPath3= imgPath3.substring(imgPath3.indexOf("uploadResultImg"));
+                pictures = pictures+imgPath3+";";
+            }
+            if(!StringUtils.isEmpty(pic4)){
+                String filename4 = pic4.getOriginalFilename();
+                filename4 = new String(filename4.getBytes("iso8859-1"), "utf-8");
+                String extName4 = filename4.substring(filename4.lastIndexOf("."));
+                String imgPath4 = filePath + uId + System.currentTimeMillis() + "04" + extName4;
+                if (!Utils.saveUpload(pic4, imgPath4)) {
+                    return ResponseResult.error("-2","文件上传失败");
+                }
+                imgPath4 = imgPath4.substring(imgPath4.indexOf("uploadResultImg"));
+                pictures = pictures+imgPath4+";";
+            }
+            if(!StringUtils.isEmpty(pic5)){
+                String filename5 = pic5.getOriginalFilename();
+                filename5 = new String(filename5.getBytes("iso8859-1"), "utf-8");
+                String extName5 = filename5.substring(filename5.lastIndexOf("."));
+                String imgPath5 = filePath + uId + System.currentTimeMillis() + "05" + extName5;
+                if (!Utils.saveUpload(pic5, imgPath5)) {
+                    return ResponseResult.error("-2","文件上传失败");
+                }
+                imgPath5 = imgPath5.substring(imgPath5.indexOf("uploadResultImg"));
+                pictures = pictures+imgPath5+";";
+            }
+            if(!StringUtils.isEmpty(pic6)){
+                String filename6 = pic6.getOriginalFilename();
+                filename6 = new String(filename6.getBytes("iso8859-1"), "utf-8");
+                String extName6 = filename6.substring(filename6.lastIndexOf("."));
+                String imgPath6 = filePath + uId + System.currentTimeMillis() + "06" + extName6;
+                if (!Utils.saveUpload(pic6, imgPath6)) {
+                    return ResponseResult.error("-2","文件上传失败");
+                }
+                imgPath6= imgPath6.substring(imgPath6.indexOf("uploadResultImg"));
+                pictures = pictures+imgPath6+";";
+            }
+            osResult.setPicture(pictures);
+            int count = orderService.upMyOrderResult(osResult);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","上传结果失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+    /**
+     * 提现申请
+     */
+    @RequestMapping("/sf/drawCash")
+    @ResponseBody
+    public ResponseResult drawCash(@RequestParam("token")String token,@RequestParam("cash")double cash) throws Exception {
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            UserSf userSf =null;
+            if(userList != null && userList.size()==1){
+                userSf = userList.get(0);
+                if (userSf==null){
+                    return ResponseResult.error("-2","用户信息错误！");
+                }
+            }else{
+                return ResponseResult.error("-2","用户信息错误！");
+            }
+            if (userSf.getBalance()<cash){
+                return ResponseResult.error("-3","余额不足！");
+            }
+            double leftBalance = userSf.getBalance()-cash;
+            if (userSf.getZfAccount()==null||userSf.getZfAccount().equals("")||userSf.getZfName()==null||userSf.getZfName().equals("")){
+                return ResponseResult.error("-4","无对应提现账户！");
+            }
+            DlAppEarn dlAppEarn = new  DlAppEarn();
+            dlAppEarn.setScore(cash);
+            dlAppEarn.setRealName(userSf.getZfAccount());
+            dlAppEarn.setZfAccount(userSf.getZfName());
+            /////提交申请，对应账户余额减少
+            int count = orderService.addDlScoreEarn(dlAppEarn,leftBalance);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","提交申请失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
 
 
 }

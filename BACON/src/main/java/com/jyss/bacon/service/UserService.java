@@ -74,5 +74,12 @@ public interface UserService {
     ResponseResult getUserSf(@Param("tel")String tel, @Param("password")String password);
 
 
+    /**
+     * 修改个人余额
+     * @param id
+     * @param balance
+     * @return
+     */
+    int upUserSfBalance(@Param("id")String id, @Param("balance")String balance);
 
 }

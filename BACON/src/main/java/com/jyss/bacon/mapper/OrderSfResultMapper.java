@@ -1,5 +1,6 @@
 package com.jyss.bacon.mapper;
 
+import com.jyss.bacon.entity.DlAppEarn;
 import com.jyss.bacon.entity.OrderSfResult;
 import com.jyss.bacon.entity.OrderSfView;
 import org.apache.ibatis.annotations.Param;
@@ -45,6 +46,35 @@ public interface OrderSfResultMapper {
      * @return
      */
     List<OrderSfView> getSfOrderResultInfo(@Param("sfUserId")String sfUserId,@Param("status")String status,@Param("reStatus")String reStatus);
+
+    /**
+     * 修改订单表状态
+     * @param orderId
+     * @param status
+     * @param statusBefore
+     * @return
+     */
+   int upOrderSf(@Param("orderId")String orderId,@Param("status")String status,@Param("statusBefore")String statusBefore);
+
+    /**
+     * 修改订单结果表数据
+     * @param orderId
+     * @param sfStar
+     * @param result
+     * @param pictures
+     * @param status
+     * @param statusBefore
+     * @return
+     */
+    int upOrderSfResult(@Param("orderId")String orderId,@Param("sfStar")String sfStar,@Param("result")String result,@Param("pictures")String pictures,
+                        @Param("status")String status,@Param("statusBefore")String statusBefore);
+
+    /**
+     * 添加提现记录
+     * @param dlAppEarn
+     * @return
+     */
+    int insertScoreEarn(DlAppEarn dlAppEarn);
 
 
 }

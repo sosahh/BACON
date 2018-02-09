@@ -48,9 +48,66 @@ public class OrderSfView implements Serializable {
 	private String uaccount;   //上分人员账号
 	private String uname;   //上分人员姓名
 	private String picture;   //图片
+    private String [] pictures;     //结果图片
 	private String result;   //结果
 	private String sfStar;   //上星
     private Integer reStatus ;///1 =分配订单 2=完成订单 3=取消订单
+
+    /////用户信息/////,c.category_name,c.dw_name,c.name,u.tel,u.nick,u.headpic
+    private String categoryName;   //游戏
+    private String dwName;   //大段位
+    private String name;   //小段位
+    private String tel;   //下单人电话
+    private String nick;   //昵称
+    private String headpic;   //下单用户头像
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDwName() {
+        return dwName;
+    }
+
+    public void setDwName(String dwName) {
+        this.dwName = dwName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getHeadpic() {
+        return headpic;
+    }
+
+    public void setHeadpic(String headpic) {
+        this.headpic = headpic;
+    }
 
     public double getAcceptTime() {
         return acceptTime;
@@ -68,7 +125,7 @@ public class OrderSfView implements Serializable {
         this.sfUserId = sfUserId;
     }
 
-    private List<String> pictures;     //结果图片
+    ///private List<String> pictures;     //结果图片
     private Date finishTime;//// 完成时间
     private String gameAccount;///游戏账号
     private String gamePwd;///游戏密码
@@ -281,11 +338,11 @@ public class OrderSfView implements Serializable {
         this.reStatus = reStatus;
     }
 
-    public List<String> getPictures() {
+    public String[] getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(String[] pictures) {
         this.pictures = pictures;
     }
 

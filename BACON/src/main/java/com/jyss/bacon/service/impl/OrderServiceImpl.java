@@ -7,7 +7,9 @@ import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.OrderService;
 import com.jyss.bacon.utils.DateFormatUtils;
+import jdk.nashorn.internal.objects.NativeRegExp;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -628,7 +630,87 @@ public class OrderServiceImpl implements OrderService{
      */
     @Override
     public List<OrderSfView> getSfOrderResultInfo(@Param("sfUserId") String sfUserId, @Param("status") String status, @Param("reStatus") String reStatus) {
-        return orderSfResultMapper.getSfOrderResultInfo(sfUserId, status, reStatus);
+        List<OrderSfView> list = orderSfResultMapper.getSfOrderResultInfo(sfUserId, status, reStatus);
+        if (list!=null&&list.size()>0){
+            for(OrderSfView os :list){
+                os.setHeadpic(Constant.httpUrl+os.getHeadpic());
+                String strImg = os.getPicture();
+                if (strImg!=null&&!(strImg.equals(""))){
+                    String [] strarr = strImg.split(";");
+                    if (strarr!=null){
+                        for(int i =0; i<strarr.length;i++){
+                            strarr[i] = Constant.httpUrl+strarr[i];
+                        }
+                        os.setPictures(strarr);
+                    }
+                }
+
+            }
+
+        }
+        return list;
+    }
+
+    /**
+     * 修改订单表状态
+     * @param orderId
+     * @param status
+     * @param statusBefore
+     * @return
+     */
+    @Override
+    public int upOrderSf(@Param("orderId") String orderId, @Param("status") String status, @Param("statusBefore") String statusBefore) {
+        return orderSfResultMapper.upOrderSf(orderId, status, statusBefore);
+    }
+
+    /**
+     * 修改订单结果表数据
+     * @param orderId
+     * @param sfStar
+     * @param result
+     * @param pictures
+     * @param status
+     * @param statusBefore
+     * @return
+     */
+    @Override
+    public int upOrderSfResult(@Param("orderId") String orderId, @Param("sfStar") String sfStar, @Param("result") String result, @Param("pictures") String pictures, @Param("status") String status, @Param("statusBefore") String statusBefore) {
+        return orderSfResultMapper.upOrderSfResult(orderId, sfStar, result, pictures,status, statusBefore );
+    }
+
+
+    ////// *status = 0未支付，1已支付，2已接单，3完成，4订单取消
+    ////// *reStatus=1 =分配订单 2=完成订单 3=取消订单
+    @Override
+    public int upMyOrderResult(OrderSfResult os) {
+        int count = 0;
+        ////先修改状态
+        count = upOrderSf(os.getOrderId(),"3","2");
+        if (count==1){
+            count = 0;
+            count = upOrderSfResult(os.getOrderId(),os.getSfStar(),os.getResult(),os.getPicture(),"2","1");
+            return count;
+        }
+        return 0;
+    }
+
+    @Override
+    public int insertDlScoreEarn(DlAppEarn dlAppEarn) {
+        dlAppEarn.setType(2);
+        dlAppEarn.setDetail("取现");
+        dlAppEarn.setStatus(1);
+        return orderSfResultMapper.insertScoreEarn(dlAppEarn);
+    }
+
+    @Override
+    public int addDlScoreEarn(DlAppEarn dlAppEarn, double balance) {
+        int count = userMapper.upUserSfBalance(dlAppEarn.getuId().toString(),balance+"");
+        if (count==1){
+            count = 0;
+            count = insertDlScoreEarn(dlAppEarn);
+            return count;
+        }
+        return 0;
     }
 
 
