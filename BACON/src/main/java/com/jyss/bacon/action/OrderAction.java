@@ -427,6 +427,23 @@ public class OrderAction {
         return ResponseResult.error("1","token失效！");
     }
 
+    /////账单明细
+    @RequestMapping("/sf/getDrawCashDetails")
+    @ResponseBody
+    public ResponseResult getDrawCashDetails(@RequestParam("token") String token,@RequestParam(value = "page", required = true) int page,
+                                               @RequestParam(value = "limit", required = true) int limit){
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<DrawCashDetails> infoList1 = orderService.getDrawCashDetails(uId.toString());
+            PageInfo<DrawCashDetails> pageInfoOrder = new PageInfo<DrawCashDetails>(infoList1);
+            return ResponseResult.ok(new Page<DrawCashDetails>(pageInfoOrder));
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
 
     //////完成订单，上传结果///////
     /**
@@ -553,6 +570,7 @@ public class OrderAction {
                 return ResponseResult.error("-4","无对应提现账户！");
             }
             DlAppEarn dlAppEarn = new  DlAppEarn();
+            dlAppEarn.setuId(uId);
             dlAppEarn.setScore(cash);
             dlAppEarn.setRealName(userSf.getZfAccount());
             dlAppEarn.setZfAccount(userSf.getZfName());

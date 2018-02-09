@@ -121,4 +121,9 @@ public interface OrderService {
 
     int addDlScoreEarn(DlAppEarn dlAppEarn,double balance);
 
+    /**
+     * 账单明细
+     */
+    List<DrawCashDetails> getDrawCashDetails(@Param("uid")String uid);
+
 }

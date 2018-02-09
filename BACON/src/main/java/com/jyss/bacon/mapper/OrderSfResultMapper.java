@@ -1,6 +1,7 @@
 package com.jyss.bacon.mapper;
 
 import com.jyss.bacon.entity.DlAppEarn;
+import com.jyss.bacon.entity.DrawCashDetails;
 import com.jyss.bacon.entity.OrderSfResult;
 import com.jyss.bacon.entity.OrderSfView;
 import org.apache.ibatis.annotations.Param;
@@ -75,6 +76,11 @@ public interface OrderSfResultMapper {
      * @return
      */
     int insertScoreEarn(DlAppEarn dlAppEarn);
+
+    /**
+     * 账单明细
+     */
+    List<DrawCashDetails> getDrawCashDetails(@Param("uid")String uid);
 
 
 }

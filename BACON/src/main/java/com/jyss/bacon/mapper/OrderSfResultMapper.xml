@@ -61,6 +61,17 @@
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
 
+  <!--提现记录-->
+  <resultMap id="detailsMap" type="com.jyss.bacon.entity.DrawCashDetails" >
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DECIMAL" />
+    <result column="zt" property="zt" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+
+
   <!--条件查询-->
   <select id="selectOrderSfResult" parameterType="string" resultMap="BaseResultMap">
     select id,order_id,sf_user_id,picture,
@@ -133,7 +144,7 @@
        , result = #{result}
       </if>
       <if test="pictures != null" >
-        ,pictures = #{pictures}
+        ,picture = #{pictures}
       </if>
       <if test="status != null" >
        , status = #{status}
@@ -148,6 +159,26 @@
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER},#{detail,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
     #{score,jdbcType=DECIMAL},#{realName,jdbcType=VARCHAR},#{zfAccount,jdbcType=VARCHAR},  #{status,jdbcType=TINYINT},now(),now())
   </insert>
+
+  <!--账单明细-->
+  <select id="getDrawCashDetails"  resultMap="detailsMap">
+    select m.* from (
+      select detail,type,score,created_at as created,status as zt from  u_dlapp_earn where u_id=#{uid}
+      union
+      select concat(t.category_name,'-',t.nick) as detail,'1' as type,t.finish_money as score,t.created,'3' as zt from (
+          select s.*,c.category_name,c.dw_name,c.name,u.tel,u.nick,u.headpic,r.id as rid ,r.sf_user_id,r.status as re_status,r.finish_money,r.result,r.sf_star,r.picture,r.created as finish_time,r.game_account,r.game_pwd from o_order_sf s
+          left  join o_order_sf_result r
+          on s.order_id = r.order_id
+          left join u_user u
+          on s.u_id = u.u_id
+          left join c_item_cat c
+          on s.level_id = c.id ) t
+      where t.status = 3  and t.re_status =2 and t.sf_user_id = #{uid}
+    ) m
+    order  by m. created desc
+</select>
+
+
 
 
 

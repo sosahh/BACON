@@ -698,7 +698,7 @@ public class OrderServiceImpl implements OrderService{
     public int insertDlScoreEarn(DlAppEarn dlAppEarn) {
         dlAppEarn.setType(2);
         dlAppEarn.setDetail("取现");
-        dlAppEarn.setStatus(1);
+        dlAppEarn.setStatus(0);///0==等待提现审核 1=提现成功 2-提现失败
         return orderSfResultMapper.insertScoreEarn(dlAppEarn);
     }
 
@@ -711,6 +711,11 @@ public class OrderServiceImpl implements OrderService{
             return count;
         }
         return 0;
+    }
+
+    @Override
+    public List<DrawCashDetails> getDrawCashDetails(@Param("uid") String uid) {
+        return orderSfResultMapper.getDrawCashDetails(uid);
     }
 
 

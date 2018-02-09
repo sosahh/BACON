@@ -351,6 +351,62 @@ public class UserSfAction {
     }
 
     /**
+     * 删除支付宝账号
+     */
+    @RequestMapping("/sf/delMyZfAccount")
+    @ResponseBody
+    public ResponseResult delMyZfAccount(@RequestParam("token") String token){
+
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            if(userList != null && userList.size()==1){
+                UserSf user1 = new UserSf();
+                if (user1.getZfAccount()==null||user1.getZfAccount().equals("")||user1.getZfName()==null||user1.getZfName().equals("")){
+                    return ResponseResult.error("-3","无支付账户！");
+                }
+                user1.setId(uId);
+                user1.setZfAccount("");
+                user1.setZfName("");
+                int count = userService.upUserSf(user1);
+                if(count == 1){
+                    return ResponseResult.ok("");
+                }
+                return ResponseResult.error("-4","修改失败！");
+            }
+            return ResponseResult.error("-2","用户信息错误！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+    /**
+     * 获取支付宝账号
+     */
+    @RequestMapping("/sf/getMyZfAccount")
+    @ResponseBody
+    public ResponseResult getMyZfAccount(@RequestParam("token") String token){
+        Map<String,String > m = new HashMap<String,String>();
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            if(userList != null && userList.size()==1){
+                UserSf user1 = new UserSf();
+                m.put("zfAccount",user1.getZfAccount());
+                m.put("zfName",user1.getZfName());
+                return ResponseResult.ok(m);
+            }
+            return ResponseResult.error("-2","用户信息错误！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+    /**
      * 个人中心
      */
     @RequestMapping("/sf/getMyInfo")
