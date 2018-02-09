@@ -616,5 +616,10 @@ public class UserServiceImpl implements UserService{
         return ResponseResult.error("-2","用户不存在！");
     }
 
+    @Override
+    public int upUserSfBalance(@Param("id") String id, @Param("balance") String balance) {
+        return userMapper.upUserSfBalance( id, balance);
+    }
+
 
 }

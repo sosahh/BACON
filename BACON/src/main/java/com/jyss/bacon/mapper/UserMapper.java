@@ -37,5 +37,14 @@ public interface UserMapper {
     //上分人员信息修改
     int upUserSf(UserSf userSf);
 
+    /**
+     * 修改个人余额
+     * @param id
+     * @param balance
+     * @return
+     */
+    int upUserSfBalance(@Param("id")String id, @Param("balance")String balance);
+
+
 
 }

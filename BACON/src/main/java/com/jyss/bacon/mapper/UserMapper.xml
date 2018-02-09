@@ -265,6 +265,17 @@
   </update>
 
 
+  <!--上分用户信息修改-->
+  <update id="upUserSfBalance" >
+    update u_user_sf
+    <set >
+        <if test="balance != null" >
+          balance = #{balance}
+        </if>
+    </set>
+    where id = #{id}
+  </update>
+
 
 
 
