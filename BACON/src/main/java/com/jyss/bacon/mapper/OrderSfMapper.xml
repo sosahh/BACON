@@ -103,11 +103,14 @@
 
   <!--上分订单个人查询-->
   <select id="getOrderSfByUid" parameterType="int" resultMap="BaseResultMap">
-    select a.*,d.category_id,d.category_name,d.name,
+    select a.id, a.order_id, a.u_id, a.area, a.type, a.level_id, a.count, a.price, a.total,
+    a.is_win, a.account, a.wx_account, a.status, a.created, a.accept_time,
+    d.category_id, d.category_name, d.name, e.created as modify_time,
     nullif(CONCAT('${httpUrl}',d.bright_pic),'${httpUrl}') as picture
     from o_order_sf a left join
     (select b.*,c.bright_pic from c_item_cat b ,c_item c where b.category_id = c.id) d
     on a.level_id = d.id
+    left join o_order_sf_result e on a.order_id = e.order_id
     <where>
       <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
       <if test="id != null and id != ''">and a.id = #{id}</if>
