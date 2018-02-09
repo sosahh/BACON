@@ -23,7 +23,35 @@ public class OrderSfResult implements Serializable {
 
     private List<String> pictures;     //结果图片
 
+    private String gameAccount;///游戏账号
+    private String gamePwd;///游戏密码
 
+
+    private  double finishMoney;////预计完成收入金额
+
+    public double getFinishMoney() {
+        return finishMoney;
+    }
+
+    public void setFinishMoney(double finishMoney) {
+        this.finishMoney = finishMoney;
+    }
+
+    public String getGameAccount() {
+        return gameAccount;
+    }
+
+    public void setGameAccount(String gameAccount) {
+        this.gameAccount = gameAccount;
+    }
+
+    public String getGamePwd() {
+        return gamePwd;
+    }
+
+    public void setGamePwd(String gamePwd) {
+        this.gamePwd = gamePwd;
+    }
 
     public Integer getId() {
         return id;

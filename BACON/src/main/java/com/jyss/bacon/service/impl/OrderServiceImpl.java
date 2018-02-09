@@ -7,6 +7,7 @@ import com.jyss.bacon.entity.*;
 import com.jyss.bacon.mapper.*;
 import com.jyss.bacon.service.OrderService;
 import com.jyss.bacon.utils.DateFormatUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -594,6 +595,40 @@ public class OrderServiceImpl implements OrderService{
         }
 
         return ResponseResult.error("-1","订单异常！");
+    }
+
+    @Override
+    public OrderSfResult getOrderSfSumTotal(@Param("sfUserId") String sfUserId) {
+        return orderSfResultMapper.getOrderSfSumTotal(sfUserId);
+    }
+
+    /**
+     *  上分订单结果获得总金额[订单金额，实得金额]
+     *status = 0未支付，1已支付，2已接单，3完成，4订单取消
+     *reStatus=1 =分配订单 2=完成订单 3=取消订单
+     * @param sfUserId
+     * @param status
+     * @param reStatus
+     * @return
+     */
+    @Override
+    public OrderSfView getSfOrderSumTotal(@Param("sfUserId") String sfUserId, @Param("status") String status, @Param("reStatus") String reStatus) {
+        return orderSfResultMapper.getSfOrderSumTotal(sfUserId, status, reStatus);
+    }
+
+
+    /**
+     *  上分订单结果详情查询
+     *status = 0未支付，1已支付，2已接单，3完成，4订单取消
+     *reStatus=1 =分配订单 2=完成订单 3=取消订单
+     * @param sfUserId
+     * @param status
+     * @param reStatus
+     * @return
+     */
+    @Override
+    public List<OrderSfView> getSfOrderResultInfo(@Param("sfUserId") String sfUserId, @Param("status") String status, @Param("reStatus") String reStatus) {
+        return orderSfResultMapper.getSfOrderResultInfo(sfUserId, status, reStatus);
     }
 
 

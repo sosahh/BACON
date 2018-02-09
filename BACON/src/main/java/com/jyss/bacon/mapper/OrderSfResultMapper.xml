@@ -8,7 +8,40 @@
     <result column="picture" property="picture" jdbcType="VARCHAR" />
     <result column="result" property="result" jdbcType="VARCHAR" />
     <result column="sf_star" property="sfStar" jdbcType="VARCHAR" />
+    <result column="finish_money" property="finishMoney" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 视图map -->
+  <resultMap id="osViewResultMap" type="com.jyss.bacon.entity.OrderSfView" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="is_win" property="isWin" jdbcType="TINYINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="wx_account" property="wxAccount" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" /><!-- 0未支付，1已支付，2已接单，3完成，4订单取消 -->
+    <result column="re_status" property="reStatus" jdbcType="TINYINT" /><!-- 1 =分配订单 2=完成订单 3=取消订单-->
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="accept_time" property="acceptTime" jdbcType="DOUBLE" />
+    <result property="cjsj" column="cjsj"  />
+    <result property="xgsj" column="xgsj"  />
+    <result column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="game_account" property="gameAccount" jdbcType="VARCHAR" />
+    <result column="game_pwd" property="gamePwd" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="sf_star" property="sfStar" jdbcType="VARCHAR" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="finish_money" property="finishMoney" jdbcType="DOUBLE" />
+
   </resultMap>
 
   <!--条件查询-->
@@ -18,6 +51,43 @@
     where order_id = #{orderId} and status = 2
   </select>
 
+
+  <!--查询结果订单里的获得总金额==status 1=接单，2=完成订单-->
+  <select id="getOrderSfSumTotal" parameterType="string" resultMap="BaseResultMap">
+     select sum(finish_money)  as finish_money from o_order_sf_result
+     where status =2 and sf_user_id=#{sfUserId} ;
+  </select>
+
+  <!--上分订单结果详情查询-->
+  <!-- status = 0未支付，1已支付，2已接单，3完成，4订单取消 -->
+  <!-- reStatus=1 =分配订单 2=完成订单 3=取消订单-->
+  <select id="getSfOrderSumTotal"  resultMap="osViewResultMap">
+    select sum(t.finish_money) as finish_money,sum(t.total) as total from (
+      select s.*,r.id as rid,r.sf_user_id,r.status as re_status,r.finish_money,r.result,r.sf_star,r.picture,r.created as finish_time,r.game_account,r.game_pwd from o_order_sf s
+      left  join o_order_sf_result r
+      on s.order_id = r.order_id ) t
+    <where>
+      <if test="sfUserId != null and sfUserId != ''">and t.sf_user_id = #{sfUserId}</if>
+      <if test="status != null and status != ''">and t.status = #{status}</if>
+      <if test="reStatus != null and reStatus != ''">and t.re_status = #{reStatus}</if>
+    </where>
+  </select>
+
+  <!--上分订单结果详情查询-->
+  <!-- status = 0未支付，1已支付，2已接单，3完成，4订单取消 -->
+  <!-- reStatus=1 =分配订单 2=完成订单 3=取消订单-->
+  <select id="getSfOrderResultInfo"  resultMap="osViewResultMap">
+    select * from (
+    select s.*,r.id as rid,r.sf_user_id,r.status as re_status,r.finish_money,r.result,r.sf_star,r.picture,r.created as finish_time,r.game_account,r.game_pwd from o_order_sf s
+    left  join o_order_sf_result r
+    on s.order_id = r.order_id ) t
+    <where>
+      <if test="sfUserId != null and sfUserId != ''">and t.sf_user_id = #{sfUserId}</if>
+      <if test="status != null and status != ''">and t.status = #{status}</if>
+      <if test="reStatus != null and reStatus != ''">and t.re_status = #{reStatus}</if>
+    </where>
+    order by t.modify desc
+  </select>
 
 
 </mapper>

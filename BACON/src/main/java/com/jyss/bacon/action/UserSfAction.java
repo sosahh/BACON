@@ -3,10 +3,7 @@ package com.jyss.bacon.action;
 import com.jyss.bacon.constant.Constant;
 import com.jyss.bacon.entity.*;
 import com.jyss.bacon.filter.MySessionContext;
-import com.jyss.bacon.service.ItemService;
-import com.jyss.bacon.service.MobileLoginService;
-import com.jyss.bacon.service.UserAuthService;
-import com.jyss.bacon.service.UserService;
+import com.jyss.bacon.service.*;
 import com.jyss.bacon.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +33,8 @@ public class UserSfAction {
     private MobileLoginService mobileLoginService;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 发送验证码
@@ -377,22 +376,29 @@ public class UserSfAction {
                 mm.put("uname",us.getUname());
                 mm.put("balance",us.getBalance()+"");
                 ////////累计订单总额
-                double orderTotal = 100;
-                //////代练订单分成//////
-                String fcPercent = "0.7";
-                Xtcl cl =  itemService.getClsValue("dlfc_type","1");
-                if (cl!=null&&cl.getBz_value()!=null&cl.getBz_value().equals("")){
-                    fcPercent = cl.getBz_value();
+                double orderTotal =0;
+                double mytotalBalance = 0;
+                ////*status = 0未支付，1已支付，2已接单，3完成，4订单取消 ||reStatus=1 =分配订单 2=完成订单 3=取消订单
+                OrderSfView osView = orderService.getSfOrderSumTotal(uId.toString(),"3","2");
+                if (osView!=null){
+                    orderTotal =osView.getTotal();
+                    mytotalBalance =osView.getFinishMoney();
                 }
-                double fcBl = Double.parseDouble(fcPercent);
-                double mytotalBalance = fcBl*orderTotal;
+                //////代练订单分成//////
+//                String fcPercent = "0.7";
+//                Xtcl cl =  itemService.getClsValue("dlfc_type","1");
+//                if (cl!=null&&cl.getBz_value()!=null&cl.getBz_value().equals("")){
+//                    fcPercent = cl.getBz_value();
+//                }
+//                double fcBl = Double.parseDouble(fcPercent);
+//                double mytotalBalance = fcBl*orderTotal;
                 String orderTotal2 = "100";
                 m.put("errCode","0");
                 m.put("status","1");
                 m.put("errorMsg","获取信息成功！");
-                m.put("data",mm);
                 mm.put("orderBalance",orderTotal+"");////订单总额
                 mm.put("totalBalance",mytotalBalance+"");////共获得的订单总额
+                m.put("data",mm);
                 return  m;
 
             }else{
