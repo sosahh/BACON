@@ -682,7 +682,7 @@ public class OrderServiceImpl implements OrderService{
     ////// *status = 0未支付，1已支付，2已接单，3完成，4订单取消
     ////// *reStatus=1 =分配订单 2=完成订单 3=取消订单
     @Override
-    public int upMyOrderResult(OrderSfResult os) {
+    public int updateMyOrderResult(OrderSfResult os) {
         int count = 0;
         ////先修改状态
         count = upOrderSf(os.getOrderId(),"3","2");

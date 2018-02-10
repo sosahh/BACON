@@ -532,7 +532,7 @@ public class OrderAction {
                 pictures = pictures+imgPath6+";";
             }
             osResult.setPicture(pictures);
-            int count = orderService.upMyOrderResult(osResult);
+            int count = orderService.updateMyOrderResult(osResult);
             if(count == 1){
                 return ResponseResult.ok("");
             }

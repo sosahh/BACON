@@ -110,7 +110,7 @@ public interface OrderService {
                         @Param("status")String status,@Param("statusBefore")String statusBefore);
 
     ////自定义修改订单结果方法
-    int upMyOrderResult(OrderSfResult os);
+    int updateMyOrderResult(OrderSfResult os);
 
     /**
      * 添加提现记录
