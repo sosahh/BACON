@@ -682,13 +682,17 @@ public class OrderServiceImpl implements OrderService{
     ////// *status = 0未支付，1已支付，2已接单，3完成，4订单取消
     ////// *reStatus=1 =分配订单 2=完成订单 3=取消订单
     @Override
-    public int updateMyOrderResult(OrderSfResult os) {
+    public int updateMyOrderResult(OrderSfResult os,double balance) {
         int count = 0;
         ////先修改状态
         count = upOrderSf(os.getOrderId(),"3","2");
         if (count==1){
             count = 0;
             count = upOrderSfResult(os.getOrderId(),os.getSfStar(),os.getResult(),os.getPicture(),"2","1");
+            if (count==1){
+                count = userMapper.upUserSfBalance(os.getSfUserId().toString(),balance+"");
+                return count;
+            }
             return count;
         }
         return 0;
@@ -706,7 +710,6 @@ public class OrderServiceImpl implements OrderService{
     public int addDlScoreEarn(DlAppEarn dlAppEarn, double balance) {
         int count = userMapper.upUserSfBalance(dlAppEarn.getuId().toString(),balance+"");
         if (count==1){
-            count = 0;
             count = insertDlScoreEarn(dlAppEarn);
             return count;
         }
@@ -716,6 +719,11 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<DrawCashDetails> getDrawCashDetails(@Param("uid") String uid) {
         return orderSfResultMapper.getDrawCashDetails(uid);
+    }
+
+    @Override
+    public List<OrderSfResult> getResultInfo(@Param("sfUserId") String sfUserId, @Param("orderId") String orderId, @Param("status") String status) {
+        return orderSfResultMapper.getResultInfo(sfUserId,orderId,status);
     }
 
 

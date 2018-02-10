@@ -8,6 +8,7 @@ import com.jyss.bacon.service.OrderService;
 import com.jyss.bacon.service.UserService;
 import com.jyss.bacon.utils.Base64Image;
 import com.jyss.bacon.utils.CommTool;
+import com.jyss.bacon.utils.PasswordUtil;
 import com.jyss.bacon.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -459,7 +460,19 @@ public class OrderAction {
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            if (userList==null||userList.size()!=1){
+                return ResponseResult.error("-3","用户信息发生错误！");
+            }
+            UserSf  sf = userList.get(0);
+            double myTotalBalance = sf.getBalance();
+            /////查询订单金额///
+            List<OrderSfResult> llist = orderService.getResultInfo(uId.toString(),osResult.getOrderId(),"1");
+            if (llist==null||llist.size()!=1){
+                return ResponseResult.error("-4","订单信息异常！");
+            }
+            double  orderBalance = llist.get(0).getFinishMoney();
+            myTotalBalance = myTotalBalance + orderBalance;
             //图片上传
             String pictures ="";
             String filePath = request.getSession().getServletContext().getRealPath("/");
@@ -532,7 +545,7 @@ public class OrderAction {
                 pictures = pictures+imgPath6+";";
             }
             osResult.setPicture(pictures);
-            int count = orderService.updateMyOrderResult(osResult);
+            int count = orderService.updateMyOrderResult(osResult,myTotalBalance);
             if(count == 1){
                 return ResponseResult.ok("");
             }
@@ -547,7 +560,7 @@ public class OrderAction {
      */
     @RequestMapping("/sf/drawCash")
     @ResponseBody
-    public ResponseResult drawCash(@RequestParam("token")String token,@RequestParam("cash")double cash) throws Exception {
+    public ResponseResult drawCash(@RequestParam("token")String token,@RequestParam("zfPwd")String zfPwd,@RequestParam("cash")double cash) throws Exception {
         List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
@@ -558,6 +571,9 @@ public class OrderAction {
                 userSf = userList.get(0);
                 if (userSf==null){
                     return ResponseResult.error("-2","用户信息错误！");
+                }
+                if (!(PasswordUtil.generatePayPwd(zfPwd).equals(userSf.getZfPassword()))){
+                    return ResponseResult.error("-5","支付密码错误！");
                 }
             }else{
                 return ResponseResult.error("-2","用户信息错误！");

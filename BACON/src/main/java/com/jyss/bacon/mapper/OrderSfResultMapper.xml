@@ -178,6 +178,19 @@
     order  by m. created desc
 </select>
 
+  <!--上分订单结果详情查询-->
+  <!-- status 1=分配订单 2=完成订单 3=取消订单-->
+  <select id="getResultInfo"  resultMap="BaseResultMap">
+    select * from  o_order_sf_result r
+    <where>
+      1=1
+      <if test="sfUserId != null and sfUserId != ''">and r.sf_user_id = #{sfUserId}</if>
+      <if test="orderId != null and orderId != ''">and r.order_id = #{orderId}</if>
+      <if test="status != null and status != ''">and r.status = #{status}</if>
+    </where>
+    order by t.modify_time desc
+  </select>
+
 
 
 

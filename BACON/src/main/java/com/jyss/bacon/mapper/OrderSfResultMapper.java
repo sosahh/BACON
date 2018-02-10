@@ -82,5 +82,7 @@ public interface OrderSfResultMapper {
      */
     List<DrawCashDetails> getDrawCashDetails(@Param("uid")String uid);
 
+    List<OrderSfResult> getResultInfo(@Param("sfUserId")String sfUserId,@Param("orderId")String orderId, @Param("status")String status);
+
 
 }

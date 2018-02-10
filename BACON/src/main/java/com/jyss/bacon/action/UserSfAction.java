@@ -363,7 +363,7 @@ public class UserSfAction {
             Integer uId = mobileLogin.getuId();
             List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
             if(userList != null && userList.size()==1){
-                UserSf user1 = new UserSf();
+                UserSf user1 = userList.get(0);
                 if (user1.getZfAccount()==null||user1.getZfAccount().equals("")||user1.getZfName()==null||user1.getZfName().equals("")){
                     return ResponseResult.error("-3","无支付账户！");
                 }
@@ -394,7 +394,7 @@ public class UserSfAction {
             Integer uId = mobileLogin.getuId();
             List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
             if(userList != null && userList.size()==1){
-                UserSf user1 = new UserSf();
+                UserSf user1 = userList.get(0);
                 m.put("zfAccount",user1.getZfAccount());
                 m.put("zfName",user1.getZfName());
                 return ResponseResult.ok(m);

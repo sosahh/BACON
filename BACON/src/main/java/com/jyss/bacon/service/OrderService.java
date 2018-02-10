@@ -110,7 +110,7 @@ public interface OrderService {
                         @Param("status")String status,@Param("statusBefore")String statusBefore);
 
     ////自定义修改订单结果方法
-    int updateMyOrderResult(OrderSfResult os);
+    int updateMyOrderResult(OrderSfResult os,double balance);
 
     /**
      * 添加提现记录
@@ -125,5 +125,7 @@ public interface OrderService {
      * 账单明细
      */
     List<DrawCashDetails> getDrawCashDetails(@Param("uid")String uid);
+
+    List<OrderSfResult> getResultInfo(@Param("sfUserId")String sfUserId,@Param("orderId")String orderId, @Param("status")String status);
 
 }
