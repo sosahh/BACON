@@ -703,7 +703,7 @@ public class OrderServiceImpl implements OrderService{
         dlAppEarn.setType(2);
         dlAppEarn.setDetail("取现");
         dlAppEarn.setStatus(0);///0==等待提现审核 1=提现成功 2-提现失败
-        return orderSfResultMapper.insertScoreEarn(dlAppEarn);
+        return orderSfResultMapper.insertDlScoreEarn(dlAppEarn);
     }
 
     @Override

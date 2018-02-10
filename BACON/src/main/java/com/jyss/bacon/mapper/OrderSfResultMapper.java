@@ -75,7 +75,7 @@ public interface OrderSfResultMapper {
      * @param dlAppEarn
      * @return
      */
-    int insertScoreEarn(DlAppEarn dlAppEarn);
+    int insertDlScoreEarn(DlAppEarn dlAppEarn);
 
     /**
      * 账单明细

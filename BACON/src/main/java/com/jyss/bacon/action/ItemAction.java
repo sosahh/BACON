@@ -184,7 +184,7 @@ public class ItemAction {
     /**
      * 代练端提现说明        agType   1=提现说明，2=联系方式
      */
-    @RequestMapping("/contactInfo ")
+    @RequestMapping("/contactInfo")
     @ResponseBody
     public ResponseResult selectBaseConfigDl(@RequestParam("agType") Integer agType){
         if(agType == 1){
