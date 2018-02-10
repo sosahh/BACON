@@ -151,6 +151,9 @@ public class UserSfAction {
             if(userList != null && userList.size()==1){
                 UserSf user = new UserSf();
                 user.setPassword(pwd);
+                user.setZfPassword(null);
+                user.setZfAccount(null);
+                user.setZfName(null);
                 user.setId(userList.get(0).getId());
                 int count = userService.upUserSf(user);
                 if(count == 1){
@@ -186,6 +189,9 @@ public class UserSfAction {
                     UserSf user1 = new UserSf();
                     user1.setId(uId);
                     user1.setPassword(pwd);
+                    user1.setZfPassword(null);
+                    user1.setZfAccount(null);
+                    user1.setZfName(null);
                     int count = userService.upUserSf(user1);
                     if(count == 1){
                         return ResponseResult.ok("");
@@ -230,6 +236,9 @@ public class UserSfAction {
             UserSf user = new UserSf();
             user.setId(uId);
             user.setZfPassword(newPayPwd);
+            user.setZfAccount(null);
+            user.setZfName(null);
+            user.setPassword(null);
             int count = userService.upUserSf(user);
             if(count == 1){
                 return ResponseResult.ok("");
@@ -270,6 +279,9 @@ public class UserSfAction {
             if(userList != null && userList.size()==1){
                 UserSf user = new UserSf();
                 user.setZfPassword(pwd);
+                user.setZfAccount(null);
+                user.setZfName(null);
+                user.setPassword(null);
                 user.setId(userList.get(0).getId());
                 int count = userService.upUserSf(user);
                 if(count == 1){
@@ -305,6 +317,9 @@ public class UserSfAction {
                     UserSf user1 = new UserSf();
                     user1.setId(uId);
                     user1.setZfPassword(pwd);
+                    user1.setZfAccount(null);
+                    user1.setZfName(null);
+                    user1.setPassword(null);
                     int count = userService.upUserSf(user1);
                     if(count == 1){
                         return ResponseResult.ok("");
@@ -338,6 +353,8 @@ public class UserSfAction {
                     user1.setId(uId);
                     user1.setZfAccount(zfAccount);
                     user1.setZfName(zfName);
+                    user1.setZfPassword(null);
+                    user1.setPassword(null);
                     int count = userService.upUserSf(user1);
                     if(count == 1){
                         return ResponseResult.ok("");
@@ -370,6 +387,8 @@ public class UserSfAction {
                 user1.setId(uId);
                 user1.setZfAccount("");
                 user1.setZfName("");
+                user1.setZfPassword(null);
+                user1.setPassword(null);
                 int count = userService.upUserSf(user1);
                 if(count == 1){
                     return ResponseResult.ok("");

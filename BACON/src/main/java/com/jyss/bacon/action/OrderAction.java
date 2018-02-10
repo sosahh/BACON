@@ -582,6 +582,9 @@ public class OrderAction {
             if (userSf.getBalance()<cash){
                 return ResponseResult.error("-3","余额不足！");
             }
+            if (100>cash){
+                return ResponseResult.error("-6","每次提现不得小于100");
+            }
             double leftBalance = userSf.getBalance()-cash;
             if (userSf.getZfAccount()==null||userSf.getZfAccount().equals("")||userSf.getZfName()==null||userSf.getZfName().equals("")){
                 return ResponseResult.error("-4","无对应提现账户！");
