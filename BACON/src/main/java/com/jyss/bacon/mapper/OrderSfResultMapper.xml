@@ -155,7 +155,7 @@
 
   <!--代练提现-->
   <insert id="insertDlScoreEarn" parameterType="com.jyss.bacon.entity.DlAppEarn" >
-    insert into u_score_earn (id, u_id, detail, type, score,real_name, zf_account, status,created_at, modify_time)
+    insert into u_dlapp_earn (id, u_id, detail, type, score,real_name, zf_account, status,created_at, modify_time)
     values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER},#{detail,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
     #{score,jdbcType=DECIMAL},#{realName,jdbcType=VARCHAR},#{zfAccount,jdbcType=VARCHAR},  #{status,jdbcType=TINYINT},now(),now())
   </insert>
@@ -188,7 +188,6 @@
       <if test="orderId != null and orderId != ''">and r.order_id = #{orderId}</if>
       <if test="status != null and status != ''">and r.status = #{status}</if>
     </where>
-    order by t.modify_time desc
   </select>
 
 

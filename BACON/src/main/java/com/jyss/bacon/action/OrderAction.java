@@ -545,6 +545,7 @@ public class OrderAction {
                 pictures = pictures+imgPath6+";";
             }
             osResult.setPicture(pictures);
+            osResult.setSfUserId(uId);
             int count = orderService.updateMyOrderResult(osResult,myTotalBalance);
             if(count == 1){
                 return ResponseResult.ok("");
