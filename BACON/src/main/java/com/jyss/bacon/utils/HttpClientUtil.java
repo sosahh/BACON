@@ -327,14 +327,14 @@ public class HttpClientUtil {
 	// 第三方调用--移动短信
 	public static String MsgDo(String mobile, String content) {
 		Map<String, String> m = new HashMap<String, String>();
-		// m.put("username", "juyuanchuangshi");
+		m.put("username", "juyuanchuangshi");
 		// // m.put("password", PasswordUtil.generate("t6KoNa4s", "JYCS"));
-		// m.put("password", "t6KoNa4s");
-		// m.put("productid", "181818");
-		m.put("username", "dachjk");
+		m.put("password", "t6KoNa4s");
+		m.put("productid", "181818");
+		//m.put("username", "dachjk");
 		// m.put("password", PasswordUtil.generate("t6KoNa4s", "JYCS"));
-		m.put("password", "UIgME6op");
-		m.put("productid", "676767");
+		//m.put("password", "UIgME6op");
+		//m.put("productid", "676767");
 		m.put("xh", "");
 		m.put("dstime", "");// 定时时间 为空表示立即发送
 		// 个性化信息
