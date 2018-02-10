@@ -182,7 +182,7 @@ public class ItemAction {
 
 
     /**
-     * 代练端提现说明        agType   1=提现说明，2=联系方式
+     * 代练端提现说明        agType   1=客服电话，2=提现说明
      */
     @RequestMapping("/contactInfo ")
     @ResponseBody
