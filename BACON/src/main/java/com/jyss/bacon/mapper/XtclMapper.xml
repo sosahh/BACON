@@ -10,7 +10,7 @@
         <result property="bz_type" column="bz_type"  />
         <result property="bz_id" column="bz_id"  />
         <result property="bz_value" column="bz_value"  />
-        <result property="bz_info" column="bz_info"  />
+        <result property="ps" column="ps"  />
         <result property="pid" column="pid"  />
         <result property="status" column="status"  />
 

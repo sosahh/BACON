@@ -5,7 +5,7 @@ public class Xtcl {
 	private String bz_type;
 	private String bz_id;
 	private String bz_value;
-	private String bz_info;
+	private String ps;
 	private int pid;
 	private int status;
 	private String hrefStr;
@@ -26,12 +26,12 @@ public class Xtcl {
 		this.id = id;
 	}
 
-	public String getBz_info() {
-		return bz_info;
+	public String getPs() {
+		return ps;
 	}
 
-	public void setBz_info(String bz_info) {
-		this.bz_info = bz_info;
+	public void setPs(String ps) {
+		this.ps = ps;
 	}
 
 	public String getBz_type() {

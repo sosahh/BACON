@@ -108,10 +108,10 @@ public class ItemServiceImpl implements ItemService{
         //查询年龄
         Xtcl xtcl1 = xtclMapper.getClsValue("age_type", "1");
         String age = xtcl1.getBz_value();                                          //22
-        String info = xtcl1.getBz_info();                                          //22岁以下
+        String info = xtcl1.getPs();                                               //22岁以下
         Xtcl xtcl2 = xtclMapper.getClsValue("age_type", "2");
         String age1 = xtcl2.getBz_value();                                         //25
-        String info1 = xtcl2.getBz_info();                                          //25岁以上
+        String info1 = xtcl2.getPs();                                              //25岁以上
 
         List<Object> list1 = new ArrayList<>();
         for (Xtcl xtcl : xtclList) {
@@ -161,13 +161,13 @@ public class ItemServiceImpl implements ItemService{
                 itemsBean.setName("全部");
                 Condition.ItemsBean itemsBean1 = new Condition.ItemsBean();
                 itemsBean1.setId("11");
-                itemsBean1.setName(age+"以下");
+                itemsBean1.setName(info);
                 Condition.ItemsBean itemsBean2 = new Condition.ItemsBean();
                 itemsBean2.setId("12");
                 itemsBean2.setName(age+"-"+age1);
                 Condition.ItemsBean itemsBean3 = new Condition.ItemsBean();
                 itemsBean3.setId("13");
-                itemsBean3.setName(age1+"以上");
+                itemsBean3.setName(info1);
 
                 list.add(itemsBean);
                 list.add(itemsBean1);
