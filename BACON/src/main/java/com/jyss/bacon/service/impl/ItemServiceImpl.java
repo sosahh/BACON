@@ -161,13 +161,13 @@ public class ItemServiceImpl implements ItemService{
                 itemsBean.setName("全部");
                 Condition.ItemsBean itemsBean1 = new Condition.ItemsBean();
                 itemsBean1.setId("11");
-                itemsBean1.setName(info);
+                itemsBean1.setName(age+"以下");
                 Condition.ItemsBean itemsBean2 = new Condition.ItemsBean();
                 itemsBean2.setId("12");
                 itemsBean2.setName(age+"-"+age1);
                 Condition.ItemsBean itemsBean3 = new Condition.ItemsBean();
                 itemsBean3.setId("13");
-                itemsBean3.setName(info1);
+                itemsBean3.setName(age1+"以上");
 
                 list.add(itemsBean);
                 list.add(itemsBean1);
