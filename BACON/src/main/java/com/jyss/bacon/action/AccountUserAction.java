@@ -41,7 +41,7 @@ public class AccountUserAction {
 	@Autowired
 	private AccountUserService auService;
 
-	// private String yzm;
+	// private String yzm==;
 
 	@RequestMapping("/SuccTz")
 	public String SuccTz() {
