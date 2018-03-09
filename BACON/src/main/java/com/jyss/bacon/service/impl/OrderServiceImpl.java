@@ -349,7 +349,7 @@ public class OrderServiceImpl implements OrderService{
             for (OrderPw orderPw : orderPwList) {
                 //半小时自动取消
                 if(orderPw.getStatus() == 1){
-                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 5*60*1000){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 30*60*1000){
                         ResponseResult result = updateOrderPwStatus(uId, orderPw.getId(), 1);
                         if(result.getStatus() == 1){
                             orderPw.setStatus(5);
@@ -357,7 +357,7 @@ public class OrderServiceImpl implements OrderService{
                     }
                 //24小时自动完成
                 }else if(orderPw.getStatus() == 4){
-                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 10*60*1000){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 24*60*60*1000){
                         ResponseResult result = updateOrderPwBy(orderPw.getuId(), orderPw.getId(), 2);
                         if(result.getStatus() == 1){
                             orderPw.setStatus(6);
@@ -382,7 +382,7 @@ public class OrderServiceImpl implements OrderService{
             for (OrderPw orderPw : orderPwList) {
                 //半小时自动取消
                 if(orderPw.getStatus() == 1){
-                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 5*60*1000){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 30*60*1000){
                         ResponseResult result = updateOrderPwStatus(uId, orderPw.getId(), 2);
                         if(result.getStatus() == 1){
                             orderPw.setStatus(5);
@@ -390,7 +390,7 @@ public class OrderServiceImpl implements OrderService{
                     }
                 //24小时自动完成
                 }else if(orderPw.getStatus() == 4){
-                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 10*60*1000){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 24*60*60*1000){
                         ResponseResult result = updateOrderPwBy(orderPw.getuId(), orderPw.getId(), 2);
                         if(result.getStatus() == 1){
                             orderPw.setStatus(6);

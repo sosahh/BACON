@@ -259,7 +259,7 @@ public class OrderAction {
 
 
     /**
-     * 陪玩订单确认完成      陪玩人端确认
+     * 陪玩订单确认完成      qrType：1=陪玩人确认，2=下单人确认
      */
     @RequestMapping("/confirmOrder")
     @ResponseBody
