@@ -350,18 +350,78 @@ public class OrderServiceImpl implements OrderService{
                 //半小时自动取消
                 if(orderPw.getStatus() == 1){
                     if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 30*60*1000){
-                        ResponseResult result = updateOrderPwStatus(uId, orderPw.getId(), 1);
-                        if(result.getStatus() == 1){
-                            orderPw.setStatus(5);
+
+                        List<User> userList = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
+                        User user = userList.get(0);
+                        double jyScore = user.getBalance() + orderPw.getTotal();
+                        OrderPw orderPw1 = new OrderPw();
+                        orderPw1.setId(orderPw.getId());
+                        orderPw1.setStatus(5);
+                        orderPw1.setOrderReason(3);
+                        orderPw1.setModifyTime(new Date());
+                        int count = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
+                        if(count == 1){
+                            User user1 = new User();
+                            user1.setuId(orderPw.getuId());
+                            user1.setBalance((float) jyScore);
+                            user1.setLastModifyTime(new Date());
+                            int count1 = userMapper.updateByPrimaryKeySelective(user1);
+                            if(count1 == 1){
+                                List<User> list = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                                User user2 = list.get(0);
+                                ScoreBalance scoreBalance = new ScoreBalance();
+                                scoreBalance.setEnd(2);
+                                scoreBalance.setuId(orderPw.getuId());
+                                scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
+                                scoreBalance.setType(1);
+                                scoreBalance.setScore(orderPw.getTotal());
+                                scoreBalance.setJyScore(jyScore);
+                                scoreBalance.setOrderSn(orderPw.getOrderId());
+                                scoreBalance.setStatus(1);
+                                scoreBalance.setCreatedAt(new Date());
+                                int count2 = scoreBalanceMapper.insert(scoreBalance);
+                                if(count2 == 1){
+                                    orderPw.setStatus(5);
+                                }
+                            }
                         }
                     }
                 //24小时自动完成
                 }else if(orderPw.getStatus() == 4){
                     if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 24*60*60*1000){
-                        ResponseResult result = updateOrderPwBy(orderPw.getuId(), orderPw.getId(), 2);
-                        if(result.getStatus() == 1){
-                            orderPw.setStatus(6);
-                            orderPw.setIsPj(0);
+                        //业务处理
+                        List<User> userList = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                        User user = userList.get(0);
+                        double jyScore = user.getAmount() + orderPw.getTotal();
+                        OrderPw orderPw1 = new OrderPw();
+                        orderPw1.setId(orderPw.getId());
+                        orderPw1.setStatus(6);
+                        orderPw1.setModifyTime(new Date());
+                        int count = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
+                        if(count == 1){
+                            User user1 = new User();
+                            user1.setuId(orderPw.getPlayId());
+                            user1.setAmount((float) jyScore);
+                            user1.setLastModifyTime(new Date());
+                            int count1 = userMapper.updateByPrimaryKeySelective(user1);
+                            if(count1 == 1){
+                                List<User> list = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
+                                User user2 = list.get(0);
+                                ScoreEarn scoreEarn = new ScoreEarn();
+                                scoreEarn.setuId(orderPw.getPlayId());
+                                scoreEarn.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
+                                scoreEarn.setType(1);
+                                scoreEarn.setScore(orderPw.getTotal());
+                                scoreEarn.setJyScore(jyScore);
+                                scoreEarn.setOrderSn(orderPw.getOrderId());
+                                scoreEarn.setStatus(1);
+                                scoreEarn.setCreatedAt(new Date());
+                                int count2 = scoreBalanceMapper.insertScoreEarn(scoreEarn);
+                                if(count2 == 1){
+                                    orderPw.setStatus(6);
+                                    orderPw.setIsPj(0);
+                                }
+                            }
                         }
                     }
                 }else if(orderPw.getStatus() == 6){          //判断是否评价
@@ -383,18 +443,78 @@ public class OrderServiceImpl implements OrderService{
                 //半小时自动取消
                 if(orderPw.getStatus() == 1){
                     if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 30*60*1000){
-                        ResponseResult result = updateOrderPwStatus(uId, orderPw.getId(), 2);
-                        if(result.getStatus() == 1){
-                            orderPw.setStatus(5);
+
+                        List<User> userList = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
+                        User user = userList.get(0);
+                        double jyScore = user.getBalance() + orderPw.getTotal();
+                        OrderPw orderPw1 = new OrderPw();
+                        orderPw1.setId(orderPw.getId());
+                        orderPw1.setStatus(5);
+                        orderPw1.setOrderReason(3);
+                        orderPw1.setModifyTime(new Date());
+                        int count = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
+                        if(count == 1){
+                            User user1 = new User();
+                            user1.setuId(orderPw.getuId());
+                            user1.setBalance((float) jyScore);
+                            user1.setLastModifyTime(new Date());
+                            int count1 = userMapper.updateByPrimaryKeySelective(user1);
+                            if(count1 == 1){
+                                List<User> list = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                                User user2 = list.get(0);
+                                ScoreBalance scoreBalance = new ScoreBalance();
+                                scoreBalance.setEnd(2);
+                                scoreBalance.setuId(orderPw.getuId());
+                                scoreBalance.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
+                                scoreBalance.setType(1);
+                                scoreBalance.setScore(orderPw.getTotal());
+                                scoreBalance.setJyScore(jyScore);
+                                scoreBalance.setOrderSn(orderPw.getOrderId());
+                                scoreBalance.setStatus(1);
+                                scoreBalance.setCreatedAt(new Date());
+                                int count2 = scoreBalanceMapper.insert(scoreBalance);
+                                if(count2 == 1){
+                                    orderPw.setStatus(5);
+                                }
+                            }
                         }
                     }
                 //24小时自动完成
                 }else if(orderPw.getStatus() == 4){
                     if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 24*60*60*1000){
-                        ResponseResult result = updateOrderPwBy(orderPw.getuId(), orderPw.getId(), 2);
-                        if(result.getStatus() == 1){
-                            orderPw.setStatus(6);
-                            orderPw.setIsPj(0);
+                        //业务处理
+                        List<User> userList = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                        User user = userList.get(0);
+                        double jyScore = user.getAmount() + orderPw.getTotal();
+                        OrderPw orderPw1 = new OrderPw();
+                        orderPw1.setId(orderPw.getId());
+                        orderPw1.setStatus(6);
+                        orderPw1.setModifyTime(new Date());
+                        int count = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
+                        if(count == 1){
+                            User user1 = new User();
+                            user1.setuId(orderPw.getPlayId());
+                            user1.setAmount((float) jyScore);
+                            user1.setLastModifyTime(new Date());
+                            int count1 = userMapper.updateByPrimaryKeySelective(user1);
+                            if(count1 == 1){
+                                List<User> list = userMapper.selectUserBy(orderPw.getuId() + "", null, null);
+                                User user2 = list.get(0);
+                                ScoreEarn scoreEarn = new ScoreEarn();
+                                scoreEarn.setuId(orderPw.getPlayId());
+                                scoreEarn.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
+                                scoreEarn.setType(1);
+                                scoreEarn.setScore(orderPw.getTotal());
+                                scoreEarn.setJyScore(jyScore);
+                                scoreEarn.setOrderSn(orderPw.getOrderId());
+                                scoreEarn.setStatus(1);
+                                scoreEarn.setCreatedAt(new Date());
+                                int count2 = scoreBalanceMapper.insertScoreEarn(scoreEarn);
+                                if(count2 == 1){
+                                    orderPw.setStatus(6);
+                                    orderPw.setIsPj(0);
+                                }
+                            }
                         }
                     }
                 }
