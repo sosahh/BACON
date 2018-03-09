@@ -97,7 +97,9 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public ResponseResult getUser(String tel, String password) {
-        if(StringUtils.isEmpty(tel)) return ResponseResult.error("-1", "手机号不能为空！");
+        if(StringUtils.isEmpty(tel)){
+            return ResponseResult.error("-1", "手机号不能为空！");
+        }
         List<User> userList = userMapper.selectUserBy(null, tel, "");
         if(userList != null && userList.size()>0){
             User user = userList.get(0);
