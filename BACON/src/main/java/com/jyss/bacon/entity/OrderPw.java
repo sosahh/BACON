@@ -162,6 +162,7 @@ public class OrderPw implements Serializable {
         this.type = type;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreated() {
         return created;
     }
@@ -178,6 +179,7 @@ public class OrderPw implements Serializable {
         this.singleTime = singleTime;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getModifyTime() {
         return modifyTime;
     }

@@ -263,12 +263,13 @@ public class OrderAction {
      */
     @RequestMapping("/confirmOrder")
     @ResponseBody
-    public ResponseResult updateOrderPwBy(@RequestParam("token") String token,@RequestParam("oId")Integer oId){
+    public ResponseResult updateOrderPwBy(@RequestParam("token") String token,
+                                          @RequestParam("oId")Integer oId,@RequestParam("qrType")Integer qrType){
         List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
         if (loginList != null && loginList.size() == 1){
             MobileLogin mobileLogin = loginList.get(0);
             Integer uId = mobileLogin.getuId();
-            ResponseResult result = orderService.updateOrderPwBy(uId, oId);
+            ResponseResult result = orderService.updateOrderPwBy(uId, oId, qrType);
             return result;
         }
         return ResponseResult.error("1","token失效！");

@@ -40,7 +40,7 @@ public interface OrderService {
     ResponseResult updateOrderPwSatusByPlayId(@Param("uId")Integer uId,@Param("oId") Integer oId);
 
     //陪玩订单确认完成
-    ResponseResult updateOrderPwBy(@Param("uId")Integer uId,@Param("oId") Integer oId);
+    ResponseResult updateOrderPwBy(@Param("uId")Integer uId,@Param("oId") Integer oId,@Param("qrType") Integer qrType);
 
     //删除未支付订单
     ResponseResult deleteOrderByUid(@Param("uId")Integer uId,@Param("oId") Integer oId,@Param("dltType") Integer dltType);

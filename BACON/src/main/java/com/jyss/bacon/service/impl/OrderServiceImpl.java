@@ -347,15 +347,30 @@ public class OrderServiceImpl implements OrderService{
             PageHelper.startPage(page,pageSize);
             List<OrderPw> orderPwList = orderPwMapper.selectOrderPwByUid(uId);
             for (OrderPw orderPw : orderPwList) {
-                if(orderPw.getStatus() == 4){
+                //半小时自动取消
+                if(orderPw.getStatus() == 1){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 5*60*1000){
+                        ResponseResult result = updateOrderPwStatus(uId, orderPw.getId(), 1);
+                        if(result.getStatus() == 1){
+                            orderPw.setStatus(5);
+                        }
+                    }
+                //24小时自动完成
+                }else if(orderPw.getStatus() == 4){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 10*60*1000){
+                        ResponseResult result = updateOrderPwBy(orderPw.getuId(), orderPw.getId(), 2);
+                        if(result.getStatus() == 1){
+                            orderPw.setStatus(6);
+                            orderPw.setIsPj(0);
+                        }
+                    }
+                }else if(orderPw.getStatus() == 6){          //判断是否评价
                     List<OrderEvaluate> evaluateList = orderEvaluateMapper.selectEvaluateBy(orderPw.getuId(), orderPw.getId());
                     if(evaluateList != null && evaluateList.size()>0){
                         orderPw.setIsPj(1);         //已评
                     }else {
                         orderPw.setIsPj(0);         //未评
                     }
-                }else{
-                    orderPw.setIsPj(0);
                 }
             }
             PageInfo<OrderPw> pageInfo = new PageInfo<>(orderPwList);
@@ -364,6 +379,27 @@ public class OrderServiceImpl implements OrderService{
         }else if(orderType == 2){
             PageHelper.startPage(page,pageSize);
             List<OrderPw> orderPwList = orderPwMapper.selectOrderPwByPlayId(uId);
+            for (OrderPw orderPw : orderPwList) {
+                //半小时自动取消
+                if(orderPw.getStatus() == 1){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 5*60*1000){
+                        ResponseResult result = updateOrderPwStatus(uId, orderPw.getId(), 2);
+                        if(result.getStatus() == 1){
+                            orderPw.setStatus(5);
+                        }
+                    }
+                //24小时自动完成
+                }else if(orderPw.getStatus() == 4){
+                    if(System.currentTimeMillis()- orderPw.getModifyTime().getTime() >= 10*60*1000){
+                        ResponseResult result = updateOrderPwBy(orderPw.getuId(), orderPw.getId(), 2);
+                        if(result.getStatus() == 1){
+                            orderPw.setStatus(6);
+                            orderPw.setIsPj(0);
+                        }
+                    }
+                }
+
+            }
             PageInfo<OrderPw> pageInfo = new PageInfo<>(orderPwList);
             Page<OrderPw> result = new Page<>(pageInfo);
             return ResponseResult.ok(result);
@@ -421,12 +457,76 @@ public class OrderServiceImpl implements OrderService{
 
 
     /**
-     * 陪玩订单确认完成     陪玩人端确认
+     * 陪玩订单确认完成     qrType：1=陪玩人确认，2=下单人确认
      * @param uId
      * @param oId
      * @return
      */
     @Override
+    public ResponseResult updateOrderPwBy(Integer uId, Integer oId, Integer qrType) {
+        if(qrType == 1){
+            List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(uId, oId, null, 3);
+            if(orderPwList != null && orderPwList.size()>0){
+                OrderPw orderPw = orderPwList.get(0);
+                orderPw.setId(oId);
+                orderPw.setStatus(4);
+                orderPw.setModifyTime(new Date());
+                int count = orderPwMapper.updateByPrimaryKeySelective(orderPw);
+                if(count == 1){
+                    return ResponseResult.ok("");
+                }
+            }
+        }else if(qrType == 2){
+            List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(null, oId, uId, 4);
+            if(orderPwList != null && orderPwList.size()>0){
+                OrderPw orderPw = orderPwList.get(0);
+                List<User> userList = userMapper.selectUserBy(orderPw.getPlayId() + "", null, null);
+                User user = userList.get(0);
+                double jyScore = user.getAmount() + orderPw.getTotal();
+                User user1 = new User();
+                user1.setuId(orderPw.getPlayId());
+                user1.setAmount((float) jyScore);
+                user1.setLastModifyTime(new Date());
+                int count = userMapper.updateByPrimaryKeySelective(user1);
+                if(count == 1){
+                    OrderPw orderPw1 = new OrderPw();
+                    orderPw1.setId(oId);
+                    orderPw1.setStatus(6);
+                    orderPw1.setModifyTime(new Date());
+                    int count1 = orderPwMapper.updateByPrimaryKeySelective(orderPw1);
+                    if(count1 == 1){
+                        List<User> list = userMapper.selectUserBy(uId + "", null, null);
+                        User user2 = list.get(0);
+                        ScoreEarn scoreEarn = new ScoreEarn();
+                        scoreEarn.setuId(orderPw.getPlayId());
+                        scoreEarn.setDetail(orderPw.getCategoryTitle()+"-"+user2.getNick());
+                        scoreEarn.setType(1);
+                        scoreEarn.setScore(orderPw.getTotal());
+                        scoreEarn.setJyScore(jyScore);
+                        scoreEarn.setOrderSn(orderPw.getOrderId());
+                        scoreEarn.setStatus(1);
+                        scoreEarn.setCreatedAt(new Date());
+                        int count2 = scoreBalanceMapper.insertScoreEarn(scoreEarn);
+                        if(count2 == 1){
+                            return ResponseResult.ok("");
+                        }
+                    }
+                }
+                return ResponseResult.error("-2","确认完成失败！");
+            }
+        }
+        return ResponseResult.error("-1","订单异常！");
+    }
+
+
+
+    /**
+     * 陪玩订单确认完成     陪玩人端确认
+     * @param uId
+     * @param oId
+     * @return
+     */
+    /*@Override
     public ResponseResult updateOrderPwBy(Integer uId, Integer oId) {
         List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(uId, oId, null, 3);
         if(orderPwList != null && orderPwList.size()>0){
@@ -466,7 +566,9 @@ public class OrderServiceImpl implements OrderService{
             return ResponseResult.error("-2","确认完成失败！");
         }
         return ResponseResult.error("-1","订单异常！");
-    }
+    }*/
+
+
 
     /**
      * 删除未支付订单     dltType:  1=上分订单删除，2=陪玩订单删除
@@ -564,15 +666,13 @@ public class OrderServiceImpl implements OrderService{
             List<OrderPw> orderPwList = orderPwMapper.selectOrderPwBy(null, oId, uId, null);
             if(orderPwList != null && orderPwList.size()==1){
                 OrderPw orderPw = orderPwList.get(0);
-                if(orderPw.getStatus() == 4){
+                if(orderPw.getStatus() == 6){
                     List<OrderEvaluate> evaluateList = orderEvaluateMapper.selectEvaluateBy(orderPw.getuId(), orderPw.getId());
                     if(evaluateList != null && evaluateList.size()>0){
                         orderPw.setIsPj(1);         //已评
                     }else {
                         orderPw.setIsPj(0);         //未评
                     }
-                }else{
-                    orderPw.setIsPj(0);
                 }
 
                 HashMap<String, Object> map = new HashMap<>();
