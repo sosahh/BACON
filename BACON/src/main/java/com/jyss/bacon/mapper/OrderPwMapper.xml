@@ -134,7 +134,7 @@
 
   <!--查询完成订单数量-->
   <select id="selectCount" parameterType="int" resultType="int" >
-    select ifnull(count(*),0) from o_order_pw where play_id = #{playId} and category_id = #{categoryId} and status = 4
+    select ifnull(count(*),0) from o_order_pw where play_id = #{playId} and category_id = #{categoryId} and status = 6
   </select>
 
 
