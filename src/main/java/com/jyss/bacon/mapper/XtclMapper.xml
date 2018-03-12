@@ -1,0 +1,75 @@
+
+<!--  <?xml version="1.0" encoding="UTF-8" ?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jyss.bacon.mapper.XtclMapper" >
+    <!--系统常量-->
+    <resultMap type="com.jyss.bacon.entity.Xtcl" id="clResultMap">
+        <id property="id" column="id"  />
+        <result property="bz_type" column="bz_type"  />
+        <result property="bz_id" column="bz_id"  />
+        <result property="bz_value" column="bz_value"  />
+        <result property="ps" column="ps"  />
+        <result property="pid" column="pid"  />
+        <result property="status" column="status"  />
+
+    </resultMap>   
+
+    <!--地域-->
+    <resultMap type="com.jyss.bacon.entity.BaseArea" id="baResultMap">
+        <id property="id" column="id"  />
+        <result property="name" column="name"  />
+        <result property="fid" column="fid"  />
+    </resultMap>
+
+     
+
+    <select id="getCls" resultMap="clResultMap" >  
+        select * from p_xt_cl  where status =1 order by bz_type ,bz_id      
+    </select> 
+
+    <!--条件查询-->
+    <select id="getClsBy" resultMap="clResultMap">  
+         select * from p_xt_cl
+         <where>
+             status = 1
+             <if test="bz_type != null and bz_type !=''">and bz_type = #{bz_type} </if>
+             <if test="bz_id != null and bz_id !=''"> and  bz_id = #{bz_id} </if>
+         </where>
+        order by bz_id
+    </select>
+
+    <!--取得标志对应常量值-->
+     <select id="getClsValue" resultType="com.jyss.bacon.entity.Xtcl">
+        select * from p_xt_cl 
+         <where> 
+              status = 1
+			  <if test="bz_type != null and bz_type !=''">and bz_type = #{bz_type} </if>
+			  <if test="bz_id != null and bz_id !=''"> and  bz_id = #{bz_id} </if> 
+		 </where> 
+    </select>
+    
+    <select id="getClsCombox" resultMap="clResultMap">  
+        select * from p_xt_area 
+         <where> 
+              1=1
+			  <if test="bz_type != null and bz_type !=''"> and bz_type  LIKE CONCAT('%',#{bz_type},'%') </if>
+			  <if test="pid != null and pid !=''"> AND  pid = #{pid}  </if>
+		 </where> 
+		  order by bz_id
+    </select> 
+    
+
+     <!-- 系统基础地域表 ==area=2省份 3城市 4区域==-->
+    <select id="getBaseAreas" resultMap="baResultMap" >  
+        select id,name,fid from p_base_area a
+        <where> 
+              1 = 1
+			  <if test="status != null and status !=''"> and a.status  = #{status} </if> 
+			  <if test="area != null and area !=''"> and  a.area =#{area}  </if> 
+		 </where>   
+		 order by id  
+    </select> 
+    
+</mapper>

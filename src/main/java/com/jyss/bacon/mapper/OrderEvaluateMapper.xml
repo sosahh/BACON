@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.OrderEvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.OrderEvaluate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="play_id" property="playId" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="o_id" property="oId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="picture_1" property="picture1" jdbcType="VARCHAR" />
+    <result column="picture_2" property="picture2" jdbcType="VARCHAR" />
+    <result column="picture_3" property="picture3" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="nick" property="nick"  />
+    <result column="headpic" property="headpic"  />
+    <result column="total" property="total"  />
+  </resultMap>
+
+  <insert id="insertEvaluate" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
+    insert into o_order_evaluate (id, u_id, play_id, category_id, o_id, content,
+      picture_1, picture_2, picture_3, status, created)
+      values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{playId,jdbcType=INTEGER},
+      #{categoryId,jdbcType=INTEGER}, #{oId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
+      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderEvaluate" >
+    update o_order_evaluate
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="playId != null" >
+        play_id = #{playId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="oId != null" >
+        o_id = #{oId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1 != null" >
+        picture_1 = #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null" >
+        picture_2 = #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null" >
+        picture_3 = #{picture3,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--查询评论数量-->
+  <select id="selectCountEvaluate" parameterType="int" resultType="int" >
+    select ifnull(count(*),0) from o_order_evaluate where play_id = #{playId} and category_id = #{categoryId} and status = 1
+  </select>
+  
+  <!--条件查询评论-->
+  <select id="selectOrderEvaluateBy" resultMap="BaseResultMap">
+    select a.id, a.u_id, a.play_id, a.category_id, a.o_id, a.content, a.status, a.created,
+    nullif(CONCAT('${httpUrl}',a.picture_1),'${httpUrl}') as picture_1,
+    nullif(CONCAT('${httpUrl}',a.picture_2),'${httpUrl}') as picture_2,
+    nullif(CONCAT('${httpUrl}',a.picture_3),'${httpUrl}') as picture_3,
+    b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from o_order_evaluate a left join u_user b on a.u_id = b.u_id
+    <where>
+      <if test="playId != null and playId != ''">and a.play_id = #{playId}</if>
+      <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
+      and a.status = 1
+    </where>
+    order by a.created desc
+  </select>
+
+  <!--条件查询-->
+  <select id="selectEvaluateBy" resultMap="BaseResultMap">
+    select * from o_order_evaluate
+    <where>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="oId != null and oId != ''">and o_id = #{oId}</if>
+      and status = 1
+    </where>
+  </select>
+
+  <!--我的评价-->
+  <select id="selectMyEvaluate" parameterType="int" resultMap="BaseResultMap">
+    select a.content,b.nick,nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic,
+    e.total,e.nick as picture_1,a.created,
+    nullif(CONCAT('${httpUrl}',e.headpic),'${httpUrl}') as picture_2
+    from o_order_evaluate a left join u_user b on a.u_id = b.u_id left join
+    (select c.id,c.total,d.headpic,d.nick from o_order_pw c left join u_user d on c.play_id = d.u_id) e
+    on a.o_id = e.id
+    where a.u_id = #{uId} order by a.created desc
+  </select>
+
+
+</mapper>

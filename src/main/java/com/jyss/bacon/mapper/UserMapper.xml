@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.User" >
+    <id column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="pay_pwd" property="payPwd" jdbcType="VARCHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="headpic" property="headpic" jdbcType="VARCHAR" />
+    <result column="birth_date" property="birthDate" jdbcType="DATE" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="emotional_state" property="emotionalState" jdbcType="TINYINT" />
+    <result column="profession" property="profession" jdbcType="VARCHAR" />
+    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="source" property="source" jdbcType="TINYINT" />
+    <result column="is_auth" property="isAuth" jdbcType="TINYINT" />
+    <result column="popularity" property="popularity" jdbcType="INTEGER" />
+    <result column="label_desc" property="labelDesc" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="money" property="money" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+    <result column="union_id" property="unionId" jdbcType="VARCHAR"/>
+    <result column="account_wy" property="accountWy" jdbcType="VARCHAR"/>
+    <result column="token_wy" property="tokenWy" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <!--添加用户-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.User" useGeneratedKeys="true" keyProperty="uId">
+    insert into u_user (u_id, account, tel, password, salt, pay_pwd, nick, headpic, birth_date, sex, age, place,
+      profession, hobby, status, source, is_auth, label_desc, create_time, last_modify_time,
+      open_id, union_id, account_wy, token_wy)
+    values (#{uId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR},
+      #{headpic,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE}, #{sex,jdbcType=TINYINT}, 
+      #{age,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR},
+      #{hobby,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},#{source,jdbcType=TINYINT},
+      #{isAuth,jdbcType=TINYINT}, #{labelDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{lastModifyTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR},
+      #{accountWy,jdbcType=VARCHAR}, #{tokenWy,jdbcType=VARCHAR})
+  </insert>
+
+  <!--用户信息修改-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.User" >
+    update u_user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="payPwd != null" >
+        pay_pwd = #{payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null" >
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="headpic != null" >
+        headpic = #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null" >
+        birth_date = #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="place != null" >
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="emotionalState != null" >
+        emotional_state = #{emotionalState,jdbcType=TINYINT},
+      </if>
+      <if test="profession != null" >
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=TINYINT},
+      </if>
+      <if test="isAuth != null" >
+        is_auth = #{isAuth,jdbcType=TINYINT},
+      </if>
+      <if test="popularity != null" >
+        popularity = #{popularity,jdbcType=INTEGER},
+      </if>
+      <if test="labelDesc != null" >
+        label_desc = #{labelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountWy != null" >
+        account_wy = #{accountWy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tokenWy != null" >
+        token_wy = #{tokenWy,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+
+
+  <!--查询用户-->
+  <select id="selectUserBy" resultMap="BaseResultMap" >
+    select u_id, account, tel, password, salt, pay_pwd, nick,
+    nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
+    sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
+    popularity, label_desc, balance ,amount, create_time, last_modify_time,
+    format(balance,2) money, open_id, union_id, account_wy, token_wy
+    from u_user
+    <where>
+      <if test="uId != null and uId != ''">and u_id = #{uId} </if>
+      <if test="tel != null and tel != ''">and tel = #{tel} </if>
+      <if test="status != null and status != ''">and status = #{status} </if>
+    </where>
+  </select>
+
+  <!--网页账号查询用户-->
+  <select id="selectUserByAccountWy" resultMap="BaseResultMap" >
+    select u_id, account, tel, password, salt, pay_pwd, nick,
+    nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
+    sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
+    popularity, label_desc, balance ,amount, create_time, last_modify_time,
+    format(balance,2) money, open_id, union_id, account_wy, token_wy
+    from u_user
+    <where>
+      <if test="accountWy != null and accountWy != ''">and account_wy = #{accountWy} </if>
+    </where>
+  </select>
+
+
+  <!--第三方登陆查询-->
+  <select id="selectUserByOpenId" resultMap="BaseResultMap" >
+    select u_id, account, tel, password, salt, pay_pwd, nick,
+    nullif(CONCAT('${httpUrl}',headpic),'${httpUrl}')as headpic, birth_date,
+    sex, age, place ,emotional_state ,profession, hobby, status, source, is_auth,
+    popularity, label_desc, balance, amount, create_time, last_modify_time,
+    format(balance,2) money, open_id, union_id, account_wy, token_wy
+    from u_user
+    <where>
+      <if test="openId != null and openId != ''">and open_id = #{openId} </if>
+      <if test="unionId != null and unionId != ''">and union_id = #{unionId} </if>
+    </where>
+  </select>
+
+
+
+  <!--查询我的关注-->
+  <!--<select id="getUserFellowByUid" parameterType="int" resultMap="BaseResultMap">
+    select u_id,account,nick,CONCAT('${httpUrl}',headpic)as headpic from u_user
+    where u_id in (select follow_id from u_user_follow where u_id = #{uId} order by created desc)
+    and status &gt; 0
+    &lt;!&ndash;<where>
+      1 = 1
+      <if test="uId != null">
+        <foreach collection="uId" item="uId" open="u_id in (" close=")" separator=",">
+          select follow_id as u_id from u_user_follow where u_id = #{uId} order by created desc
+        </foreach>
+      </if>
+      and status &gt; 0
+    </where>&ndash;&gt;
+  </select>-->
+
+
+  <!--查询关注我的-->
+  <!--<select id="getUserFellowByFellowId" parameterType="int" resultMap="BaseResultMap">
+    select u_id,account,nick,CONCAT('${httpUrl}',headpic)as headpic from u_user
+    where u_id in (select u_id from u_user_follow where follow_id = #{followId} order by created desc)
+    and status &gt; 0
+  </select>-->
+  <resultMap id="usResultMap" type="com.jyss.bacon.entity.UserSf" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="wx_account" property="wxAccount" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="TINYINT" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="TINYINT" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="dw" property="dw" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="zf_account" property="zfAccount" jdbcType="VARCHAR" />
+    <result column="zf_name" property="zfName" jdbcType="VARCHAR" />
+    <result column="zf_password" property="zfPassword" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result property="cjsj" column="cjsj"  />
+  </resultMap>
+
+
+
+  <!--上分用户-->
+  <select id="selectUserSfBy" resultMap="usResultMap" >
+    select * from u_user_sf
+    <where>
+      <if test="id != null and id != ''">and id = #{id} </if>
+      <if test="account != null and account != ''">and account = #{account} </if>
+      <if test="status != null and status != ''">and status = #{status} </if>
+    </where>
+  </select>
+
+  <!--上分用户信息修改-->
+  <update id="upUserSf" parameterType="com.jyss.bacon.entity.UserSf" >
+    update u_user_sf
+    <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="zfAccount != null" >
+        zf_account = #{zfAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="zfName != null" >
+        ,zf_name = #{zfName,jdbcType=VARCHAR}
+      </if>
+      <if test="zfPassword != null" >
+        zf_password = #{zfPassword,jdbcType=VARCHAR}
+      </if>
+    <!--  <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL}
+      </if>-->
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--上分用户信息修改-->
+  <update id="upUserSfBalance" >
+    update u_user_sf
+    <set >
+        <if test="balance != null" >
+          balance = #{balance}
+        </if>
+    </set>
+    where id = #{id}
+  </update>
+
+
+
+
+</mapper>

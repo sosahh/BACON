@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.OrderSfMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.OrderSf" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="is_win" property="isWin" jdbcType="TINYINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="wx_account" property="wxAccount" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="accept_time" property="acceptTime" jdbcType="DOUBLE" />
+    <result column="category_id" property="categoryId" />
+    <result column="category_name" property="categoryName" />
+    <result column="name" property="name" />
+    <result column="picture" property="picture" />
+  </resultMap>
+
+  <!--添加上分订单-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.OrderSf" useGeneratedKeys="true" keyProperty="id">
+    insert into o_order_sf (id, order_id, u_id, area, type, level_id, count, price, total,
+      is_win, account, wx_account, status, created, modify_time, accept_time )
+      values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER},
+      #{area,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{levelId,jdbcType=INTEGER},
+      #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
+      #{isWin,jdbcType=TINYINT}, #{account,jdbcType=VARCHAR}, #{wxAccount,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{acceptTime,jdbcType=DOUBLE})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.OrderSf" >
+    update o_order_sf
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="isWin != null" >
+        is_win = #{isWin,jdbcType=TINYINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="wxAccount != null" >
+        wx_account = #{wxAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null" >
+        accept_time = #{acceptTime,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--条件查询订单-->
+  <select id="selectOrderSfBy" resultMap="BaseResultMap">
+    select * from o_order_sf
+    <where>
+      <if test="orderId != null and orderId != ''">and order_id = #{orderId}</if>
+      <if test="id != null and id != ''">and id = #{id}</if>
+      <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+      <if test="status != null ">and status = #{status}</if>
+    </where>
+    order by status,created
+  </select>
+
+  <!--上分订单个人查询-->
+  <select id="getOrderSfByUid" parameterType="int" resultMap="BaseResultMap">
+    select a.id, a.order_id, a.u_id, a.area, a.type, a.level_id, a.count, a.price, a.total,
+    a.is_win, a.account, a.wx_account, a.status, a.created, a.accept_time,
+    d.category_id, d.category_name, d.name, e.created as modify_time,
+    nullif(CONCAT('${httpUrl}',d.bright_pic),'${httpUrl}') as picture
+    from o_order_sf a left join
+    (select b.*,c.bright_pic from c_item_cat b ,c_item c where b.category_id = c.id) d
+    on a.level_id = d.id
+    left join o_order_sf_result e on a.order_id = e.order_id
+    <where>
+      <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
+      <if test="id != null and id != ''">and a.id = #{id}</if>
+    </where>
+    order by a.status,a.created desc
+  </select>
+
+  <!--删除未支付订单-->
+  <delete id="deleteOrderSfBy" parameterType="int">
+    delete from o_order_sf where id = #{id} and u_id = #{uId} and status = 0
+  </delete>
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.UserAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.UserAuth" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_title" property="categoryTitle" jdbcType="VARCHAR" />
+    <result column="picture_1" property="picture1" jdbcType="VARCHAR" />
+    <result column="picture_2" property="picture2" jdbcType="VARCHAR" />
+    <result column="picture_3" property="picture3" jdbcType="VARCHAR" />
+    <result column="title_id" property="titleId" jdbcType="INTEGER" />
+    <result column="title_pw_name" property="titlePwName" jdbcType="VARCHAR" />
+    <result column="title_name" property="titleName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="auth_desc" property="authDesc" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_shelve" property="isShelve" jdbcType="TINYINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="bright_pic" property="brightPic" jdbcType="VARCHAR" />
+    <result column="account_wy" property="accountWy" jdbcType="VARCHAR" />
+    <result column="token_wy" property="tokenWy" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--添加认证-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.UserAuth" >
+    insert into u_user_auth (id, u_id, category_id,category_title, picture_1, picture_2,
+    picture_3, title_id, title_pw_name,title_name, price, auth_desc, status, is_shelve, created)
+    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+    #{categoryTitle,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR},
+    #{picture3,jdbcType=VARCHAR}, #{titleId,jdbcType=INTEGER}, #{titlePwName,jdbcType=VARCHAR},
+    #{titleName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{authDesc,jdbcType=VARCHAR},
+    #{status,jdbcType=TINYINT}, #{isShelve,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--修改认证游戏-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserAuth" >
+    update u_user_auth
+    <set >
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryTitle != null" >
+        category_title = #{categoryTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1 != null" >
+        picture_1 = #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null" >
+        picture_2 = #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null" >
+        picture_3 = #{picture3,jdbcType=VARCHAR},
+      </if>
+      <if test="titleId != null" >
+        title_id = #{titleId,jdbcType=INTEGER},
+      </if>
+      <if test="titlePwName != null" >
+        title_pw_name = #{titlePwName,jdbcType=VARCHAR},
+      </if>
+      <if test="titleName != null" >
+        title_name = #{titleName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="authDesc != null" >
+        auth_desc = #{authDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isShelve != null" >
+        is_shelve = #{isShelve,jdbcType=TINYINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--条件查询-->
+  <select id="getUserAuthBy" parameterType="com.jyss.bacon.entity.UserAuth" resultMap="BaseResultMap">
+    select a.id,a.u_id,a.category_id,a.category_title,a.title_pw_name,a.title_name,a.price,a.is_shelve,
+    nullif(CONCAT('${httpUrl}',b.bright_pic),'${httpUrl}') as bright_pic
+    from u_user_auth a left join c_item b on a.category_id = b.id
+    <where>
+      <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
+      <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
+      <if test="status != null ">and a.status = #{status}</if>
+    </where>
+  </select>
+
+
+  <!--查询上架-->
+  <select id="getUserAuthByIsShelve" parameterType="com.jyss.bacon.entity.UserAuth" resultMap="BaseResultMap">
+    select a.id,a.u_id,a.category_id,a.category_title,a.title_pw_name,a.title_name,a.price,a.is_shelve,
+    nullif(CONCAT('${httpUrl}',b.bright_pic),'${httpUrl}') as bright_pic
+    from u_user_auth a left join c_item b on a.category_id = b.id
+    <where>
+      <if test="uId != null and uId != ''">and a.u_id = #{uId}</if>
+      <if test="categoryId != null and categoryId != ''">and a.category_id = #{categoryId}</if>
+      <if test="status != null ">and a.status = #{status}</if>
+      and a.is_shelve = 1
+    </where>
+  </select>
+
+
+  <!--查询认证详情-->
+  <select id="getUserAuthById" parameterType="int" resultMap="BaseResultMap">
+    select a.id,a.u_id,a.category_id,a.category_title,a.title_pw_name,a.title_name,a.price,a.title_id,a.is_shelve,
+    nullif(CONCAT('${httpUrl}',a.picture_1),'${httpUrl}') as picture_1,
+    nullif(CONCAT('${httpUrl}',a.picture_2),'${httpUrl}') as picture_2,
+    nullif(CONCAT('${httpUrl}',a.picture_3),'${httpUrl}') as picture_3,
+    b.nick as bright_pic, b.account_wy, b.token_wy
+    from u_user_auth a left join u_user b on a.u_id = b.u_id
+    <where>
+      <if test="id != null and id != ''">and a.id = #{id}</if>
+      <if test="status != null ">and a.status = #{status}</if>
+    </where>
+  </select>
+
+
+</mapper>

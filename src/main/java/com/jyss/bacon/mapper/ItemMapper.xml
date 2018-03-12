@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.ItemMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.Item" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="bright_pic" property="brightPic" jdbcType="VARCHAR" />
+    <result column="ash_pic" property="ashPic" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="created" property="created"  />
+    <result column="updated" property="updated"  />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.jyss.bacon.entity.Item" useGeneratedKeys="true" keyProperty="id">
+      insert into c_item (id, title, bright_pic, ash_pic, status, sort_order, created, updated)
+      values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{brightPic,jdbcType=VARCHAR}, #{ashPic,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.Item" >
+    update c_item
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="brightPic != null" >
+        bright_pic = #{brightPic,jdbcType=VARCHAR},
+      </if>
+      <if test="ashPic != null" >
+        ash_pic = #{ashPic,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="sortOrder != null" >
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--查询所有类目-->
+  <select id="selectItem" resultMap="BaseResultMap">
+    select id, title, nullif(CONCAT('${httpUrl}',bright_pic),'${httpUrl}') as bright_pic,
+    nullif(CONCAT('${httpUrl}',ash_pic),'${httpUrl}') as ash_pic,
+    status, sort_order, created, updated
+    from c_item where status = 1 order by sort_order
+  </select>
+
+</mapper>

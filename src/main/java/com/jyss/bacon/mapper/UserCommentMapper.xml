@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jyss.bacon.mapper.UserCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.jyss.bacon.entity.UserComment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dynamic_id" property="dynamicId" jdbcType="INTEGER" />
+    <result column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="u_nick" property="uNick" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="headpic" property="headpic"  />
+  </resultMap>
+
+  <!--添加评价-->
+  <insert id="insert" parameterType="com.jyss.bacon.entity.UserComment" >
+    insert into u_user_comment (id, dynamic_id, u_id, u_nick, content, created, status)
+    values (#{id,jdbcType=INTEGER}, #{dynamicId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
+      #{uNick,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyss.bacon.entity.UserComment" >
+    update u_user_comment
+    <set >
+      <if test="dynamicId != null" >
+        dynamic_id = #{dynamicId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null" >
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uNick != null" >
+        u_nick = #{uNick,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--动态评价查询-->
+  <select id="selectCommentBy" parameterType="int" resultMap="BaseResultMap">
+    select a.id,a.dynamic_id,a.u_id,a.u_nick,a.content,a.created,a.status,
+    nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from u_user_comment a left join u_user b on a.u_id = b.u_id
+    where a.dynamic_id = #{dynamicId}
+    and a.status = 1 order by a.created desc
+  </select>
+
+  <!--新闻评价查询-->
+  <select id="selectNewCommentBy" parameterType="int" resultMap="BaseResultMap">
+    select a.id,a.dynamic_id,a.u_id,a.u_nick,a.content,a.created,a.status,
+    nullif(CONCAT('${httpUrl}',b.headpic),'${httpUrl}') as headpic
+    from u_user_comment a left join u_user b on a.u_id = b.u_id
+    where a.dynamic_id = #{dynamicId}
+    and a.status = 2 order by a.created desc
+  </select>
+
+  <!--删除评价-->
+  <delete id="deleteCommentBy" parameterType="int">
+    delete from u_user_comment where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 1
+  </delete>
+
+  <!--删除新闻评价-->
+  <delete id="deleteNewCommentBy" parameterType="int">
+    delete from u_user_comment where dynamic_id = #{dynamicId} and u_id = #{uId} and status = 2
+  </delete>
+
+  <!--查询评论数-->
+  <select id="getCountComment" resultType="long">
+    select ifnull(count(*),0) from u_user_comment where dynamic_id = #{dynamicId} and status = #{status}
+  </select>
+</mapper>
