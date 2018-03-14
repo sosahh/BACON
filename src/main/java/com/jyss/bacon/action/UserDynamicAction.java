@@ -5,6 +5,7 @@ import com.jyss.bacon.service.MobileLoginService;
 import com.jyss.bacon.service.UserDynamicService;
 import com.jyss.bacon.utils.Base64Image;
 import com.jyss.bacon.utils.CommTool;
+import com.jyss.bacon.utils.DateFormatUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
@@ -360,7 +361,8 @@ public class UserDynamicAction {
             //图片上传
             String filePath = request.getSession().getServletContext().getRealPath("/");
             int index = filePath.indexOf("BACON");
-            filePath = filePath.substring(0, index) + "uploadDyPic" + "/";
+            filePath = filePath.substring(0, index) + "uploadDyPic" + "/" +
+                    DateFormatUtils.getDateText(new Date(),"yyyyMMdd") + "/";
             /*File file = new File(filePath);
             CommTool.judeDirExists(file);*/
 
