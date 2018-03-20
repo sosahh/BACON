@@ -145,6 +145,9 @@ public class UserAction {
         if(StringUtils.isEmpty(user.getPassword())){
             return ResponseResult.error("-2","密码不能为空！");
         }
+        if(user.getPassword().length() < 8){
+            return ResponseResult.error("-2","密码不能低于8位！");
+        }
         //user.setAccount();
         String salt = CommTool.getSalt();
         String pwd = PasswordUtil.generate(user.getPassword(), salt);
@@ -444,7 +447,10 @@ public class UserAction {
                 return ResponseResult.error("-3","正在审核中，请勿重复提交！");
             }
 
-            ItemCat itemCat = itemService.getItemCatById(userAuth.getTitleId());
+            ItemCat itemCat = itemService.getItemCatById(userAuth.getTitleId(),userAuth.getCategoryId());
+            if(itemCat == null){
+                return ResponseResult.error("-1","提交失败！");
+            }
             userAuth.setuId(uId);
             userAuth.setCategoryTitle(itemCat.getCategoryName());
             userAuth.setTitlePwName(itemCat.getDwName());

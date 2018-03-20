@@ -30,7 +30,7 @@ public interface ItemService {
     ResponseResult getAllItemCat(@Param("categoryId")Integer categoryId);
 
     //通过id查询小段位
-    ItemCat getItemCatById(@Param("id")Integer id);
+    ItemCat getItemCatById(@Param("id")Integer id,@Param("categoryId")Integer categoryId);
 
     //取得标志对应常量值
     List<Xtcl> getClsBy(@Param("bz_type") String bz_type, @Param("bz_id") String bz_id);

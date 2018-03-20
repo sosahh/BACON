@@ -25,6 +25,6 @@ public interface  ItemCatMapper {
      * @param id
      * @return
      */
-    ItemCat getItemCatById(@Param("id")Integer id);
+    ItemCat getItemCatById(@Param("id")Integer id,@Param("categoryId")Integer categoryId);
 
 }

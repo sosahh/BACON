@@ -211,8 +211,8 @@ public class ItemServiceImpl implements ItemService{
      * @return
      */
     @Override
-    public ItemCat getItemCatById(Integer id) {
-        return itemCatMapper.getItemCatById(id);
+    public ItemCat getItemCatById(Integer id,Integer categoryId) {
+        return itemCatMapper.getItemCatById(id,categoryId);
     }
 
 

@@ -76,7 +76,7 @@
   </select>
 
   <!--通过id查询-->
-  <select id="getItemCatById" parameterType="int" resultMap="BaseResultMap">
-    select * from c_item_cat where id = #{id}
+  <select id="getItemCatById" resultMap="BaseResultMap">
+    select * from c_item_cat where id = #{id} and category_id = #{categoryId}
   </select>
 </mapper>
