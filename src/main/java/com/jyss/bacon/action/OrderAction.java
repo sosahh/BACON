@@ -382,10 +382,10 @@ public class OrderAction {
                 orderEvaluate.setPicture1(orderEvaluate.getPicture1());
             }
             if(!StringUtils.isEmpty(orderEvaluate.getPicture2())){
-                orderEvaluate.setPicture1(orderEvaluate.getPicture2());
+                orderEvaluate.setPicture2(orderEvaluate.getPicture2());
             }
             if(!StringUtils.isEmpty(orderEvaluate.getPicture3())){
-                orderEvaluate.setPicture1(orderEvaluate.getPicture3());
+                orderEvaluate.setPicture3(orderEvaluate.getPicture3());
             }
 
             int count = orderService.insertEvaluate(orderEvaluate);
@@ -602,7 +602,7 @@ public class OrderAction {
 
 
     /**
-     * /完成订单，上传结果（文件上传)
+     * /完成订单，上传结果
      */
     @RequestMapping("/sf/finishOrder1")
     @ResponseBody

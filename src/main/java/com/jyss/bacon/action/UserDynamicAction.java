@@ -495,10 +495,10 @@ public class UserDynamicAction {
                 userDynamic.setPicture1(pic1);
             }
             if(!StringUtils.isEmpty(pic2)){
-                userDynamic.setPicture1(pic2);
+                userDynamic.setPicture2(pic2);
             }
             if(!StringUtils.isEmpty(pic3)){
-                userDynamic.setPicture1(pic3);
+                userDynamic.setPicture3(pic3);
             }
             if(!StringUtils.isEmpty(pic4)){
                 userDynamic.setPicture4(pic4);
@@ -523,7 +523,7 @@ public class UserDynamicAction {
 
 
     /**
-     * 图片上传     pType：1=动态，2=游戏认证，3=评价订单，4=订单完成
+     * 图片上传     pType：1=动态，2=游戏认证，3=订单评价，4=订单结果图片
      */
     @RequestMapping("/uploadFile")
     @ResponseBody

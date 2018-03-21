@@ -546,10 +546,10 @@ public class UserAction {
                 userAuth.setPicture1(userAuth.getPicture1());
             }
             if(!StringUtils.isEmpty(userAuth.getPicture2())){
-                userAuth.setPicture1(userAuth.getPicture2());
+                userAuth.setPicture2(userAuth.getPicture2());
             }
             if(!StringUtils.isEmpty(userAuth.getPicture3())){
-                userAuth.setPicture1(userAuth.getPicture3());
+                userAuth.setPicture3(userAuth.getPicture3());
             }
 
             //修改游戏认证
