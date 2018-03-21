@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utils {
@@ -56,6 +57,7 @@ public class Utils {
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
+				return false;
 			}
 		}
 		return false;

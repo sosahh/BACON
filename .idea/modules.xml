@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BACON.iml" filepath="$PROJECT_DIR$/BACON.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BACON/src/main/main.iml" filepath="$PROJECT_DIR$/BACON/src/main/main.iml" />
     </modules>
   </component>
 </project>

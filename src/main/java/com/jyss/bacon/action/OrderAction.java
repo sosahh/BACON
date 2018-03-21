@@ -356,6 +356,49 @@ public class OrderAction {
     }
 
 
+
+    /**
+     * 评价订单
+     */
+    @RequestMapping("/evaluate1")
+    @ResponseBody
+    public ResponseResult insertOrderEvaluate(OrderEvaluate orderEvaluate, @RequestParam("token") String token){
+        if(StringUtils.isEmpty(orderEvaluate.getContent())){
+            return ResponseResult.error("-3","内容不能为空！");
+        }
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<OrderEvaluate> evaluateList = orderService.selectEvaluateBy(uId, orderEvaluate.getoId());
+            if(evaluateList != null && evaluateList.size()>0){
+                return ResponseResult.error("-2","已经评价！");
+            }
+            orderEvaluate.setuId(uId);
+            orderEvaluate.setStatus(1);
+            orderEvaluate.setCreated(new Date());
+
+            if(!StringUtils.isEmpty(orderEvaluate.getPicture1())){
+                orderEvaluate.setPicture1(orderEvaluate.getPicture1());
+            }
+            if(!StringUtils.isEmpty(orderEvaluate.getPicture2())){
+                orderEvaluate.setPicture1(orderEvaluate.getPicture2());
+            }
+            if(!StringUtils.isEmpty(orderEvaluate.getPicture3())){
+                orderEvaluate.setPicture1(orderEvaluate.getPicture3());
+            }
+
+            int count = orderService.insertEvaluate(orderEvaluate);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","评价失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+
     /**
      * 上分订单详情
      */
@@ -556,6 +599,68 @@ public class OrderAction {
         return ResponseResult.error("1","token失效！");
 
     }
+
+
+    /**
+     * /完成订单，上传结果（文件上传)
+     */
+    @RequestMapping("/sf/finishOrder1")
+    @ResponseBody
+    public ResponseResult finishOrder(OrderSfResult osResult, @RequestParam("token")String token,
+                                      @RequestParam("pic1")String pic1,@RequestParam("pic2")String pic2,
+                                      @RequestParam("pic3")String pic3,@RequestParam("pic4")String pic4,
+                                      @RequestParam("pic5")String pic5,@RequestParam("pic6")String pic6){
+        List<MobileLogin> loginList = mobileLoginService.findUserByTokenBySf(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            List<UserSf> userList = userService.selectUserSfBy(uId.toString(),null,"1");
+            if (userList==null||userList.size()!=1){
+                return ResponseResult.error("-3","用户信息发生错误！");
+            }
+            UserSf  sf = userList.get(0);
+            double myTotalBalance = sf.getBalance();
+            /////查询订单金额///
+            List<OrderSfResult> llist = orderService.getResultInfo(uId.toString(),osResult.getOrderId(),"1");
+            if (llist==null||llist.size()!=1){
+                return ResponseResult.error("-4","订单信息异常！");
+            }
+            double  orderBalance = llist.get(0).getFinishMoney();
+            myTotalBalance = myTotalBalance + orderBalance;
+            //图片上传
+            StringBuilder pictures = new StringBuilder();
+            if(!StringUtils.isEmpty(pic1)){
+                pictures.append(pic1).append(";");
+            }
+            if(!StringUtils.isEmpty(pic2)){
+                pictures.append(pic2).append(";");
+            }
+            if(!StringUtils.isEmpty(pic3)){
+                pictures.append(pic3).append(";");
+            }
+            if(!StringUtils.isEmpty(pic4)){
+                pictures.append(pic4).append(";");
+            }
+            if(!StringUtils.isEmpty(pic5)){
+                pictures.append(pic5).append(";");
+            }
+            if(!StringUtils.isEmpty(pic6)){
+                pictures.append(pic6);
+            }
+
+            osResult.setPicture(pictures.toString());
+            osResult.setSfUserId(uId);
+            int count = orderService.updateMyOrderResult(osResult,myTotalBalance);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","上传结果失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
 
     /**
      * 提现申请

@@ -6,6 +6,7 @@ import com.jyss.bacon.service.UserDynamicService;
 import com.jyss.bacon.utils.Base64Image;
 import com.jyss.bacon.utils.CommTool;
 import com.jyss.bacon.utils.DateFormatUtils;
+import com.jyss.bacon.utils.Utils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
@@ -464,6 +465,118 @@ public class UserDynamicAction {
             return ResponseResult.error("-1","发布失败！");
         }
         return ResponseResult.error("1","token失效！");
+
+    }
+
+
+    /**
+     * 发布动态
+     */
+    @RequestMapping("/sendDynamic1")
+    @ResponseBody
+    public ResponseResult insertUserDynamic(UserDynamic userDynamic, @RequestParam("token")String token,
+                                            @RequestParam("pic1")String pic1,@RequestParam("pic2")String pic2,
+                                            @RequestParam("pic3")String pic3,@RequestParam("pic4")String pic4,
+                                            @RequestParam("pic5")String pic5,@RequestParam("pic6")String pic6){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+
+            if(StringUtils.isEmpty(pic1)&& StringUtils.isEmpty(userDynamic.getContent())){
+                return ResponseResult.error("-2","内容不能为空！");
+            }
+
+            userDynamic.setuId(uId);
+            userDynamic.setStatus(1);
+            userDynamic.setCreated(new Date());
+
+            if(!StringUtils.isEmpty(pic1)){
+                userDynamic.setPicture1(pic1);
+            }
+            if(!StringUtils.isEmpty(pic2)){
+                userDynamic.setPicture1(pic2);
+            }
+            if(!StringUtils.isEmpty(pic3)){
+                userDynamic.setPicture1(pic3);
+            }
+            if(!StringUtils.isEmpty(pic4)){
+                userDynamic.setPicture4(pic4);
+            }
+            if(!StringUtils.isEmpty(pic5)){
+                userDynamic.setPicture5(pic5);
+            }
+            if(!StringUtils.isEmpty(pic6)){
+                userDynamic.setPicture6(pic6);
+            }
+
+            int count = userDynamicService.insert(userDynamic);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","发布失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+
+    }
+
+
+
+    /**
+     * 图片上传     pType：1=动态，2=游戏认证，3=评价订单，4=订单完成
+     */
+    @RequestMapping("/uploadFile")
+    @ResponseBody
+    public ResponseResult uploadPic(MultipartFile pic, @RequestParam("token")String token,
+                                    @RequestParam("pType")Integer pType, HttpServletRequest request) {
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1) {
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            //图片不能为空
+            if(pic == null || pType == null){
+                return ResponseResult.error("-2","图片不能为空！");
+            }
+            String filePath = request.getSession().getServletContext().getRealPath("/");
+            int index = filePath.indexOf("BACON");
+
+            String filename = pic.getOriginalFilename();
+            String extName = filename.substring(filename.lastIndexOf("."));
+            if(pType == 1){
+                filePath = filePath.substring(0, index) + "uploadDyPic" + "/" +
+                        DateFormatUtils.getDateText(new Date(),"yyyyMMdd") + "/";
+                String imgPath = filePath + uId + System.currentTimeMillis() + CommTool.getYzm() + extName;
+                if (Utils.saveUpload(pic, imgPath)) {
+                    String path = imgPath.substring(imgPath.indexOf("uploadDyPic"));
+                    return ResponseResult.ok(path);
+                }
+            }else if(pType == 2){
+                filePath = filePath.substring(0, index) + "uploadAuthPic" + "/";
+                String imgPath = filePath + uId + System.currentTimeMillis() + CommTool.getYzm() + extName;
+                if (Utils.saveUpload(pic, imgPath)) {
+                    String path = imgPath.substring(imgPath.indexOf("uploadAuthPic"));
+                    return ResponseResult.ok(path);
+                }
+            }else if(pType == 3){
+                filePath = filePath.substring(0, index) + "uploadDyEvPic" + "/";
+                String imgPath = filePath + uId + System.currentTimeMillis() + CommTool.getYzm() + extName;
+                if (Utils.saveUpload(pic, imgPath)) {
+                    String path = imgPath.substring(imgPath.indexOf("uploadDyEvPic"));
+                    return ResponseResult.ok(path);
+                }
+            }else if(pType == 4){
+                filePath = filePath.substring(0, index) + "uploadResultImg" + "/";
+                String imgPath = filePath + uId + System.currentTimeMillis() + CommTool.getYzm() + extName;
+                if (Utils.saveUpload(pic, imgPath)) {
+                    String path = imgPath.substring(imgPath.indexOf("uploadResultImg"));
+                    return ResponseResult.ok(path);
+                }
+            }
+            return ResponseResult.error("-1","图片上传失败");
+        }
+        return ResponseResult.error("1","token失效！");
+
+
 
     }
 

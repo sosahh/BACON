@@ -510,6 +510,72 @@ public class UserAction {
 
     }
 
+
+    /**
+     * 游戏认证
+     */
+    @RequestMapping("/userAuth1")
+    @ResponseBody
+    public ResponseResult insertUserAuth(UserAuth userAuth,@RequestParam("token") String token){
+        List<MobileLogin> loginList = mobileLoginService.findUserByToken(token);
+        if (loginList != null && loginList.size() == 1){
+            MobileLogin mobileLogin = loginList.get(0);
+            Integer uId = mobileLogin.getuId();
+            if(StringUtils.isEmpty(userAuth.getTitleId())||StringUtils.isEmpty(userAuth.getCategoryId())){
+                return ResponseResult.error("-1","提交失败！");
+            }
+
+            List<UserAuth> userAuthList1 = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 1);
+            if(userAuthList1 != null && userAuthList1.size()>0){
+                return ResponseResult.error("-3","正在审核中，请勿重复提交！");
+            }
+
+            ItemCat itemCat = itemService.getItemCatById(userAuth.getTitleId(),userAuth.getCategoryId());
+            if(itemCat == null){
+                return ResponseResult.error("-1","提交失败！");
+            }
+            userAuth.setuId(uId);
+            userAuth.setCategoryTitle(itemCat.getCategoryName());
+            userAuth.setTitlePwName(itemCat.getDwName());
+            userAuth.setTitleName(itemCat.getName());
+            userAuth.setStatus(1);
+            userAuth.setIsShelve(1);
+            userAuth.setCreated(new Date());
+
+            if(!StringUtils.isEmpty(userAuth.getPicture1())){
+                userAuth.setPicture1(userAuth.getPicture1());
+            }
+            if(!StringUtils.isEmpty(userAuth.getPicture2())){
+                userAuth.setPicture1(userAuth.getPicture2());
+            }
+            if(!StringUtils.isEmpty(userAuth.getPicture3())){
+                userAuth.setPicture1(userAuth.getPicture3());
+            }
+
+            //修改游戏认证
+            List<UserAuth> userAuthList = userAuthService.getUserAuthBy(uId, userAuth.getCategoryId(), 2);
+            if(userAuthList != null && userAuthList.size()>0){
+                UserAuth userAuth1 = userAuthList.get(0);
+                userAuth.setStatus(2);                 //不需要再审核
+                userAuth.setId(userAuth1.getId());
+                int count = userAuthService.updateByPrimaryKeySelective(userAuth);
+                if(count == 1){
+                    return ResponseResult.ok("");
+                }
+                return ResponseResult.error("-2","修改失败！");
+            }
+            //添加游戏认证
+            int count = userAuthService.insert(userAuth);
+            if(count == 1){
+                return ResponseResult.ok("");
+            }
+            return ResponseResult.error("-1","提交失败！");
+        }
+        return ResponseResult.error("1","token失效！");
+    }
+
+
+
     /**
      * 设置支付密码
      */
