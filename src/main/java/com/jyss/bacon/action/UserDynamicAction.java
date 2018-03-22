@@ -418,7 +418,7 @@ public class UserDynamicAction {
                 String extName4 = filename4.substring(filename4.lastIndexOf("."));
                 String imgPath4 = filePath + uId + System.currentTimeMillis() + "04" + extName4;
                 //上传图片
-                File file = new File(filename4);
+                File file = new File(imgPath4);
                 if(!file.exists()){
                     file.mkdirs();
                 }
